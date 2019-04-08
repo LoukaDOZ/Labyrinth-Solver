@@ -15,7 +15,6 @@ public class MenuActionManagement implements MouseListener{
 	private Window welcomeWindow;
 	private Window createWindow;
 	private Window mapCreatingWindow;
-	private Window mapCreatingOptionsWindow;
 	private Window mainWindow;
 
 
@@ -27,21 +26,15 @@ public class MenuActionManagement implements MouseListener{
 		this.wallLabel = false;
 		this.startLabel = false;
 		this.exitLabel = false;
-		this.size = 15;
+		this.size = 20;
 	}
 
-	public void addWindows(Window welcomeWindow, Window createWindow, Window mapCreatingWindow, Window mapCreatingOptionsWindow, Window mainWindow){
+	public void addWindows(Window welcomeWindow, Window createWindow, Window mapCreatingWindow, Window mainWindow){
 
 		this.welcomeWindow = welcomeWindow;
 		this.createWindow = createWindow;
 		this.mapCreatingWindow = mapCreatingWindow;
-		this.mapCreatingOptionsWindow = mapCreatingOptionsWindow;
 		this.mainWindow = mainWindow;
-	}
-
-	public int getGridSize(){
-
-		return this.size;
 	}
 
 	//mouse is hoveing
@@ -70,24 +63,24 @@ public class MenuActionManagement implements MouseListener{
 	    }
 	}
 
-    if(this.mapCreatingOptionsWindow != null){
+    if(this.mapCreatingWindow != null && this.mapCreatingWindow.getIsMapCreatingWindowCharged() == true){
 
-	    if(this.currentLabel == this.mapCreatingOptionsWindow.getJLabelByText("Remove a wall") && this.removeLabel == true){
-
-	    	this.currentLabel.setBackground(new Color(100,100,100));
-	    }
-
-	    if(this.currentLabel == this.mapCreatingOptionsWindow.getJLabelByText("Put a wall") && this.wallLabel == true){
+	    if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Rubber") && this.removeLabel == true){
 
 	    	this.currentLabel.setBackground(new Color(100,100,100));
 	    }
 
-	    if(this.currentLabel == this.mapCreatingOptionsWindow.getJLabelByText("Put starting position") && this.startLabel == true){
+	    if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put a wall") && this.wallLabel == true){
 
 	    	this.currentLabel.setBackground(new Color(100,100,100));
 	    }
 
-	    if(this.currentLabel == this.mapCreatingOptionsWindow.getJLabelByText("Put the exit") && this.exitLabel == true){
+	    if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the start") && this.startLabel == true){
+
+	    	this.currentLabel.setBackground(new Color(100,100,100));
+	    }
+
+	    if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the exit") && this.exitLabel == true){
 
 	    	this.currentLabel.setBackground(new Color(100,100,100));
 	    }
@@ -117,7 +110,7 @@ public class MenuActionManagement implements MouseListener{
 
 	  	if(this.currentLabel == this.createWindow.getJLabelByText("Bigger")){
 
-	  		if(this.size < 30){
+	  		if(this.size < 40){
 
 	  			this.size++;
 	  			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.size - 1)+"x"+(this.size - 1)+"] :").setText("Choose the size of the grid ["+this.size+"x"+this.size+"] :");
@@ -151,69 +144,144 @@ public class MenuActionManagement implements MouseListener{
 
 	  	if(this.currentLabel == this.createWindow.getJLabelByText("Done")){
 
-	  		this.createWindow.setVisible(false);
-	  		this.mapCreatingWindow.setVisible(true);
-	  		this.mapCreatingOptionsWindow.setVisible(true);
+	  		if(this.fillLabel == true || this.voidLabel == true){
+
+		  		if(this.fillLabel == true){
+
+		  			this.mapCreatingWindow.addCreatingGrid(this.size,true);
+		  		}else{
+
+		  			this.mapCreatingWindow.addCreatingGrid(this.size,false);
+		  		}
+
+		  		this.createWindow.setVisible(false);
+		  		this.mapCreatingWindow.setVisible(true);
+		  	}else{
+
+		  		Window chooseFillWindow = new Window("Please choose a fill",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
+		  		chooseFillWindow.addNewMenuJLabel("",true);
+		  		chooseFillWindow.addNewMenuJLabel("You have to choose a way to fill the grid",true);
+				chooseFillWindow.addNewMenuJLabel("",true);
+		  		chooseFillWindow.setVisible(true);
+
+		  		TimerPopupWindow timer = new TimerPopupWindow(chooseFillWindow);
+		  	}
 	  	}
 	  }
 
-  	if(this.mapCreatingOptionsWindow != null){
+  	if(this.mapCreatingWindow != null && this.mapCreatingWindow.getIsMapCreatingWindowCharged() == true){
 
-	  	if(this.currentLabel == this.mapCreatingOptionsWindow.getJLabelByText("Remove a wall")){
+	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Rubber")){
 
 	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Put starting position").setBackground(new Color(0,0,0));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Put the start").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
 	  		this.removeLabel = true;
 	  		this.wallLabel = false;
 	  		this.startLabel = false;
 	  		this.exitLabel = false;
+	  		this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
 	  	}
 
-	  	if(this.currentLabel == this.mapCreatingOptionsWindow.getJLabelByText("Put a wall")){
+	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put a wall")){
 
 	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Remove a wall").setBackground(new Color(0,0,0));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Put starting position").setBackground(new Color(0,0,0));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Rubber").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Put the start").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
 	  		this.wallLabel = true;
 	  		this.removeLabel = false;
 	  		this.startLabel = false;
 	  		this.exitLabel = false;
+	  		this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
 	  	}
 
-	  	if(this.currentLabel == this.mapCreatingOptionsWindow.getJLabelByText("Put starting position")){
+	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the start")){
 
 	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Remove a wall").setBackground(new Color(0,0,0));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Rubber").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
 	  		this.startLabel = true;
 	  		this.removeLabel = false;
 	  		this.wallLabel = false;
 	  		this.exitLabel = false;
+	  		this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
 	  	}
 
-	  	if(this.currentLabel == this.mapCreatingOptionsWindow.getJLabelByText("Put the exit")){
+	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the exit")){
 
 	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Remove a wall").setBackground(new Color(0,0,0));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
-	  		this.mapCreatingOptionsWindow.getJLabelByText("Put starting position").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Rubber").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
+	  		this.mapCreatingWindow.getJLabelByText("Put the start").setBackground(new Color(0,0,0));
 	  		this.exitLabel = true;
 	  		this.removeLabel = false;
 	  		this.wallLabel = false;
 	  		this.startLabel = false;
+	  		this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
 	  	}
 
-	  	if(this.currentLabel == this.mapCreatingOptionsWindow.getJLabelByText("Done")){
+	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Save the map")){
 
-	  		this.mapCreatingWindow.setVisible(false);
-	  		this.mapCreatingOptionsWindow.setVisible(false);
-	  		this.mainWindow.setVisible(true);
+	  		if(this.mapCreatingWindow.getPanelByType(2) == null || this.mapCreatingWindow.getPanelByType(3) == null){
+
+		  		Window setStartExitWindow = new Window("Please set the start and the exit position",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
+			  	setStartExitWindow.addNewMenuJLabel("",true);
+
+			  	if(this.mapCreatingWindow.getPanelByType(2) == null){
+
+			  		setStartExitWindow.addNewMenuJLabel("You have to choose the starting position",true);
+			  	}
+
+			  	if(this.mapCreatingWindow.getPanelByType(3) == null){
+
+					setStartExitWindow.addNewMenuJLabel("You have to choose the exit position",true);
+				}
+
+				setStartExitWindow.addNewMenuJLabel("",true);
+			  	setStartExitWindow.setVisible(true);
+
+			  	TimerPopupWindow timer = new TimerPopupWindow(setStartExitWindow);
+			}else{
+
+			  	Window saveWindow = new Window("Enter a file name",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
+			  	saveWindow.addNewMenuJLabel("Please enter the file name :",true);
+			  	saveWindow.addNewJTextArea("Enter file name");
+			  	saveWindow.addNewMenuJLabel("Done",false);
+			  	saveWindow.setVisible(true);
+			}	  		
 	  	}
-	  }
+
+	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Done")){
+
+	  		if(this.mapCreatingWindow.getPanelByType(2) == null || this.mapCreatingWindow.getPanelByType(3) == null){
+
+		  		Window setStartExitWindow = new Window("Please set the start and the exit position",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
+			  	setStartExitWindow.addNewMenuJLabel("",true);
+
+			  	if(this.mapCreatingWindow.getPanelByType(2) == null){
+
+			  		setStartExitWindow.addNewMenuJLabel("You have to choose the starting position",true);
+			  	}
+
+			  	if(this.mapCreatingWindow.getPanelByType(3) == null){
+
+					setStartExitWindow.addNewMenuJLabel("You have to choose the exit position",true);
+				}
+
+				setStartExitWindow.addNewMenuJLabel("",true);
+			  	setStartExitWindow.setVisible(true);
+
+			  	TimerPopupWindow timer = new TimerPopupWindow(setStartExitWindow);
+			}else{
+
+			  	this.mapCreatingWindow.setVisible(false);
+		  		this.mainWindow.setVisible(true);
+			}	  		
+	  	}
+	}
 }
 
   //mouse pressed
