@@ -80,9 +80,10 @@ public class Window extends JFrame{
   	mapPanel.setLayout(new GridLayout(gridSize,gridSize));
 
   	Color color = new Color(240,240,240);
-  	int type = 0;
 
   	for(int i = 0; i < gridSize * gridSize; i++){
+
+      Panel panel = new Panel(i,color);
 
   		if((gridSize % 2) == 0){
 
@@ -110,12 +111,10 @@ public class Window extends JFrame{
 
 	  		if(random == 1){
 
-	  			color = new Color(0,0,0);
-	  			type = 1;
+	  			panel.setType(1);
 	  		}
 	  	}
 
-  		Panel panel = new Panel(i,color,type);
   		panel.addMouseListener(this.gridActionManagement);
   		this.updatePanelArray();
   		this.panelArray[this.lastOnePanel - 1] = panel;
@@ -123,15 +122,16 @@ public class Window extends JFrame{
   	}
 
   	JLabel label1 = new JLabel("  Change the map :  ");
-  	JLabel label2 = new JLabel("Rubber");
-  	JLabel label3 = new JLabel("Put a wall");
-  	JLabel label4 = new JLabel("Put the start");
-  	JLabel label5 = new JLabel("Put the exit");
-  	JLabel label6 = new JLabel("Save the map");
-  	JLabel label7 = new JLabel("Done");
+    JLabel label2 = new JLabel("Reset");
+  	JLabel label3 = new JLabel("Rubber");
+  	JLabel label4 = new JLabel("Put a wall");
+  	JLabel label5 = new JLabel("Put the start");
+  	JLabel label6 = new JLabel("Put the exit");
+  	JLabel label7 = new JLabel("Save the map");
+  	JLabel label8 = new JLabel("Done");
 
   	JPanel menuPanel = new JPanel();
-  	menuPanel.setLayout(new GridLayout(7,1));
+  	menuPanel.setLayout(new GridLayout(8,1));
 
   	label1.setHorizontalAlignment(JLabel.CENTER);
   	label2.setHorizontalAlignment(JLabel.CENTER);
@@ -140,6 +140,7 @@ public class Window extends JFrame{
   	label5.setHorizontalAlignment(JLabel.CENTER);
   	label6.setHorizontalAlignment(JLabel.CENTER);
   	label7.setHorizontalAlignment(JLabel.CENTER);
+    label8.setHorizontalAlignment(JLabel.CENTER);
 
   	label1.setOpaque(true);
   	label2.setOpaque(true);
@@ -148,6 +149,7 @@ public class Window extends JFrame{
   	label5.setOpaque(true);
   	label6.setOpaque(true);
   	label7.setOpaque(true);
+    label8.setOpaque(true);
 
   	label1.setForeground(new Color(255,255,255));
   	label2.setForeground(new Color(255,255,255));
@@ -156,6 +158,7 @@ public class Window extends JFrame{
   	label5.setForeground(new Color(255,255,255));
   	label6.setForeground(new Color(255,255,255));
   	label7.setForeground(new Color(255,255,255));
+    label8.setForeground(new Color(255,255,255));
 
   	label1.setBackground(new Color(0,0,0));
   	label2.setBackground(new Color(0,0,0));
@@ -164,6 +167,7 @@ public class Window extends JFrame{
   	label5.setBackground(new Color(0,0,0));
   	label6.setBackground(new Color(0,0,0));
   	label7.setBackground(new Color(0,0,0));
+    label8.setBackground(new Color(0,0,0));
 
   	label1.setFont(new Font("corps",1,this.getWidth() / 90));
   	label2.setFont(new Font("corps",1,this.getWidth() / 90));
@@ -172,6 +176,7 @@ public class Window extends JFrame{
   	label5.setFont(new Font("corps",1,this.getWidth() / 90));
   	label6.setFont(new Font("corps",1,this.getWidth() / 90));
   	label7.setFont(new Font("corps",1,this.getWidth() / 90));
+    label8.setFont(new Font("corps",1,this.getWidth() / 90));
 
   	label2.addMouseListener(this.menuActionManagement);
   	label3.addMouseListener(this.menuActionManagement);
@@ -179,6 +184,7 @@ public class Window extends JFrame{
   	label5.addMouseListener(this.menuActionManagement);
   	label6.addMouseListener(this.menuActionManagement);
   	label7.addMouseListener(this.menuActionManagement);
+    label8.addMouseListener(this.menuActionManagement);
 
   	this.updateJLabelArray();
   	this.labelArray[this.lastOneJLabel - 1] = label1;
@@ -194,6 +200,8 @@ public class Window extends JFrame{
   	this.labelArray[this.lastOneJLabel - 1] = label6;
   	this.updateJLabelArray();
   	this.labelArray[this.lastOneJLabel - 1] = label7;
+    this.updateJLabelArray();
+    this.labelArray[this.lastOneJLabel - 1] = label8;
 
   	menuPanel.add(label1,BorderLayout.CENTER);
   	menuPanel.add(label2,BorderLayout.CENTER);
@@ -202,6 +210,7 @@ public class Window extends JFrame{
   	menuPanel.add(label5,BorderLayout.CENTER);
   	menuPanel.add(label6,BorderLayout.CENTER);
   	menuPanel.add(label7,BorderLayout.CENTER);
+    menuPanel.add(label8,BorderLayout.CENTER);
 
   	this.add(mapPanel,BorderLayout.CENTER);
   	this.add(menuPanel,BorderLayout.WEST);
@@ -278,6 +287,11 @@ public Panel getPanelByType(int type){
 
 		return null;
 	}
+}
+
+public int getTotalPanel(){
+
+  return this.lastOnePanel;
 }
 
 	public JTextArea getJTextArea(){

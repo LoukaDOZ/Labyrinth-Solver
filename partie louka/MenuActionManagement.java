@@ -171,6 +171,16 @@ public class MenuActionManagement implements MouseListener{
 
   	if(this.mapCreatingWindow != null && this.mapCreatingWindow.getIsMapCreatingWindowCharged() == true){
 
+  		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Reset")){
+
+  			for(int i = 0; i < this.mapCreatingWindow.getTotalPanel(); i++){
+
+  				System.out.println(i+" - "+this.mapCreatingWindow.getPanelByID(i).getType());
+		        this.mapCreatingWindow.getPanelByID(i).setType(0);
+		        System.out.println(i+" + "+this.mapCreatingWindow.getPanelByID(i).getType());
+		    }
+	  	}
+
 	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Rubber")){
 
 	  		this.currentLabel.setBackground(new Color(100,100,100));

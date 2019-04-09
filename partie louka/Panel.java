@@ -9,10 +9,10 @@ public class Panel extends JPanel{
 
 	private JLabel label;
 
-	public Panel(int id, Color color, int type){
+	public Panel(int id, Color color){
 
 		this.id = id;
-		this.type = type;
+		this.type = 0;
 		this.basicColor = color;
 		this.setOpaque(true);
 		this.setBackground(this.basicColor);
@@ -24,9 +24,8 @@ public class Panel extends JPanel{
 
 	public void setType(int type){
 
-		this.type = type;
-
 		this.removeImage();
+		this.type = type;
 
 		if(type == 0){
 
