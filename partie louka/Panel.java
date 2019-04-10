@@ -6,8 +6,16 @@ public class Panel extends JPanel{
 	private int id;
 	private int type;
 	private Color basicColor;
+	private GridActionManagement gridActionManagement;
 
 	private JLabel label;
+
+	public Panel(){}
+
+	public Panel(GridActionManagement gridActionManagement){
+
+		this.gridActionManagement = gridActionManagement;
+	}
 
 	public Panel(int id, Color color){
 
@@ -34,7 +42,7 @@ public class Panel extends JPanel{
 
 		if(type == 1){
 
-			this.setBackground(new Color(0,0,0));
+			this.setBackground(new Color(this.basicColor.getRed() - 240,this.basicColor.getRed() - 240,this.basicColor.getRed() - 240));
 		}
 
 		if(type == 2){
@@ -63,6 +71,52 @@ public class Panel extends JPanel{
 
 		this.label.setIcon(null);
 	}
+
+	public void setCreatingGrid(Window window, int gridSize, boolean isRandomFill){
+
+    this.setLayout(new GridLayout(gridSize,gridSize));
+
+    Color color = new Color(240,240,240);
+
+    for(int i = 0; i < gridSize * gridSize; i++){
+
+      if((gridSize % 2) == 0){
+
+        if(((i + (i / gridSize)) % 2) == 0){
+
+          color = new Color(240,240,240);
+        }else{
+
+          color = new Color(255,255,255);
+        }
+      }else{
+
+        if((i % 2) == 0){
+
+          color = new Color(240,240,240);
+        }else{
+
+          color = new Color(255,255,255);
+        }
+      }
+
+      Panel panel = new Panel(i,color);
+
+      if(isRandomFill == true){
+
+        int random = (int)(Math.random() * 2);
+
+        if(random == 1){
+
+          panel.setType(1);
+        }
+      }
+
+      panel.addMouseListener(this.gridActionManagement);
+      window.updatePanelArray(panel);
+      this.add(panel,BorderLayout.CENTER);
+    }
+  }
 
 	public int getType(){
 

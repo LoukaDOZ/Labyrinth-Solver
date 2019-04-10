@@ -5,23 +5,16 @@ public class Window extends JFrame{
 
 	private JLabel[] labelArray;
 	private Panel[] panelArray;
-	private JTextArea textArea;
-	private int lastOneJLabel;
-	private int lastOnePanel;
-	private boolean isMapCreatingWindowCharged;
+	private JTextArea[] textAreaArray;
 	private MenuActionManagement menuActionManagement;
-	private GridActionManagement gridActionManagement;
+  private SaveActionManagement saveActionManagement;
+  private GridActionManagement gridActionManagement;
 	private GridLayout gridLayout;
 
   public Window(String title, int sizeX, int sizeY, int locationX, int locationY, boolean foreground){
 
     super(title);
 
-    this.lastOneJLabel = 0;
-    this.lastOnePanel = 0;
-    this.isMapCreatingWindowCharged = false;
-    this.menuActionManagement = new MenuActionManagement();
-    this.gridActionManagement = new GridActionManagement();
     this.gridLayout = new GridLayout(0,1);
     
     this.setMinimumSize(new Dimension(sizeX,sizeY));
@@ -32,13 +25,28 @@ public class Window extends JFrame{
     this.pack();
   }
 
-  public void setGridLayoutBigger(){
+  public void setManagement(MenuActionManagement menuActionManagement){
 
-  	int r = this.gridLayout.getRows();
-  	this.gridLayout.setRows(r + 1);
+    this.menuActionManagement = menuActionManagement;
   }
 
-  public void addNewMenuJLabel(String text, boolean isTitle){
+  public void setManagement(SaveActionManagement saveActionManagement){
+
+    this.saveActionManagement = saveActionManagement;
+  }
+
+  public void setManagement(GridActionManagement gridActionManagement){
+
+    this.gridActionManagement = gridActionManagement;
+  }
+
+  public void setGridLayoutBigger(int rows, int columns){
+
+  	this.gridLayout = new GridLayout(rows,columns);
+    this.setLayout(this.gridLayout);
+  }
+
+  public JLabel getNewJLabel(String text, String whitchManagement, int fontSize){
 
   	JLabel label = new JLabel(text);
 
@@ -46,271 +54,183 @@ public class Window extends JFrame{
   	label.setOpaque(true);
   	label.setForeground(new Color(255,255,255));
   	label.setBackground(new Color(0,0,0));
-  	label.setFont(new Font("corps",1,this.getWidth() / 25));
+  	
+    if(fontSize == 1){
 
-  	if(isTitle == false){
+      label.setFont(new Font("corps",1,this.getWidth() / 80));
+    }
 
-  		label.addMouseListener(this.menuActionManagement);
-  	}
+    if(fontSize == 2){
 
-  	this.setGridLayoutBigger();
-  	this.setLayout(this.gridLayout);
-  	this.add(label,BorderLayout.CENTER);
+      label.setFont(new Font("corps",1,this.getWidth() / 25));
+    }
 
-  	this.updateJLabelArray();
-  	this.labelArray[this.lastOneJLabel - 1] = label;
- }
+  	if(whitchManagement.equals("MenuActionManagement")){
 
- public void addNewJTextArea(String text){
+      label.addMouseListener(this.menuActionManagement);
+    }
 
-  	this.textArea = new JTextArea(text);
-  	this.textArea.setFont(new Font("corps",1,this.getWidth() / 25));
-  	this.textArea.addMouseListener(new JTextAreaManagement());
+    if(whitchManagement.equals("SaveActionManagement")){
 
-    this.setGridLayoutBigger();
-  	this.setLayout(this.gridLayout);
-    this.add(this.textArea,BorderLayout.CENTER);
+      label.addMouseListener(this.saveActionManagement);
+    }
+
+  	this.updateJLabelArray(label);
+
+  	return label;
   }
 
-  public void addCreatingGrid(int gridSize, boolean isRandomFill){
+  public JLabel getNewJLabel(String text, int fontSize){
 
-  	this.isMapCreatingWindowCharged = true;
+    JLabel label = new JLabel(text);
 
-  	JPanel mapPanel = new JPanel();
-  	mapPanel.setLayout(new GridLayout(gridSize,gridSize));
+    label.setHorizontalAlignment(JLabel.CENTER);
+    label.setOpaque(true);
+    label.setForeground(new Color(255,255,255));
+    label.setBackground(new Color(0,0,0));
 
-  	Color color = new Color(240,240,240);
+    if(fontSize == 1){
 
-  	for(int i = 0; i < gridSize * gridSize; i++){
+      label.setFont(new Font("corps",1,this.getWidth() / 80));
+    }
 
-      Panel panel = new Panel(i,color);
+    if(fontSize == 2){
 
-  		if((gridSize % 2) == 0){
+      label.setFont(new Font("corps",1,this.getWidth() / 25));
+    }
 
-	  		if(((i + (i / gridSize)) % 2) == 0){
+    this.updateJLabelArray(label);
 
-	  			color = new Color(240,240,240);
-	  		}else{
-
-	  			color = new Color(255,255,255);
-	  		}
-	  	}else{
-
-	  		if((i % 2) == 0){
-
-	  			color = new Color(240,240,240);
-	  		}else{
-
-	  			color = new Color(255,255,255);
-	  		}
-	  	}
-
-	  	if(isRandomFill == true){
-
-	  		int random = (int)(Math.random() * 2);
-
-	  		if(random == 1){
-
-	  			panel.setType(1);
-	  		}
-	  	}
-
-  		panel.addMouseListener(this.gridActionManagement);
-  		this.updatePanelArray();
-  		this.panelArray[this.lastOnePanel - 1] = panel;
-  		mapPanel.add(panel,BorderLayout.CENTER);
-  	}
-
-  	JLabel label1 = new JLabel("  Change the map :  ");
-    JLabel label2 = new JLabel("Reset");
-  	JLabel label3 = new JLabel("Rubber");
-  	JLabel label4 = new JLabel("Put a wall");
-  	JLabel label5 = new JLabel("Put the start");
-  	JLabel label6 = new JLabel("Put the exit");
-  	JLabel label7 = new JLabel("Save the map");
-  	JLabel label8 = new JLabel("Done");
-
-  	JPanel menuPanel = new JPanel();
-  	menuPanel.setLayout(new GridLayout(8,1));
-
-  	label1.setHorizontalAlignment(JLabel.CENTER);
-  	label2.setHorizontalAlignment(JLabel.CENTER);
-  	label3.setHorizontalAlignment(JLabel.CENTER);
-  	label4.setHorizontalAlignment(JLabel.CENTER);
-  	label5.setHorizontalAlignment(JLabel.CENTER);
-  	label6.setHorizontalAlignment(JLabel.CENTER);
-  	label7.setHorizontalAlignment(JLabel.CENTER);
-    label8.setHorizontalAlignment(JLabel.CENTER);
-
-  	label1.setOpaque(true);
-  	label2.setOpaque(true);
-  	label3.setOpaque(true);
-  	label4.setOpaque(true);
-  	label5.setOpaque(true);
-  	label6.setOpaque(true);
-  	label7.setOpaque(true);
-    label8.setOpaque(true);
-
-  	label1.setForeground(new Color(255,255,255));
-  	label2.setForeground(new Color(255,255,255));
-  	label3.setForeground(new Color(255,255,255));
-  	label4.setForeground(new Color(255,255,255));
-  	label5.setForeground(new Color(255,255,255));
-  	label6.setForeground(new Color(255,255,255));
-  	label7.setForeground(new Color(255,255,255));
-    label8.setForeground(new Color(255,255,255));
-
-  	label1.setBackground(new Color(0,0,0));
-  	label2.setBackground(new Color(0,0,0));
-  	label3.setBackground(new Color(0,0,0));
-  	label4.setBackground(new Color(0,0,0));
-  	label5.setBackground(new Color(0,0,0));
-  	label6.setBackground(new Color(0,0,0));
-  	label7.setBackground(new Color(0,0,0));
-    label8.setBackground(new Color(0,0,0));
-
-  	label1.setFont(new Font("corps",1,this.getWidth() / 90));
-  	label2.setFont(new Font("corps",1,this.getWidth() / 90));
-  	label3.setFont(new Font("corps",1,this.getWidth() / 90));
-  	label4.setFont(new Font("corps",1,this.getWidth() / 90));
-  	label5.setFont(new Font("corps",1,this.getWidth() / 90));
-  	label6.setFont(new Font("corps",1,this.getWidth() / 90));
-  	label7.setFont(new Font("corps",1,this.getWidth() / 90));
-    label8.setFont(new Font("corps",1,this.getWidth() / 90));
-
-  	label2.addMouseListener(this.menuActionManagement);
-  	label3.addMouseListener(this.menuActionManagement);
-  	label4.addMouseListener(this.menuActionManagement);
-  	label5.addMouseListener(this.menuActionManagement);
-  	label6.addMouseListener(this.menuActionManagement);
-  	label7.addMouseListener(this.menuActionManagement);
-    label8.addMouseListener(this.menuActionManagement);
-
-  	this.updateJLabelArray();
-  	this.labelArray[this.lastOneJLabel - 1] = label1;
-  	this.updateJLabelArray();
-  	this.labelArray[this.lastOneJLabel - 1] = label2;
-  	this.updateJLabelArray();
-  	this.labelArray[this.lastOneJLabel - 1] = label3;
-  	this.updateJLabelArray();
-  	this.labelArray[this.lastOneJLabel - 1] = label4;
-  	this.updateJLabelArray();
-  	this.labelArray[this.lastOneJLabel - 1] = label5;
-  	this.updateJLabelArray();
-  	this.labelArray[this.lastOneJLabel - 1] = label6;
-  	this.updateJLabelArray();
-  	this.labelArray[this.lastOneJLabel - 1] = label7;
-    this.updateJLabelArray();
-    this.labelArray[this.lastOneJLabel - 1] = label8;
-
-  	menuPanel.add(label1,BorderLayout.CENTER);
-  	menuPanel.add(label2,BorderLayout.CENTER);
-  	menuPanel.add(label3,BorderLayout.CENTER);
-  	menuPanel.add(label4,BorderLayout.CENTER);
-  	menuPanel.add(label5,BorderLayout.CENTER);
-  	menuPanel.add(label6,BorderLayout.CENTER);
-  	menuPanel.add(label7,BorderLayout.CENTER);
-    menuPanel.add(label8,BorderLayout.CENTER);
-
-  	this.add(mapPanel,BorderLayout.CENTER);
-  	this.add(menuPanel,BorderLayout.WEST);
+    return label;
   }
 
-  public void updateJLabelArray(){
+  public void updateJLabelArray(JLabel label){
 
-  	this.lastOneJLabel++;
+    if(this.labelArray == null){
 
-  	if(this.labelArray == null){
+      this.labelArray = new JLabel[1];
+      this.labelArray[this.labelArray.length - 1] = label;
+    }else{
 
-  		this.labelArray = new JLabel[1];
-  	}else{
+      JLabel[] newArray = new JLabel[this.labelArray.length + 1];
 
-  		JLabel[] newArray = new JLabel[this.lastOneJLabel];
+      for(int i = 0; i < this.labelArray.length; i++){
 
-  		for(int i = 0; i < this.labelArray.length; i++){
+        newArray[i] = this.labelArray[i];
+      }
 
-  			newArray[i] = this.labelArray[i];
-  		}
+      newArray[newArray.length - 1] = label;
+      this.labelArray = new JLabel[newArray.length];
+      this.labelArray = newArray;
+    }
+  }
 
-  		this.labelArray = newArray;
-  	}
-}
+  public JTextArea getNewJTextArea(String text){
 
-public void updatePanelArray(){
+    JTextArea textArea = new JTextArea(text);
 
-  	this.lastOnePanel++;
+    textArea.setFont(new Font("corps",1,this.getWidth() / 25));
+    textArea.addMouseListener(new JTextAreaManagement());
 
-  	if(this.panelArray == null){
+    this.updateJTextAreaArray(textArea);
 
-  		this.panelArray = new Panel[1];
-  	}else{
+    return textArea;
+  }
 
-  		Panel[] newArray = new Panel[this.lastOnePanel];
+  public void updateJTextAreaArray(JTextArea textArea){
 
-  		for(int i = 0; i < this.panelArray.length; i++){
+    if(this.textAreaArray == null){
 
-  			newArray[i] = this.panelArray[i];
-  		}
+      this.textAreaArray = new JTextArea[1];
+      this.textAreaArray[this.textAreaArray.length - 1] = textArea;
+    }else{
 
-  		this.panelArray = newArray;
-  	}
-}
+      JTextArea[] newArray = new JTextArea[this.textAreaArray.length + 1];
 
-public JLabel getJLabelByText(String text){
+      for(int i = 0; i < this.textAreaArray.length; i++){
 
-  	int i;
+        newArray[i] = this.textAreaArray[i];
+      }
 
-  	for(i = 0; this.labelArray[i].getText().equals(text) == false && i < this.lastOneJLabel; i++){}
+      newArray[newArray.length - 1] = textArea;
+      this.textAreaArray = new JTextArea[newArray.length];
+      this.textAreaArray = newArray;
+    }
+  }
 
-  	return this.labelArray[i];
-}
+  public void updatePanelArray(Panel panel){
 
-public Panel getPanelByID(int id){
+    if(this.panelArray == null){
 
-  	int i;
+      this.panelArray = new Panel[1];
+      this.panelArray[this.panelArray.length - 1] = panel;
+    }else{
 
-  	for(i = 0; this.panelArray[i].getID() == id && i < this.lastOnePanel; i++){}
+      Panel[] newArray = new Panel[this.panelArray.length + 1];
 
-  	return this.panelArray[i];
-}
+      for(int i = 0; i < this.panelArray.length; i++){
 
-public Panel getPanelByType(int type){
+        newArray[i] = this.panelArray[i];
+      }
 
-  	int i;
+      newArray[newArray.length - 1] = panel;
+      this.panelArray = new Panel[newArray.length];
+      this.panelArray = newArray;
+    }
+  }
 
-  	try{
+  public JLabel getJLabelByText(String text){
 
-	  	for(i = 0; this.panelArray[i].getType() != type; i++){}
+    int i;
+    for(i = 0; this.labelArray[i].getText().equals(text) == false && i < this.labelArray.length; i++){}
 
-	  	return this.panelArray[i];
-	}catch(IndexOutOfBoundsException ex){
+    return this.labelArray[i];
+  }
 
-		return null;
-	}
-}
+  public Panel getPanelByID(int id){
 
-public int getTotalPanel(){
+      int i;
+      for(i = 0; this.panelArray[i].getID() != id && i < this.panelArray.length; i++){}
 
-  return this.lastOnePanel;
-}
+      return this.panelArray[i];
+  }
 
-	public JTextArea getJTextArea(){
+  public Panel getPanelByType(int type){
 
-		return this.textArea;
-	}
+      int i;
+      try{
 
-	public MenuActionManagement getMenuActionManagement(){
+        for(i = 0; this.panelArray[i].getType() != type; i++){}
 
-		return this.menuActionManagement;
-	}
+        return this.panelArray[i];
+    }catch(IndexOutOfBoundsException ex){
 
-	public GridActionManagement getGridActionManagement(){
+      return null;
+    }
+  }
 
-		return this.gridActionManagement;
-	}
+  public int getTotalPanel(){
 
-	public boolean getIsMapCreatingWindowCharged(){
+    return this.panelArray.length;
+  }
 
-		return this.isMapCreatingWindowCharged;
-	}
+  public JTextArea getJTextAreaByArrivedOrder(int order){
+
+    return this.textAreaArray[order - 1];
+  }
+
+  public MenuActionManagement getMenuActionManagement(){
+
+    return this.menuActionManagement;
+  }
+
+  public SaveActionManagement getSaveActionManagement(){
+
+    return this.saveActionManagement;
+  }
+
+  public GridActionManagement getGridActionManagement(){
+
+    return this.gridActionManagement;
+  }
 }

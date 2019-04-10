@@ -5,6 +5,7 @@ import java.awt.event.*;
 public class MenuActionManagement implements MouseListener{
 
 	private JLabel currentLabel;
+	private boolean mapCreatingWindowIsInitialized;
 	private boolean voidLabel;
 	private boolean fillLabel;
 	private boolean removeLabel;
@@ -18,8 +19,9 @@ public class MenuActionManagement implements MouseListener{
 	private Window mainWindow;
 
 
-	public MenuActionManagement(){
+	public MenuActionManagement(Window welcomeWindow, Window createWindow, Window mapCreatingWindow, Window mainWindow){
 
+		this.mapCreatingWindowIsInitialized = false;
 		this.voidLabel = false;
 		this.fillLabel = false;
 		this.removeLabel = false;
@@ -27,9 +29,6 @@ public class MenuActionManagement implements MouseListener{
 		this.startLabel = false;
 		this.exitLabel = false;
 		this.size = 20;
-	}
-
-	public void addWindows(Window welcomeWindow, Window createWindow, Window mapCreatingWindow, Window mainWindow){
 
 		this.welcomeWindow = welcomeWindow;
 		this.createWindow = createWindow;
@@ -37,7 +36,7 @@ public class MenuActionManagement implements MouseListener{
 		this.mainWindow = mainWindow;
 	}
 
-	//mouse is hoveing
+  //mouse is hoveing
   public void mouseEntered(MouseEvent e) {
 
     this.currentLabel = (JLabel)e.getSource();
@@ -50,40 +49,37 @@ public class MenuActionManagement implements MouseListener{
   	this.currentLabel = (JLabel)e.getSource();
   	this.currentLabel.setBackground(new Color(0,0,0));
 
-  	if(this.createWindow != null){
+	if(this.currentLabel == this.createWindow.getJLabelByText("Void") && this.voidLabel == true){
 
-	    if(this.currentLabel == this.createWindow.getJLabelByText("Void") && this.voidLabel == true){
-
-	    	this.currentLabel.setBackground(new Color(100,100,100));
-	    }
-
-	    if(this.currentLabel == this.createWindow.getJLabelByText("Random fill") && this.fillLabel == true){
-
-	    	this.currentLabel.setBackground(new Color(100,100,100));
-	    }
+	    this.currentLabel.setBackground(new Color(100,100,100));
 	}
 
-    if(this.mapCreatingWindow != null && this.mapCreatingWindow.getIsMapCreatingWindowCharged() == true){
+	if(this.currentLabel == this.createWindow.getJLabelByText("Random fill") && this.fillLabel == true){
 
-	    if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Rubber") && this.removeLabel == true){
+	    this.currentLabel.setBackground(new Color(100,100,100));
+	}
 
-	    	this.currentLabel.setBackground(new Color(100,100,100));
-	    }
+	if(this.mapCreatingWindowIsInitialized == true){
 
-	    if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put a wall") && this.wallLabel == true){
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Rubber") && this.removeLabel == true){
 
-	    	this.currentLabel.setBackground(new Color(100,100,100));
-	    }
+		    this.currentLabel.setBackground(new Color(100,100,100));
+		}
 
-	    if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the start") && this.startLabel == true){
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put a wall") && this.wallLabel == true){
 
-	    	this.currentLabel.setBackground(new Color(100,100,100));
-	    }
+		    this.currentLabel.setBackground(new Color(100,100,100));
+		}
 
-	    if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the exit") && this.exitLabel == true){
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the start") && this.startLabel == true){
 
-	    	this.currentLabel.setBackground(new Color(100,100,100));
-	    }
+		    this.currentLabel.setBackground(new Color(100,100,100));
+		}
+
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the exit") && this.exitLabel == true){
+
+		    this.currentLabel.setBackground(new Color(100,100,100));
+		}
 	}
 }
 
@@ -92,205 +88,237 @@ public class MenuActionManagement implements MouseListener{
 
   	this.currentLabel = (JLabel)e.getSource();
 
-  	if(this.welcomeWindow != null){
+	if(this.currentLabel == this.welcomeWindow.getJLabelByText("Open a grid")){
 
-	  	if(this.currentLabel == this.welcomeWindow.getJLabelByText("Open a grid")){
+	  	this.welcomeWindow.setVisible(false);
+	}
 
-	  		this.welcomeWindow.setVisible(false);
-	  	}
+	if(this.currentLabel == this.welcomeWindow.getJLabelByText("Create a grid")){
 
-	  	if(this.currentLabel == this.welcomeWindow.getJLabelByText("Create a grid")){
+	  	this.welcomeWindow.setVisible(false);
+	  	this.createWindow.setVisible(true);
+	}
 
-	  		this.welcomeWindow.setVisible(false);
-	  		this.createWindow.setVisible(true);
-	  	}
-  	}
+	if(this.currentLabel == this.createWindow.getJLabelByText("Bigger")){
 
-  	if(this.createWindow != null){
+	  	if(this.size < 40){
 
-	  	if(this.currentLabel == this.createWindow.getJLabelByText("Bigger")){
+			this.size++;
+			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.size - 1)+"x"+(this.size - 1)+"] :").setText("Choose the size of the grid ["+this.size+"x"+this.size+"] :");
+		}
+	}
 
-	  		if(this.size < 40){
+	if(this.currentLabel == this.createWindow.getJLabelByText("Smaller")){
 
-	  			this.size++;
-	  			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.size - 1)+"x"+(this.size - 1)+"] :").setText("Choose the size of the grid ["+this.size+"x"+this.size+"] :");
-	  		}
-	  	}
+		if(this.size > 5){
 
-	  	if(this.currentLabel == this.createWindow.getJLabelByText("Smaller")){
+			this.size--;
+			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.size + 1)+"x"+(this.size + 1)+"] :").setText("Choose the size of the grid ["+this.size+"x"+this.size+"] :");
+		}
+	}
 
-	  		if(this.size > 5){
+	if(this.currentLabel == this.createWindow.getJLabelByText("Void")){
 
-	  			this.size--;
-	  			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.size + 1)+"x"+(this.size + 1)+"] :").setText("Choose the size of the grid ["+this.size+"x"+this.size+"] :");
-	  		}
-	  	}
+		this.currentLabel.setBackground(new Color(100,100,100));
+		this.createWindow.getJLabelByText("Random fill").setBackground(new Color(0,0,0));
+		this.voidLabel = true;
+		this.fillLabel = false;
+	}
 
-	  	if(this.currentLabel == this.createWindow.getJLabelByText("Void")){
+	if(this.currentLabel == this.createWindow.getJLabelByText("Random fill")){
 
-	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.createWindow.getJLabelByText("Random fill").setBackground(new Color(0,0,0));
-	  		this.voidLabel = true;
-	  		this.fillLabel = false;
-	  	}
+		this.currentLabel.setBackground(new Color(100,100,100));
+		this.createWindow.getJLabelByText("Void").setBackground(new Color(0,0,0));
+		this.voidLabel = false;
+		this.fillLabel = true;
+	}
 
-	  	if(this.currentLabel == this.createWindow.getJLabelByText("Random fill")){
+	if(this.currentLabel == this.createWindow.getJLabelByText("Done")){
 
-	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.createWindow.getJLabelByText("Void").setBackground(new Color(0,0,0));
-	  		this.voidLabel = false;
-	  		this.fillLabel = true;
-	  	}
+		if(this.fillLabel == true || this.voidLabel == true){
 
-	  	if(this.currentLabel == this.createWindow.getJLabelByText("Done")){
+			this.mapCreatingWindowIsInitialized = true;
 
-	  		if(this.fillLabel == true || this.voidLabel == true){
+			Panel panel1 = new Panel();
+			panel1.setLayout(new GridLayout(9,1));
+			panel1.add(this.mapCreatingWindow.getNewJLabel("  Change the map :  ",1));
+			panel1.add(this.mapCreatingWindow.getNewJLabel("Reset","MenuActionManagement",1));
+			panel1.add(this.mapCreatingWindow.getNewJLabel("Filled with walls","MenuActionManagement",1));
+			panel1.add(this.mapCreatingWindow.getNewJLabel("Rubber","MenuActionManagement",1));
+			panel1.add(this.mapCreatingWindow.getNewJLabel("Put a wall","MenuActionManagement",1));
+			panel1.add(this.mapCreatingWindow.getNewJLabel("Put the start","MenuActionManagement",1));
+			panel1.add(this.mapCreatingWindow.getNewJLabel("Put the exit","MenuActionManagement",1));
+			panel1.add(this.mapCreatingWindow.getNewJLabel("Save the map","MenuActionManagement",1));
+			panel1.add(this.mapCreatingWindow.getNewJLabel("Done","MenuActionManagement",1));
 
-		  		if(this.fillLabel == true){
+			Panel panel2 = new Panel(this.mapCreatingWindow.getGridActionManagement());
+			panel2.setCreatingGrid(this.mapCreatingWindow,this.size,this.fillLabel);
 
-		  			this.mapCreatingWindow.addCreatingGrid(this.size,true);
-		  		}else{
+			this.mapCreatingWindow.add(panel1,BorderLayout.WEST);
+			this.mapCreatingWindow.add(panel2,BorderLayout.CENTER);
 
-		  			this.mapCreatingWindow.addCreatingGrid(this.size,false);
-		  		}
+			this.createWindow.setVisible(false);
+			this.mapCreatingWindow.setVisible(true);
+		}else{
 
-		  		this.createWindow.setVisible(false);
-		  		this.mapCreatingWindow.setVisible(true);
-		  	}else{
+			Window chooseFillWindow = new Window("Please choose a way to fill",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
+			chooseFillWindow.setGridLayoutBigger(3,1);
+			chooseFillWindow.add(chooseFillWindow.getNewJLabel("",2),BorderLayout.CENTER);
+			chooseFillWindow.add(chooseFillWindow.getNewJLabel("You have to choose a way to fill the grid",2),BorderLayout.CENTER);
+			chooseFillWindow.add(chooseFillWindow.getNewJLabel("",2),BorderLayout.CENTER);
+			chooseFillWindow.setVisible(true);
 
-		  		Window chooseFillWindow = new Window("Please choose a fill",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
-		  		chooseFillWindow.addNewMenuJLabel("",true);
-		  		chooseFillWindow.addNewMenuJLabel("You have to choose a way to fill the grid",true);
-				chooseFillWindow.addNewMenuJLabel("",true);
-		  		chooseFillWindow.setVisible(true);
+			TimerPopupWindow timer = new TimerPopupWindow(chooseFillWindow);
+		}
+	}
 
-		  		TimerPopupWindow timer = new TimerPopupWindow(chooseFillWindow);
-		  	}
-	  	}
-	  }
+	if(this.mapCreatingWindowIsInitialized == true){
 
-  	if(this.mapCreatingWindow != null && this.mapCreatingWindow.getIsMapCreatingWindowCharged() == true){
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Reset")){
 
-  		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Reset")){
+			for(int i = 0; i < this.mapCreatingWindow.getTotalPanel(); i++){
 
-  			for(int i = 0; i < this.mapCreatingWindow.getTotalPanel(); i++){
+				this.mapCreatingWindow.getPanelByID(i).setType(0);
+			}
+		}
 
-  				System.out.println(i+" - "+this.mapCreatingWindow.getPanelByID(i).getType());
-		        this.mapCreatingWindow.getPanelByID(i).setType(0);
-		        System.out.println(i+" + "+this.mapCreatingWindow.getPanelByID(i).getType());
-		    }
-	  	}
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Filled with walls")){
 
-	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Rubber")){
+			for(int i = 0; i < this.mapCreatingWindow.getTotalPanel(); i++){
 
-	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.mapCreatingWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
-	  		this.mapCreatingWindow.getJLabelByText("Put the start").setBackground(new Color(0,0,0));
-	  		this.mapCreatingWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
-	  		this.removeLabel = true;
-	  		this.wallLabel = false;
-	  		this.startLabel = false;
-	  		this.exitLabel = false;
-	  		this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
-	  	}
+				this.mapCreatingWindow.getPanelByID(i).setType(1);
+			}
+		}
 
-	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put a wall")){
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Rubber")){
 
-	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.mapCreatingWindow.getJLabelByText("Rubber").setBackground(new Color(0,0,0));
-	  		this.mapCreatingWindow.getJLabelByText("Put the start").setBackground(new Color(0,0,0));
-	  		this.mapCreatingWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
-	  		this.wallLabel = true;
-	  		this.removeLabel = false;
-	  		this.startLabel = false;
-	  		this.exitLabel = false;
-	  		this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
-	  	}
+			this.currentLabel.setBackground(new Color(100,100,100));
+			this.mapCreatingWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
+			this.mapCreatingWindow.getJLabelByText("Put the start").setBackground(new Color(0,0,0));
+			this.mapCreatingWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
+			this.removeLabel = true;
+			this.wallLabel = false;
+			this.startLabel = false;
+			this.exitLabel = false;
+			this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
+		}
 
-	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the start")){
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put a wall")){
 
-	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.mapCreatingWindow.getJLabelByText("Rubber").setBackground(new Color(0,0,0));
-	  		this.mapCreatingWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
-	  		this.mapCreatingWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
-	  		this.startLabel = true;
-	  		this.removeLabel = false;
-	  		this.wallLabel = false;
-	  		this.exitLabel = false;
-	  		this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
-	  	}
+			this.currentLabel.setBackground(new Color(100,100,100));
+			this.mapCreatingWindow.getJLabelByText("Rubber").setBackground(new Color(0,0,0));
+			this.mapCreatingWindow.getJLabelByText("Put the start").setBackground(new Color(0,0,0));
+			this.mapCreatingWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
+			this.wallLabel = true;
+			this.removeLabel = false;
+			this.startLabel = false;
+			this.exitLabel = false;
+			this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
+		}
 
-	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the exit")){
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the start")){
 
-	  		this.currentLabel.setBackground(new Color(100,100,100));
-	  		this.mapCreatingWindow.getJLabelByText("Rubber").setBackground(new Color(0,0,0));
-	  		this.mapCreatingWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
-	  		this.mapCreatingWindow.getJLabelByText("Put the start").setBackground(new Color(0,0,0));
-	  		this.exitLabel = true;
-	  		this.removeLabel = false;
-	  		this.wallLabel = false;
-	  		this.startLabel = false;
-	  		this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
-	  	}
+			this.currentLabel.setBackground(new Color(100,100,100));
+			this.mapCreatingWindow.getJLabelByText("Rubber").setBackground(new Color(0,0,0));
+			this.mapCreatingWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
+			this.mapCreatingWindow.getJLabelByText("Put the exit").setBackground(new Color(0,0,0));
+			this.startLabel = true;
+			this.removeLabel = false;
+			this.wallLabel = false;
+			this.exitLabel = false;
+			this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
+		}
 
-	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Save the map")){
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Put the exit")){
 
-	  		if(this.mapCreatingWindow.getPanelByType(2) == null || this.mapCreatingWindow.getPanelByType(3) == null){
+			this.currentLabel.setBackground(new Color(100,100,100));
+			this.mapCreatingWindow.getJLabelByText("Rubber").setBackground(new Color(0,0,0));
+			this.mapCreatingWindow.getJLabelByText("Put a wall").setBackground(new Color(0,0,0));
+			this.mapCreatingWindow.getJLabelByText("Put the start").setBackground(new Color(0,0,0));
+			this.exitLabel = true;
+			this.removeLabel = false;
+			this.wallLabel = false;
+			this.startLabel = false;
+			this.mapCreatingWindow.getGridActionManagement().setAction(this.currentLabel.getText());
+		}
 
-		  		Window setStartExitWindow = new Window("Please set the start and the exit position",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
-			  	setStartExitWindow.addNewMenuJLabel("",true);
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Save the map")){
 
-			  	if(this.mapCreatingWindow.getPanelByType(2) == null){
+			if(this.mapCreatingWindow.getPanelByType(2) == null || this.mapCreatingWindow.getPanelByType(3) == null){
 
-			  		setStartExitWindow.addNewMenuJLabel("You have to choose the starting position",true);
-			  	}
+				Window setStartExitWindow = new Window("Please set the start and the exit position",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
+				setStartExitWindow.setGridLayoutBigger(4,1);
+				setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
 
-			  	if(this.mapCreatingWindow.getPanelByType(3) == null){
+				if(this.mapCreatingWindow.getPanelByType(2) == null){
 
-					setStartExitWindow.addNewMenuJLabel("You have to choose the exit position",true);
+					setStartExitWindow.add(setStartExitWindow.getNewJLabel("You have to choose the starting position",2),BorderLayout.CENTER);
+				}else{
+
+					setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
 				}
 
-				setStartExitWindow.addNewMenuJLabel("",true);
-			  	setStartExitWindow.setVisible(true);
+				if(this.mapCreatingWindow.getPanelByType(3) == null){
 
-			  	TimerPopupWindow timer = new TimerPopupWindow(setStartExitWindow);
-			}else{
+						setStartExitWindow.add(setStartExitWindow.getNewJLabel("You have to choose the exit position",2),BorderLayout.CENTER);
+					}else{
 
-			  	Window saveWindow = new Window("Enter a file name",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
-			  	saveWindow.addNewMenuJLabel("Please enter the file name :",true);
-			  	saveWindow.addNewJTextArea("Enter file name");
-			  	saveWindow.addNewMenuJLabel("Done",false);
-			  	saveWindow.setVisible(true);
-			}	  		
-	  	}
-
-	  	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Done")){
-
-	  		if(this.mapCreatingWindow.getPanelByType(2) == null || this.mapCreatingWindow.getPanelByType(3) == null){
-
-		  		Window setStartExitWindow = new Window("Please set the start and the exit position",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
-			  	setStartExitWindow.addNewMenuJLabel("",true);
-
-			  	if(this.mapCreatingWindow.getPanelByType(2) == null){
-
-			  		setStartExitWindow.addNewMenuJLabel("You have to choose the starting position",true);
-			  	}
-
-			  	if(this.mapCreatingWindow.getPanelByType(3) == null){
-
-					setStartExitWindow.addNewMenuJLabel("You have to choose the exit position",true);
+					setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
 				}
 
-				setStartExitWindow.addNewMenuJLabel("",true);
-			  	setStartExitWindow.setVisible(true);
+					setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
+				setStartExitWindow.setVisible(true);
 
-			  	TimerPopupWindow timer = new TimerPopupWindow(setStartExitWindow);
+				TimerPopupWindow timer = new TimerPopupWindow(setStartExitWindow);
+				}else{
+
+				Window saveWindow = new Window("Enter a file name",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
+				SaveActionManagement saveActionManagement = new SaveActionManagement(saveWindow);
+				saveWindow.setManagement(saveActionManagement);
+
+				saveWindow.setGridLayoutBigger(4,1);
+				saveWindow.add(saveWindow.getNewJLabel("Please enter the file name :",2),BorderLayout.CENTER);
+				saveWindow.add(saveWindow.getNewJTextArea("Enter file name"),BorderLayout.CENTER);
+				saveWindow.add(saveWindow.getNewJLabel("Cancel","SaveActionManagement",2),BorderLayout.CENTER);
+				saveWindow.add(saveWindow.getNewJLabel("Done","SaveActionManagement",2),BorderLayout.CENTER);
+				saveWindow.setVisible(true);
+				}		
+		}
+
+		if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Done")){
+
+			if(this.mapCreatingWindow.getPanelByType(2) == null || this.mapCreatingWindow.getPanelByType(3) == null){
+
+				Window setStartExitWindow = new Window("Please set the start and the exit position",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
+				setStartExitWindow.setGridLayoutBigger(4,1);
+				setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
+
+				if(this.mapCreatingWindow.getPanelByType(2) == null){
+
+					setStartExitWindow.add(setStartExitWindow.getNewJLabel("You have to choose the starting position",2),BorderLayout.CENTER);
+				}else{
+
+					setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
+				}
+
+				if(this.mapCreatingWindow.getPanelByType(3) == null){
+
+					setStartExitWindow.add(setStartExitWindow.getNewJLabel("You have to choose the exit position",2),BorderLayout.CENTER);
+				}else{
+
+					setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
+				}
+
+				setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
+				setStartExitWindow.setVisible(true);
+
+				TimerPopupWindow timer = new TimerPopupWindow(setStartExitWindow);
 			}else{
 
-			  	this.mapCreatingWindow.setVisible(false);
-		  		this.mainWindow.setVisible(true);
-			}	  		
-	  	}
+				this.mapCreatingWindow.setVisible(false);
+				this.mainWindow.setVisible(true);
+			}
+		}
 	}
 }
 

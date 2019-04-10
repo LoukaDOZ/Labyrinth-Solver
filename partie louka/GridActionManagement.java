@@ -9,9 +9,7 @@ public class GridActionManagement implements MouseListener{
 
 	private Window mapCreatingWindow;
 
-	public GridActionManagement(){}
-
-	public void addWindows(Window mapCreatingWindow){
+	public GridActionManagement(Window mapCreatingWindow){
 
 		this.mapCreatingWindow = mapCreatingWindow;
 		this.action = "none";
