@@ -40,7 +40,7 @@ public class Window extends JFrame{
     this.gridActionManagement = gridActionManagement;
   }
 
-  public void setGridLayoutBigger(int rows, int columns){
+  public void setGridLayout(int rows, int columns){
 
   	this.gridLayout = new GridLayout(rows,columns);
     this.setLayout(this.gridLayout);
@@ -212,6 +212,26 @@ public class Window extends JFrame{
   public int getTotalPanel(){
 
     return this.panelArray.length;
+  }
+
+  //Return an array of all case type from the grid, the initial grid was made rows by rows, this array contain types columns by columns
+  public int[] getPanelTypeAsAnArray(int gridSize){
+
+    int[] typeArray = new int[gridSize];
+
+      for(int i = 0, j = 0; i < (gridSize * gridSize) - gridSize; i++, j++){
+
+        //typeArray[j + (i * gridSize)] = this.panelArray[j + (i * gridSize)];
+
+        System.out.println((i + (j * gridSize))+" -  "+i+" "+j);
+
+        if(i == gridSize){
+
+          j = 0;
+        }
+    }
+
+    return typeArray;
   }
 
   public JTextArea getJTextAreaByArrivedOrder(int order){

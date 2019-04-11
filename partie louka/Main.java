@@ -16,9 +16,9 @@ public class Main {
 
 		Window mapCreatingWindow = new Window("Create your map",windowSizeX,windowSizeY,0,0,true);
 
-		Window mainWindow = new Window("Play",windowSizeX,windowSizeY,0,0,true);
+		Window algorithmWindow = new Window("Choose algorithm",windowSizeX / 3,windowSizeY / 2,windowSizeX / 3,windowSizeY / 4,true);
 
-		MenuActionManagement menuActionManagement = new MenuActionManagement(welcomeWindow,createWindow,mapCreatingWindow,mainWindow);
+		MenuActionManagement menuActionManagement = new MenuActionManagement(welcomeWindow,createWindow,mapCreatingWindow,algorithmWindow);
 		GridActionManagement gridActionManagement = new GridActionManagement(mapCreatingWindow);
 
 		welcomeWindow.setManagement(menuActionManagement);
@@ -28,14 +28,14 @@ public class Main {
 		mapCreatingWindow.setManagement(menuActionManagement);
 		mapCreatingWindow.setManagement(gridActionManagement);
 
-		mainWindow.setManagement(menuActionManagement);
+		algorithmWindow.setManagement(menuActionManagement);
 
-		welcomeWindow.setGridLayoutBigger(3,1);
+		welcomeWindow.setGridLayout(3,1);
 		welcomeWindow.add(welcomeWindow.getNewJLabel("Welcome! Please, choose an option :",2),BorderLayout.CENTER);
 		welcomeWindow.add(welcomeWindow.getNewJLabel("Open a grid","MenuActionManagement",2),BorderLayout.CENTER);
 		welcomeWindow.add(welcomeWindow.getNewJLabel("Create a grid","MenuActionManagement",2),BorderLayout.CENTER);
 
-		createWindow.setGridLayoutBigger(7,1);
+		createWindow.setGridLayout(7,1);
 		createWindow.add(createWindow.getNewJLabel("Choose the size of the grid [20x20] :",2),BorderLayout.CENTER);
 		createWindow.add(createWindow.getNewJLabel("Bigger","MenuActionManagement",2),BorderLayout.CENTER);
 		createWindow.add(createWindow.getNewJLabel("Smaller","MenuActionManagement",2),BorderLayout.CENTER);
@@ -43,6 +43,28 @@ public class Main {
 		createWindow.add(createWindow.getNewJLabel("Void","MenuActionManagement",2),BorderLayout.CENTER);
 		createWindow.add(createWindow.getNewJLabel("Random fill","MenuActionManagement",2),BorderLayout.CENTER);
 		createWindow.add(createWindow.getNewJLabel("Done","MenuActionManagement",2),BorderLayout.CENTER);
+
+		Panel panel = new Panel();
+		panel.setLayout(new GridLayout(9,1));
+		panel.add(mapCreatingWindow.getNewJLabel("  Change the map :  ",1));
+		panel.add(mapCreatingWindow.getNewJLabel("Reset","MenuActionManagement",1));
+		panel.add(mapCreatingWindow.getNewJLabel("Filled with walls","MenuActionManagement",1));
+		panel.add(mapCreatingWindow.getNewJLabel("Rubber","MenuActionManagement",1));
+		panel.add(mapCreatingWindow.getNewJLabel("Put a wall","MenuActionManagement",1));
+		panel.add(mapCreatingWindow.getNewJLabel("Put the start","MenuActionManagement",1));
+		panel.add(mapCreatingWindow.getNewJLabel("Put the exit","MenuActionManagement",1));
+		panel.add(mapCreatingWindow.getNewJLabel("Save the map","MenuActionManagement",1));
+		panel.add(mapCreatingWindow.getNewJLabel("Done","MenuActionManagement",1));
+		mapCreatingWindow.add(panel,BorderLayout.WEST);
+
+		algorithmWindow.setGridLayout(7,1);
+		algorithmWindow.add(algorithmWindow.getNewJLabel("Choose an algorithm :",2),BorderLayout.CENTER);
+		algorithmWindow.add(algorithmWindow.getNewJLabel("Random","MenuActionManagement",2),BorderLayout.CENTER);
+		algorithmWindow.add(algorithmWindow.getNewJLabel("Determinist","MenuActionManagement",2),BorderLayout.CENTER);
+		algorithmWindow.add(algorithmWindow.getNewJLabel("Choose a mode :",2),BorderLayout.CENTER);
+		algorithmWindow.add(algorithmWindow.getNewJLabel("Manual","MenuActionManagement",2),BorderLayout.CENTER);
+		algorithmWindow.add(algorithmWindow.getNewJLabel("Automatic","MenuActionManagement",2),BorderLayout.CENTER);
+		algorithmWindow.add(algorithmWindow.getNewJLabel("Done","MenuActionManagement",2),BorderLayout.CENTER);
 
 		welcomeWindow.setVisible(true);
 	}
