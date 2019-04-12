@@ -325,7 +325,7 @@ public class MenuActionManagement implements MouseListener{
 			chooseWindow.setGridLayout(4,1);
 			chooseWindow.add(chooseWindow.getNewJLabel("",2),BorderLayout.CENTER);
 
-			if(this.currentSelection.equals("Random") == false || this.currentSelection.equals("Determinist") == false){
+			if(this.currentSelection.equals("Random") == false && this.currentSelection.equals("Determinist") == false){
 
 				chooseWindow.add(chooseWindow.getNewJLabel("You have to choose an algorithm",2),BorderLayout.CENTER);
 			}else{

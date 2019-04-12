@@ -225,8 +225,6 @@ public class Window extends JFrame{
       for(int j = 0; j < gridSize; j++){
 
         convertArray[j][i] = this.panelArray[j + (i * gridSize)].getType();
-
-        System.out.println(convertArray[j][i]);
       }
     }
 
@@ -235,8 +233,6 @@ public class Window extends JFrame{
       for(int j = 0; j < gridSize; j++){
 
         typeArray[j + (i * gridSize)] = convertArray[i][j];
-
-        System.out.println(typeArray[j + (i * gridSize)]);
       }
     }
 
