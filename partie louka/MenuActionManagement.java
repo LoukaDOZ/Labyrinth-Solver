@@ -14,6 +14,7 @@ public class MenuActionManagement implements MouseListener{
 	private Window mapCreatingWindow;
 	private Window algorithmWindow;
 
+	private Simulation simulation;
 
 	public MenuActionManagement(Window welcomeWindow, Window createWindow, Window mapCreatingWindow, Window algorithmWindow){
 
@@ -25,6 +26,13 @@ public class MenuActionManagement implements MouseListener{
 		this.createWindow = createWindow;
 		this.mapCreatingWindow = mapCreatingWindow;
 		this.algorithmWindow = algorithmWindow;
+
+		this.simulation = new Simulation();
+	}
+
+	public int getGridSize(){
+
+		return this.size;
 	}
 
   //mouse is hoveing
@@ -129,7 +137,7 @@ public class MenuActionManagement implements MouseListener{
 
 		if(this.currentSelection.equals("none") == false){
 
-			Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement());
+			Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement(),this.mapCreatingWindow);
 
 			panel.setCreatingGrid(this.mapCreatingWindow,this.size,this.currentSelection.equals("Random fill"));
 
@@ -154,7 +162,7 @@ public class MenuActionManagement implements MouseListener{
 
 		for(int i = 0; i < this.mapCreatingWindow.getTotalPanel(); i++){
 
-			this.mapCreatingWindow.getPanelByID(i).setType(0);
+			this.mapCreatingWindow.getPanelByID(i).setType(0,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
 		}
 	}
 
@@ -162,7 +170,7 @@ public class MenuActionManagement implements MouseListener{
 
 		for(int i = 0; i < this.mapCreatingWindow.getTotalPanel(); i++){
 
-			this.mapCreatingWindow.getPanelByID(i).setType(1);
+			this.mapCreatingWindow.getPanelByID(i).setType(1,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
 		}
 	}
 
@@ -317,7 +325,7 @@ public class MenuActionManagement implements MouseListener{
 
 		if((this.currentSelection.equals("Random") == true || this.currentSelection.equals("Determinist") == true) && this.currentSelection2.equals("none") == false){
 
-			StartSimulation startSimulation = new StartSimulation(this.size,this.mapCreatingWindow.getPanelTypeAsAnArray(this.size),this.currentSelection.equals("Random"),this.currentSelection2.equals("Manual"));
+			this.simulation.startSimulation(this.size,this.mapCreatingWindow.getPanelTypeAsAnArray(this.size),this.currentSelection.equals("Random"),this.currentSelection2.equals("Manual"));
 			this.algorithmWindow.setVisible(false);
 		}else{
 
