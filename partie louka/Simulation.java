@@ -5,6 +5,7 @@ public class Simulation{
 
 	private Window simulationWindow;
 	private Window optionsWindow;
+	private Window finalWindow;
 
 	private int[] typeArray;
 	private String nextDirection;
@@ -23,6 +24,9 @@ public class Simulation{
 
 		this.simulationWindow = new Window("Simulation",windowSizeX,(windowSizeY / 4) * 3,0,windowSizeY / 4,true);
 		this.optionsWindow = new Window("Your options",windowSizeX,windowSizeY / 4,0,0,true);
+		this.finalWindow = new Window("Simulation ended",windowSizeX,windowSizeY,0,0,true);
+
+		this.optionsWindow.setGridLayout(2,5);
 
 		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Starting grid :",1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel("Algorithm :",1),BorderLayout.CENTER);
@@ -35,6 +39,8 @@ public class Simulation{
 	    this.optionsWindow.getJLabelByText("Mode :").setBackground(new Color(50,50,50));
 	    this.optionsWindow.getJLabelByText("Next direction :").setBackground(new Color(255,200,200));
 	    this.optionsWindow.getJLabelByText("Round :").setBackground(new Color(50,50,50));
+
+	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
 
 		this.round = 0;
 		this.nextDirection = "Undefined";
@@ -172,9 +178,62 @@ public class Simulation{
 		this.simulationWindow.getPanelByType(2).setType(0,this.gridSize);
 		this.simulationWindow.getPanelByID(this.nextPanelID).setType(2,this.gridSize);
 
-		if(this.simulationWindow.getPanelByType(2).getID() == this.exitID){
+		if(this.simulationWindow.getPanelByType(2).getID() == this.exitID || this.round >= 100){
 
-			System.exit(1);
+			this.optionsWindow.setVisible(false);
+			this.simulationWindow.setVisible(false);
+
+			Panel finalInformationsPanel = new Panel();
+		    finalInformationsPanel.setLayout(new GridLayout(3,2));
+
+		    finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exit found :",2),BorderLayout.CENTER);
+		    finalInformationsPanel.add(this.finalWindow.getNewJLabel("No",2),BorderLayout.CENTER);
+		    finalInformationsPanel.add(this.finalWindow.getNewJLabel("Number of rounds :",2),BorderLayout.CENTER);
+		    finalInformationsPanel.add(this.finalWindow.getNewJLabel(""+this.round,2),BorderLayout.CENTER);
+		    finalInformationsPanel.add(this.finalWindow.getNewJLabel("Final grid :",2),BorderLayout.CENTER);
+
+		    this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
+		    this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));
+		    this.finalWindow.getJLabelByText("Exit found :").setBackground(new Color(50,50,50));
+	    	this.finalWindow.getJLabelByText("Number of rounds :").setBackground(new Color(50,50,50));
+	    	this.finalWindow.getJLabelByText("Final grid :").setBackground(new Color(50,50,50));
+
+		    Panel finalGrid = new Panel();
+		    finalGrid.setLayout(new GridLayout(this.gridSize,this.gridSize));
+
+		    Color color;
+		    for(int i = 0; i < this.gridSize * this.gridSize; i++){
+
+		    	if((gridSize % 2) == 0){
+
+		    		if(((i + (i / gridSize)) % 2) == 0){
+
+			        	color = new Color(240,240,240);
+			        }else{
+
+			        	color = new Color(255,255,255);
+			        }
+			    }else{
+
+			        if((i % 2) == 0){
+
+			        	color = new Color(240,240,240);
+			        }else{
+
+			        	color = new Color(255,255,255);
+			    	}
+			    }
+
+		    	Panel panel = new Panel(i,color,this.finalWindow.getHeight() / 4);
+		    	finalGrid.add(panel,BorderLayout.CENTER);
+		    	panel.setType(this.simulationWindow.getPanelByID(i).getType(),this.gridSize);
+		    }
+
+		    finalInformationsPanel.add(finalGrid,BorderLayout.CENTER);
+
+	    	this.finalWindow.add(finalInformationsPanel,BorderLayout.CENTER);
+
+			this.finalWindow.setVisible(true);
 		}else{
 
 			this.nextRound();

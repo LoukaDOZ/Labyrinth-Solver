@@ -11,20 +11,29 @@ public class Panel extends JPanel{
 	private JLabel label;
 	private int containerHeight;
 
-	public Panel(){}
+	public Panel(){
+
+		super();
+	}
 
 	public Panel(int containerHeight){
+
+		super();
 
 		this.containerHeight = containerHeight;
 	}
 
 	public Panel(GridActionManagement gridActionManagement, int containerHeight){
 
+		super();
+
 		this.gridActionManagement = gridActionManagement;
 		this.containerHeight = containerHeight;
 	}
 
 	public Panel(int id, Color color, int containerHeight){
+
+		super();
 
 		this.containerHeight = containerHeight;
 
