@@ -215,7 +215,7 @@ public class Window extends JFrame{
   }
 
   //Return an array of all case type from the grid, the initial grid was made rows by rows, this array contain types columns by columns
-  public int[] getPanelTypeAsAnArray(int gridSize){
+  public int[] getGridAsAnArray(int gridSize){
 
     int[] typeArray = new int[gridSize * gridSize];
     int[][] convertArray = new int[gridSize][gridSize];

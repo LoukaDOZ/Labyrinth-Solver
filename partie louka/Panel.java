@@ -9,24 +9,24 @@ public class Panel extends JPanel{
 	private GridActionManagement gridActionManagement;
 
 	private JLabel label;
-	private Window window;
+	private int containerHeight;
 
 	public Panel(){}
 
-	public Panel(Window window){
+	public Panel(int containerHeight){
 
-		this.window = window;
+		this.containerHeight = containerHeight;
 	}
 
-	public Panel(GridActionManagement gridActionManagement, Window window){
+	public Panel(GridActionManagement gridActionManagement, int containerHeight){
 
 		this.gridActionManagement = gridActionManagement;
-		this.window = window;
+		this.containerHeight = containerHeight;
 	}
 
-	public Panel(int id, Color color, Window window){
+	public Panel(int id, Color color, int containerHeight){
 
-		this.window = window;
+		this.containerHeight = containerHeight;
 
 		this.id = id;
 		this.type = 0;
@@ -57,7 +57,7 @@ public class Panel extends JPanel{
 		if(type == 2){
 
 			this.setBackground(this.basicColor);
-			this.setImage("Image/player-south.png",gridSize);
+			this.setImage("Image/player.png",gridSize);
 			this.setBackground(new Color(220,220,255));
 		}
 
@@ -71,7 +71,7 @@ public class Panel extends JPanel{
 
 	public void setImage(String source, int gridSize){
 
-		int size = (int)((this.window.getHeight() / gridSize) * 0.8);
+		int size = (int)((this.containerHeight / gridSize) * 0.8);
 
 		this.label.setIcon(new ImageIcon(new ImageIcon(source).getImage().getScaledInstance(size,size,Image.SCALE_DEFAULT)));
 	}
@@ -81,7 +81,7 @@ public class Panel extends JPanel{
 		this.label.setIcon(null);
 	}
 
-	public void setCreatingGrid(Window window, int gridSize, boolean isRandomFill){
+	public void setCreatingGrid(Window window, int containerHeight, int gridSize, boolean isRandomFill){
 
 	    this.setLayout(new GridLayout(gridSize,gridSize));
 
@@ -109,7 +109,7 @@ public class Panel extends JPanel{
 	        }
 	      }
 
-	      Panel panel = new Panel(i,color,window);
+	      Panel panel = new Panel(i,color,containerHeight);
 
 	      if(isRandomFill == true){
 
@@ -135,5 +135,10 @@ public class Panel extends JPanel{
 	public int getID(){
 
 		return this.id;
+	}
+
+	public JLabel getJLabel(){
+
+		return this.label;
 	}
 }

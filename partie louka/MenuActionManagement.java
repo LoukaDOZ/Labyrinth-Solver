@@ -137,9 +137,9 @@ public class MenuActionManagement implements MouseListener{
 
 		if(this.currentSelection.equals("none") == false){
 
-			Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement(),this.mapCreatingWindow);
+			Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement(),this.mapCreatingWindow.getHeight());
 
-			panel.setCreatingGrid(this.mapCreatingWindow,this.size,this.currentSelection.equals("Random fill"));
+			panel.setCreatingGrid(this.mapCreatingWindow,this.mapCreatingWindow.getHeight(),this.size,this.currentSelection.equals("Random fill"));
 
 			this.mapCreatingWindow.add(panel,BorderLayout.CENTER);
 
@@ -325,7 +325,7 @@ public class MenuActionManagement implements MouseListener{
 
 		if((this.currentSelection.equals("Random") == true || this.currentSelection.equals("Determinist") == true) && this.currentSelection2.equals("none") == false){
 
-			this.simulation.startSimulation(this.size,this.mapCreatingWindow.getPanelTypeAsAnArray(this.size),this.currentSelection.equals("Random"),this.currentSelection2.equals("Manual"));
+			this.simulation.startSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"),this.currentSelection2.equals("Manual"));
 			this.algorithmWindow.setVisible(false);
 		}else{
 
