@@ -319,10 +319,10 @@ public class MenuActionManagement implements MouseListener{
 
 	if(this.currentLabel == this.algorithmWindow.getJLabelByText("Done")){
 
-		this.algorithmWindow.setVisible(false);
-
 		if((this.currentSelection.equals("Random") == true || this.currentSelection.equals("Determinist") == true) && this.currentSelection2.equals("none") == false){
 
+			this.algorithmWindow.setVisible(false);
+			
 			if(this.currentSelection2.equals("Automatic") == true){
 
 				AutomaticSimulation simulation = new AutomaticSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"));

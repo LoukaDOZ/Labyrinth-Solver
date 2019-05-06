@@ -2,12 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class AutomaticManagement implements ActionListener{
+public class Pause implements ActionListener{
 
 	private AutomaticSimulation simulation;
 	private Timer timer;
 
-	public AutomaticManagement(AutomaticSimulation simulation){
+	public Pause(AutomaticSimulation simulation){
 
 		super();
 
@@ -19,7 +19,6 @@ public class AutomaticManagement implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 
 		this.timer.stop();
-		this.simulation.move();
-		this.timer.start();
+		this.simulation.startSimulation();
 	}
 }

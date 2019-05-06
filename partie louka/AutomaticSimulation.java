@@ -16,16 +16,17 @@ public class AutomaticSimulation{
 	private int nextPanelID;
 	private int exitID;
 	private boolean isRandom;
+	private int roundsSum;
+	private int numberOfExitFound;
 
 	public AutomaticSimulation(int gridSize, int[] typeArray, boolean isRandom){
 
 		this.typeArray = typeArray;
 		this.gridSize = gridSize;
 		this.isRandom = isRandom;
-		this.round = 0;
 		this.simulationNumber = 1;
-		this.nextDirection = "Undefined";
-		this.nextPanelID = -1;
+		this.roundsSum = 0;
+		this.numberOfExitFound = 0;
 
 		//get usable size of the screen
     	Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -36,7 +37,7 @@ public class AutomaticSimulation{
 		this.optionsWindow = new Window("Your options",windowSizeX,windowSizeY / 4,0,0,true);
 		this.finalWindow = new Window("Simulation ended",windowSizeX,windowSizeY,0,0,true);
 
-		//this.simulationWindow.add(this.simulationWindow.getNewJLabel("Processing simulation...",2),BorderLayout.CENTER);
+		this.simulationWindow.add(this.optionsWindow.getNewJLabel("Processing simulation...",2),BorderLayout.CENTER);
 
 		this.optionsWindow.setGridLayout(2,5);
 
@@ -52,8 +53,6 @@ public class AutomaticSimulation{
 
 		Panel gridPanel = this.getStartingGridPanel(this.optionsWindow,this.gridSize);
 	    this.optionsWindow.add(gridPanel,BorderLayout.CENTER);
-	    gridPanel = this.getStartingGridPanel(this.simulationWindow,this.gridSize);
-	    this.simulationWindow.add(gridPanel,BorderLayout.CENTER);
 
 	    this.optionsWindow.getPanelByType(2).getJLabel().setIcon(null);
 	    this.optionsWindow.getPanelByType(2).setBackground(new Color(0,0,255));
@@ -68,13 +67,25 @@ public class AutomaticSimulation{
 	    	this.optionsWindow.add(this.optionsWindow.getNewJLabel("Determinist",1),BorderLayout.CENTER);
 	    }
 
-		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Manual",1),BorderLayout.CENTER);
-	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(""+this.simulationNumber,1),BorderLayout.CENTER);
+		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Automatic",1),BorderLayout.CENTER);
+	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.simulationNumber+"/100",1),BorderLayout.CENTER);
 
 	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
 
+	    this.newSimulation();
+
 	    this.simulationWindow.setVisible(true);
 		this.optionsWindow.setVisible(true);
+	}
+
+	public void newSimulation(){
+
+		this.round = 0;
+		this.nextDirection = "Undefined";
+		this.nextPanelID = -1;
+
+		this.simulationWindow.removePanelArray();
+		Panel gridPanel = this.getStartingGridPanel(this.simulationWindow,this.gridSize);
 	}
 	
 	public void startSimulation(){
@@ -122,9 +133,21 @@ public class AutomaticSimulation{
 
 	public void endSimulation(boolean exitIsFound){
 
+		if(exitIsFound == true){
+
+			this.numberOfExitFound++;
+			this.roundsSum += this.round;
+		}
+
 		if(this.simulationNumber < 100){
 
+			JLabel simulationNumberLabel = this.optionsWindow.getJLabelByText(this.simulationNumber+"/100");
 			this.simulationNumber++;
+			this.optionsWindow.getJLabelByText((this.simulationNumber - 1)+"/100").setText(this.simulationNumber+"/100");
+
+			this.newSimulation();
+			Pause pause = new Pause(this);
+
 		}else{
 
 			this.optionsWindow.setVisible(false);
@@ -133,18 +156,18 @@ public class AutomaticSimulation{
 			Panel finalInformationsPanel = new Panel();
 			finalInformationsPanel.setLayout(new GridLayout(3,2));
 
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exit found :",2),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel(""+exitIsFound,2),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Number of rounds :",2),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel(""+this.round,2),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Path taken :",2),BorderLayout.CENTER);
+			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exits found :",2),BorderLayout.CENTER);
+			finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.numberOfExitFound+"/100",2),BorderLayout.CENTER);
+			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of rounds to find the exit :",1),BorderLayout.CENTER);
+			finalInformationsPanel.add(this.finalWindow.getNewJLabel(""+((int)(this.roundsSum / 100)),2),BorderLayout.CENTER);
+			finalInformationsPanel.add(this.finalWindow.getNewJLabel("All paths taken :",2),BorderLayout.CENTER);
 
 			this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
 			this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));
-			this.finalWindow.getJLabelByText("Exit found :").setBackground(new Color(50,50,50));
-		    this.finalWindow.getJLabelByText("Number of rounds :").setBackground(new Color(50,50,50));
-		    this.finalWindow.getJLabelByText("Path taken :").setBackground(new Color(255,200,255));
-		    this.finalWindow.getJLabelByText("Path taken :").setForeground(new Color(0,0,0));
+			this.finalWindow.getJLabelByText("Exits found :").setBackground(new Color(50,50,50));
+		    this.finalWindow.getJLabelByText("Average of rounds to find the exit :").setBackground(new Color(50,50,50));
+		    this.finalWindow.getJLabelByText("All paths taken :").setBackground(new Color(255,180,255));
+		    this.finalWindow.getJLabelByText("All paths taken :").setForeground(new Color(0,0,0));
 
 			Panel finalGrid = new Panel();
 			finalGrid.setLayout(new GridLayout(this.gridSize,this.gridSize));
@@ -181,11 +204,11 @@ public class AutomaticSimulation{
 
 			for(i = 0; i < this.passedByArray.length; i++){
 
-				if(this.passedByArray[i] != this.simulationWindow.getPanelByType(2).getID()){
-
-		        	this.finalWindow.getPanelByID(this.passedByArray[i]).setBackground(new Color(255,200,255));
-		        }
+		        this.finalWindow.getPanelByID(this.passedByArray[i]).setBackground(new Color(255,180,255));
 		    }
+
+		    this.optionsWindow.getPanelByType(2).setBackground(new Color(0,0,255));
+		    this.optionsWindow.getPanelByType(3).setBackground(new Color(0,150,0));
 
 			finalInformationsPanel.add(finalGrid,BorderLayout.CENTER);
 
@@ -208,24 +231,32 @@ public class AutomaticSimulation{
 
 				this.nextPanelID = playerPosition - this.gridSize;
 				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
+
+				break;
 			}
 
 			if(direction == 1 && ((playerPosition + 1) % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition + 1).getType() != 1){
 
 				this.nextPanelID = playerPosition + 1;
 				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
+
+				break;
 			}
 
 			if(direction == 2 && playerPosition < ((this.gridSize * this.gridSize) - this.gridSize) && this.simulationWindow.getPanelByID(playerPosition + this.gridSize).getType() != 1){
 
 				this.nextPanelID = playerPosition + this.gridSize;
 				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
+
+				break;
 			}
 
 			if(direction == 3 && (playerPosition % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition - 1).getType() != 1){
 
 				this.nextPanelID = playerPosition - 1;
 				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
+
+				break;
 			}
 		}
 	}
@@ -236,6 +267,8 @@ public class AutomaticSimulation{
 
 	      this.passedByArray = new int[1];
 	      this.passedByArray[this.passedByArray.length - 1] = id;
+
+	      this.optionsWindow.getPanelByID(id).setBackground(new Color(255,180,255));
 	    }else{
 
 	    	boolean alreadyPassedBy = false;
@@ -260,6 +293,8 @@ public class AutomaticSimulation{
 		    	newArray[newArray.length - 1] = id;
 		    	this.passedByArray = new int[newArray.length];
 		    	this.passedByArray = newArray;
+
+		    	this.optionsWindow.getPanelByID(id).setBackground(new Color(255,180,255));
 			}
 	    }
 	}

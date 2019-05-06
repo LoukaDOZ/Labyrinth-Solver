@@ -179,6 +179,11 @@ public class Window extends JFrame{
     }
   }
 
+  public void removePanelArray(){
+
+    this.panelArray = null;
+  }
+
   public JLabel getJLabelByText(String text){
 
     int i;

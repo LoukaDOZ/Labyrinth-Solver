@@ -108,8 +108,13 @@ public class ManualSimulation{
 
 	public void move(){
 
-		this.addPanelPassedBy(this.simulationWindow.getPanelByType(2).getID());
 		this.simulationWindow.getPanelByType(2).setType(0,this.gridSize);
+
+		if(this.simulationWindow.getPanelByType(2).getID() != this.optionsWindow.getPanelByType(2).getID()){
+		
+			this.optionsWindow.getPanelByID(this.simulationWindow.getPanelByType(2).getID()).setBackground(new Color(255,180,255));
+		}
+
 		this.simulationWindow.getPanelByID(this.nextPanelID).setType(2,this.gridSize);
 
 		if(this.simulationWindow.getPanelByType(2).getID() == this.exitID || this.round == 1000){
@@ -177,17 +182,9 @@ public class ManualSimulation{
 
 		   	Panel panel = new Panel(i,color,this.finalWindow.getHeight() / 4);
 		   	finalGrid.add(panel,BorderLayout.CENTER);
-		   	panel.setType(this.simulationWindow.getPanelByID(i).getType(),this.gridSize);
+		   	panel.setBackground(this.optionsWindow.getPanelByID(i).getBackground());
 		   	this.finalWindow.updatePanelArray(panel);
 		}
-
-		for(i = 0; i < this.passedByArray.length; i++){
-
-			if(this.passedByArray[i] != this.simulationWindow.getPanelByType(2).getID()){
-
-	        	this.finalWindow.getPanelByID(this.passedByArray[i]).setBackground(new Color(255,200,255));
-	        }
-	    }
 
 		finalInformationsPanel.add(finalGrid,BorderLayout.CENTER);
 
@@ -208,7 +205,7 @@ public class ManualSimulation{
 			if(direction == 0 && playerPosition > this.gridSize && this.simulationWindow.getPanelByID(playerPosition - this.gridSize).getType() != 1){
 
 				this.nextPanelID = playerPosition - this.gridSize;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
+				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,180,200));
 			
 				return "North";
 			}
@@ -216,7 +213,7 @@ public class ManualSimulation{
 			if(direction == 1 && ((playerPosition + 1) % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition + 1).getType() != 1){
 
 				this.nextPanelID = playerPosition + 1;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
+				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,180,200));
 
 				return "East";
 			}
@@ -237,40 +234,6 @@ public class ManualSimulation{
 				return "West";
 			}
 		}
-	}
-
-	public void addPanelPassedBy(int id){
-
-		if(this.passedByArray == null){
-
-	      this.passedByArray = new int[1];
-	      this.passedByArray[this.passedByArray.length - 1] = id;
-	    }else{
-
-	    	boolean alreadyPassedBy = false;
-
-	    	for(int i = 0; i < this.passedByArray.length; i++){
-
-	        	if(this.passedByArray[i] == id){
-
-	        		alreadyPassedBy = true;
-	        	}
-	    	}
-
-	    	if(alreadyPassedBy == false){
-
-	    		int[] newArray = new int[this.passedByArray.length + 1];
-
-		    	for(int i = 0; i < this.passedByArray.length; i++){
-
-		        	newArray[i] = this.passedByArray[i];
-		    	}
-
-		    	newArray[newArray.length - 1] = id;
-		    	this.passedByArray = new int[newArray.length];
-		    	this.passedByArray = newArray;
-			}
-	    }
 	}
 
 	public Panel getStartingGridPanel(Window window,int gridSize){
