@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Simulation{
+public class AutomaticSimulation{
 
 	private Window simulationWindow;
 	private Window optionsWindow;
@@ -16,7 +16,7 @@ public class Simulation{
 	private int exitID;
 	private boolean isRandom;
 
-	public Simulation(){
+	public AutomaticSimulation(){
 
 		//get usable size of the screen
     	Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();

@@ -14,8 +14,6 @@ public class MenuActionManagement implements MouseListener{
 	private Window mapCreatingWindow;
 	private Window algorithmWindow;
 
-	private Simulation simulation;
-
 	public MenuActionManagement(Window welcomeWindow, Window createWindow, Window mapCreatingWindow, Window algorithmWindow){
 
 		this.currentSelection = "none";
@@ -26,8 +24,6 @@ public class MenuActionManagement implements MouseListener{
 		this.createWindow = createWindow;
 		this.mapCreatingWindow = mapCreatingWindow;
 		this.algorithmWindow = algorithmWindow;
-
-		this.simulation = new Simulation();
 	}
 
 	public int getGridSize(){
@@ -323,10 +319,19 @@ public class MenuActionManagement implements MouseListener{
 
 	if(this.currentLabel == this.algorithmWindow.getJLabelByText("Done")){
 
+		this.algorithmWindow.setVisible(false);
+
 		if((this.currentSelection.equals("Random") == true || this.currentSelection.equals("Determinist") == true) && this.currentSelection2.equals("none") == false){
 
-			this.simulation.startSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"),this.currentSelection2.equals("Manual"));
-			this.algorithmWindow.setVisible(false);
+			if(this.currentSelection2.equals("Automatic") == true){
+
+				//AutomaticSimulation simulation = new AutomaticSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"));
+				//simulation.startSimulation();
+			}else{
+
+				ManualSimulation simulation = new ManualSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"));
+				simulation.startSimulation();
+			}
 		}else{
 
 			Window chooseWindow = new Window("Please choose something",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);

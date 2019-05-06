@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Simulation{
+public class ManualSimulation{
 
 	private Window simulationWindow;
 	private Window optionsWindow;
@@ -16,7 +16,14 @@ public class Simulation{
 	private int exitID;
 	private boolean isRandom;
 
-	public Simulation(){
+	public ManualSimulation(int gridSize, int[] typeArray, boolean isRandom){
+
+		this.typeArray = typeArray;
+		this.gridSize = gridSize;
+		this.isRandom = isRandom;
+		this.round = 0;
+		this.nextDirection = "Undefined";
+		this.nextPanelID = -1;
 
 		//get usable size of the screen
     	Dimension dimension = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -41,23 +48,8 @@ public class Simulation{
 	    this.optionsWindow.getJLabelByText("Next direction :").setBackground(new Color(255,200,200));
 	    this.optionsWindow.getJLabelByText("Round :").setBackground(new Color(50,50,50));
 
-	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
-
-		this.round = 0;
-		this.nextDirection = "Undefined";
-		this.nextPanelID = -1;
-	}
-	
-	public void startSimulation(int gridSize, int[] typeArray, boolean isRandom, boolean isManual){
-
-		this.typeArray = typeArray;
-		this.gridSize = gridSize;
-		this.isRandom = isRandom;
-
-		this.optionsWindow.setGridLayout(2,3);
-
-		Panel optionsGridPanel = this.getStartingGridPanel(this.optionsWindow,this.gridSize);
-	    this.optionsWindow.add(optionsGridPanel,BorderLayout.CENTER);
+		Panel gridPanel = this.getStartingGridPanel(this.optionsWindow,this.gridSize);
+	    this.optionsWindow.add(gridPanel,BorderLayout.CENTER);
 
 	    this.optionsWindow.getPanelByType(2).getJLabel().setIcon(null);
 	    this.optionsWindow.getPanelByType(2).setBackground(new Color(0,0,255));
@@ -72,43 +64,27 @@ public class Simulation{
 	    	this.optionsWindow.add(this.optionsWindow.getNewJLabel("Determinist",1),BorderLayout.CENTER);
 	    }
 
-	    if(isManual == true){
-
-	    	this.optionsWindow.add(this.optionsWindow.getNewJLabel("Manual",1),BorderLayout.CENTER);
-	    }else{
-
-	    	this.optionsWindow.add(this.optionsWindow.getNewJLabel("Automatic",1),BorderLayout.CENTER);
-	    }
-
+		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Manual",1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.nextDirection,1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(""+this.round,1),BorderLayout.CENTER);
 
-		if(isManual == true){
+	    Panel sgridPanel = this.getStartingGridPanel(this.simulationWindow,this.gridSize);
+	    this.simulationWindow.add(sgridPanel,BorderLayout.CENTER);
 
-			ManualManagement keyPressedManagement = new ManualManagement(this);
-			this.simulationWindow.addKeyListener(keyPressedManagement);
-			this.optionsWindow.addKeyListener(keyPressedManagement);
+	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
 
-			Panel simulationGridPanel = this.getStartingGridPanel(this.simulationWindow,this.gridSize);
-			this.simulationWindow.add(simulationGridPanel,BorderLayout.CENTER);
-			this.simulationWindow.setVisible(true);
+	    ManualManagement keyPressedManagement = new ManualManagement(this);
+		this.simulationWindow.addKeyListener(keyPressedManagement);
+		this.optionsWindow.addKeyListener(keyPressedManagement);
+	}
+	
+	public void startSimulation(){
 
-			this.optionsWindow.setVisible(true);
+		this.simulationWindow.setVisible(true);
+		this.optionsWindow.setVisible(true);
 
-			this.exitID = this.simulationWindow.getPanelByType(3).getID();
-			this.nextRound();
-		}else{
-
-			Panel simulationGridPanel = this.getStartingGridPanel(this.simulationWindow,this.gridSize);
-			this.simulationWindow.add(this.simulationWindow.getNewJLabel("Processing simulation",2),BorderLayout.CENTER);
-			this.simulationWindow.setVisible(true);
-
-			this.optionsWindow.setVisible(true);
-
-			this.exitID = this.simulationWindow.getPanelByType(3).getID();
-			this.nextRound();
-			AutomaticManagement automaticManagement = new AutomaticManagement(this);
-		}	
+		this.exitID = this.simulationWindow.getPanelByType(3).getID();
+		this.nextRound();	
 	}
 
 	public void nextRound(){

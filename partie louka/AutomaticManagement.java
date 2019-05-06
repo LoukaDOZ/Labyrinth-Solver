@@ -12,7 +12,7 @@ public class AutomaticManagement implements ActionListener{
 		super();
 
 		this.simulation = simulation;
-		this.timer = new Timer(500,this);
+		this.timer = new Timer(50,this);
 		this.timer.start();
 	}
 

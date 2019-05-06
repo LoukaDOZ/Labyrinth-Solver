@@ -4,9 +4,9 @@ import java.awt.event.*;
 
 public class ManualManagement implements KeyListener{
 
-	private Simulation simulation;
+	private ManualSimulation simulation;
 
-	public ManualManagement(Simulation simulation) {
+	public ManualManagement(ManualSimulation simulation) {
 
 		super();
 
