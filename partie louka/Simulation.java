@@ -83,9 +83,9 @@ public class Simulation{
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.nextDirection,1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(""+this.round,1),BorderLayout.CENTER);
 
-		if(isManual == true){
+		/*if(isManual == true){
 
-			ManualManagement keyPressedManagement = new ManualManagement(this);
+			//ManualManagement keyPressedManagement = new ManualManagement(this);
 			this.simulationWindow.addKeyListener(keyPressedManagement);
 			this.optionsWindow.addKeyListener(keyPressedManagement);
 
@@ -107,8 +107,8 @@ public class Simulation{
 
 			this.exitID = this.simulationWindow.getPanelByType(3).getID();
 			this.nextRound();
-			AutomaticManagement automaticManagement = new AutomaticManagement(this);
-		}	
+			//AutomaticManagement automaticManagement = new AutomaticManagement(this);
+		}	*/
 	}
 
 	public void nextRound(){

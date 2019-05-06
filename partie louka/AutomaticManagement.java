@@ -4,15 +4,15 @@ import java.awt.event.*;
 
 public class AutomaticManagement implements ActionListener{
 
-	private Simulation simulation;
+	private AutomaticSimulation simulation;
 	private Timer timer;
 
-	public AutomaticManagement(Simulation simulation){
+	public AutomaticManagement(AutomaticSimulation simulation){
 
 		super();
 
 		this.simulation = simulation;
-		this.timer = new Timer(50,this);
+		this.timer = new Timer(10,this);
 		this.timer.start();
 	}
 
