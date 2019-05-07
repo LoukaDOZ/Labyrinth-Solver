@@ -7,17 +7,32 @@ public class ManualSimulation{
 	private Window optionsWindow;
 	private Window finalWindow;
 
+	private Algorithm algorithm;
+
 	private int[] typeArray;
 	private int[] passedByArray;
-	private String nextDirection;
+	private int maxRounds;
 	private int round;
 	private int gridSize;
 	private int nextPanelID;
 	private int exitID;
+
+	private String nextDirection;
+	private String maxRoundsString;
+
 	private boolean isRandom;
 
-	public ManualSimulation(int gridSize, int[] typeArray, boolean isRandom){
+	public ManualSimulation(int gridSize, int[] typeArray, boolean isRandom, String maxRounds){
 
+		if(maxRounds.equals("inf")){
+
+			this.maxRounds = -1;
+		}else{
+
+			this.maxRounds = Integer.parseInt(maxRounds);
+		}
+
+		this.maxRoundsString = maxRounds;
 		this.typeArray = typeArray;
 		this.gridSize = gridSize;
 		this.isRandom = isRandom;
@@ -68,19 +83,30 @@ public class ManualSimulation{
 
 		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Manual",1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.nextDirection,1),BorderLayout.CENTER);
-	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(""+this.round,1),BorderLayout.CENTER);
+
+	    if(this.maxRounds != -1){
+
+	    	this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.round+"/"+this.maxRoundsString,1),BorderLayout.CENTER);
+	    }else{
+
+	    	this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.round+"/"+this.maxRoundsString,1),BorderLayout.CENTER);
+	    }
 
 	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
 
 	    ManualManagement keyPressedManagement = new ManualManagement(this);
 		this.simulationWindow.addKeyListener(keyPressedManagement);
 		this.optionsWindow.addKeyListener(keyPressedManagement);
-	}
-	
-	public void startSimulation(){
+
+		this.algorithm = new Algorithm(isRandom,this);
 
 		this.simulationWindow.setVisible(true);
 		this.optionsWindow.setVisible(true);
+
+		Pause pause = new Pause(this);
+	}
+	
+	public void startSimulation(){
 
 		this.exitID = this.simulationWindow.getPanelByType(3).getID();
 		this.nextRound();	
@@ -89,20 +115,11 @@ public class ManualSimulation{
 	public void nextRound(){
 
 		this.round++;
-		this.optionsWindow.getJLabelByText(""+(this.round - 1)).setText(""+this.round);
-
-		this.setNextDirection();
-	}
-
-	public void setNextDirection(){
+		this.optionsWindow.getJLabelByText((this.round - 1)+"/"+this.maxRoundsString).setText(this.round+"/"+this.maxRoundsString);
 
 		JLabel currentDirection = this.optionsWindow.getJLabelByText(this.nextDirection);
 
-		if(this.isRandom == true){
-
-			this.nextDirection = this.getRandomDirection();
-		}
-
+		this.nextDirection = this.algorithm.getDirection();
 		currentDirection.setText(this.nextDirection);
 	}
 
@@ -110,16 +127,11 @@ public class ManualSimulation{
 
 		this.simulationWindow.getPanelByType(2).setType(0,this.gridSize);
 
-		if(this.simulationWindow.getPanelByType(2).getID() != this.optionsWindow.getPanelByType(2).getID()){
-		
-			this.optionsWindow.getPanelByID(this.simulationWindow.getPanelByType(2).getID()).setBackground(new Color(255,180,255));
-		}
-
 		this.simulationWindow.getPanelByID(this.nextPanelID).setType(2,this.gridSize);
 
-		if(this.simulationWindow.getPanelByType(2).getID() == this.exitID || this.round == 1000){
+		if(this.simulationWindow.getPanelByType(2).getID() == this.exitID || this.round == this.maxRounds){
 
-			if(this.round == 1000){
+			if(this.round == this.maxRounds){
 
 				this.endSimulation(false);
 			}else{
@@ -138,102 +150,21 @@ public class ManualSimulation{
 		this.simulationWindow.setVisible(false);
 
 		Panel finalInformationsPanel = new Panel();
-		finalInformationsPanel.setLayout(new GridLayout(3,2));
+		finalInformationsPanel.setLayout(new GridLayout(2,2));
 
 		finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exit found :",2),BorderLayout.CENTER);
 		finalInformationsPanel.add(this.finalWindow.getNewJLabel(""+exitIsFound,2),BorderLayout.CENTER);
 		finalInformationsPanel.add(this.finalWindow.getNewJLabel("Number of rounds :",2),BorderLayout.CENTER);
-		finalInformationsPanel.add(this.finalWindow.getNewJLabel(""+this.round,2),BorderLayout.CENTER);
-		finalInformationsPanel.add(this.finalWindow.getNewJLabel("Path taken :",2),BorderLayout.CENTER);
+		finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.round+"/"+this.maxRoundsString,2),BorderLayout.CENTER);
 
 		this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
 		this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));
 		this.finalWindow.getJLabelByText("Exit found :").setBackground(new Color(50,50,50));
 	    this.finalWindow.getJLabelByText("Number of rounds :").setBackground(new Color(50,50,50));
-	    this.finalWindow.getJLabelByText("Path taken :").setBackground(new Color(255,200,255));
-	    this.finalWindow.getJLabelByText("Path taken :").setForeground(new Color(0,0,0));
-
-		Panel finalGrid = new Panel();
-		finalGrid.setLayout(new GridLayout(this.gridSize,this.gridSize));
-
-		Color color;
-		int i;
-		for(i = 0; i < this.gridSize * this.gridSize; i++){
-
-		  	if((gridSize % 2) == 0){
-
-		   		if(((i + (i / gridSize)) % 2) == 0){
-
-		        	color = new Color(240,240,240);
-		        }else{
-
-		        	color = new Color(255,255,255);
-		        }
-		    }else{
-
-		        if((i % 2) == 0){
-
-		        	color = new Color(240,240,240);
-		        }else{
-
-		        	color = new Color(255,255,255);
-		    	}
-		    }
-
-		   	Panel panel = new Panel(i,color,this.finalWindow.getHeight() / 4);
-		   	finalGrid.add(panel,BorderLayout.CENTER);
-		   	panel.setBackground(this.optionsWindow.getPanelByID(i).getBackground());
-		   	this.finalWindow.updatePanelArray(panel);
-		}
-
-		finalInformationsPanel.add(finalGrid,BorderLayout.CENTER);
 
 	    this.finalWindow.add(finalInformationsPanel,BorderLayout.CENTER);
 
 		this.finalWindow.setVisible(true);
-	}
-
-	public String getRandomDirection(){
-
-		int direction;
-		int playerPosition = this.simulationWindow.getPanelByType(2).getID();
-
-		while(true){
-
-			direction = (int)(Math.random() * 4);
-
-			if(direction == 0 && playerPosition > this.gridSize && this.simulationWindow.getPanelByID(playerPosition - this.gridSize).getType() != 1){
-
-				this.nextPanelID = playerPosition - this.gridSize;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,180,200));
-			
-				return "North";
-			}
-
-			if(direction == 1 && ((playerPosition + 1) % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition + 1).getType() != 1){
-
-				this.nextPanelID = playerPosition + 1;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,180,200));
-
-				return "East";
-			}
-
-			if(direction == 2 && playerPosition < ((this.gridSize * this.gridSize) - this.gridSize) && this.simulationWindow.getPanelByID(playerPosition + this.gridSize).getType() != 1){
-
-				this.nextPanelID = playerPosition + this.gridSize;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
-			
-				return "South";
-			}
-
-			if(direction == 3 && (playerPosition % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition - 1).getType() != 1){
-
-				this.nextPanelID = playerPosition - 1;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
-			
-				return "West";
-			}
-		}
 	}
 
 	public Panel getStartingGridPanel(Window window,int gridSize){
@@ -250,5 +181,25 @@ public class ManualSimulation{
 	    }
 
 	    return gridPanel;
+	}
+
+	public Window getSimulationWindow(){
+
+		return this.simulationWindow;
+	}
+
+	public int getGridSize(){
+
+		return this.gridSize;
+	}
+
+	public int getNextPanelID(){
+
+		return this.nextPanelID;
+	}
+
+	public void setNextPanelID(int id){
+
+		this.nextPanelID = id;
 	}
 }

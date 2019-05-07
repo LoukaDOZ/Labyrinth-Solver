@@ -325,12 +325,10 @@ public class MenuActionManagement implements MouseListener{
 			
 			if(this.currentSelection2.equals("Automatic") == true){
 
-				AutomaticSimulation simulation = new AutomaticSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"));
-				simulation.startSimulation();
+				AutomaticSimulation simulation = new AutomaticSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"),this.algorithmWindow.getJTextAreaByOrderOfArrival(1).getText());
 			}else{
 
-				ManualSimulation simulation = new ManualSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"));
-				simulation.startSimulation();
+				ManualSimulation simulation = new ManualSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"),this.algorithmWindow.getJTextAreaByOrderOfArrival(1).getText());
 			}
 		}else{
 

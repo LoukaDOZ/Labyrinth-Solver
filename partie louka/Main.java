@@ -57,7 +57,9 @@ public class Main {
 		panel.add(mapCreatingWindow.getNewJLabel("Done","MenuActionManagement",1));
 		mapCreatingWindow.add(panel,BorderLayout.WEST);
 
-		algorithmWindow.setGridLayout(7,1);
+		algorithmWindow.setGridLayout(9,1);
+		algorithmWindow.add(algorithmWindow.getNewJLabel("Choose a maximum of rounds :",2),BorderLayout.CENTER);
+		algorithmWindow.add(algorithmWindow.getNewJTextArea("inf"),BorderLayout.CENTER);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Choose an algorithm :",2),BorderLayout.CENTER);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Random","MenuActionManagement",2),BorderLayout.CENTER);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Determinist","MenuActionManagement",2),BorderLayout.CENTER);

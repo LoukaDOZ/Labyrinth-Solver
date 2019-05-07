@@ -130,7 +130,7 @@ public class Window extends JFrame{
     JTextArea textArea = new JTextArea(text);
 
     textArea.setFont(new Font("corps",1,this.getWidth() / 25));
-    textArea.addMouseListener(new JTextAreaManagement());
+    textArea.addMouseListener(new JTextAreaManagement(this));
 
     this.updateJTextAreaArray(textArea);
 
@@ -244,7 +244,7 @@ public class Window extends JFrame{
     return typeArray;
   }
 
-  public JTextArea getJTextAreaByArrivedOrder(int order){
+  public JTextArea getJTextAreaByOrderOfArrival(int order){
 
     return this.textAreaArray[order - 1];
   }

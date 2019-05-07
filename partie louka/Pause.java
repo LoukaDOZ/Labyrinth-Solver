@@ -4,14 +4,24 @@ import java.awt.event.*;
 
 public class Pause implements ActionListener{
 
-	private AutomaticSimulation simulation;
+	private ManualSimulation manualSimulation;
+	private AutomaticSimulation automaticSimulation;
 	private Timer timer;
 
-	public Pause(AutomaticSimulation simulation){
+	public Pause(ManualSimulation manualSimulation){
 
 		super();
 
-		this.simulation = simulation;
+		this.manualSimulation = manualSimulation;
+		this.timer = new Timer(10,this);
+		this.timer.start();
+	}
+
+	public Pause(AutomaticSimulation automaticSimulation){
+
+		super();
+
+		this.automaticSimulation = automaticSimulation;
 		this.timer = new Timer(10,this);
 		this.timer.start();
 	}
@@ -19,6 +29,13 @@ public class Pause implements ActionListener{
 	public void actionPerformed(ActionEvent e){
 
 		this.timer.stop();
-		this.simulation.startSimulation();
+
+		if(this.automaticSimulation == null){
+
+			this.manualSimulation.startSimulation();
+		}else{
+
+			this.automaticSimulation.startSimulation();
+		}
 	}
 }
