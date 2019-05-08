@@ -9,28 +9,29 @@ public class Algorithm{
 	private Window simulationWindow;
 
 	private boolean isRandom;
+	private boolean isManual;
 
 	private int[] map;
 	private int gridSize;
 	private int nextPanelID;
 
-	public Algorithm(boolean isRandom, ManualSimulation manualSimulation){
+	public Algorithm(boolean isRandom,ManualSimulation manualSimulation,Window simulationWindow,int gridSize){
 
 		this.isRandom = isRandom;
+		this.isManual = true;
 		this.manualSimulation = manualSimulation;
-		this.simulationWindow = this.manualSimulation.getSimulationWindow();
-		this.gridSize = this.manualSimulation.getGridSize();
-		this.nextPanelID = this.manualSimulation.getNextPanelID();
+		this.simulationWindow = simulationWindow;
+		this.gridSize = gridSize;
 		this.map = new int[this.gridSize * this.gridSize];
 	}
 
-	public Algorithm(boolean isRandom, AutomaticSimulation automaticSimulation){
+	public Algorithm(boolean isRandom,AutomaticSimulation automaticSimulation,Window simulationWindow,int gridSize){
 
 		this.isRandom = isRandom;
+		this.isManual = false;
 		this.automaticSimulation = automaticSimulation;
-		this.simulationWindow = this.automaticSimulation.getSimulationWindow();
-		this.gridSize = this.automaticSimulation.getGridSize();
-		this.nextPanelID = this.automaticSimulation.getNextPanelID();
+		this.simulationWindow = simulationWindow;
+		this.gridSize = gridSize;
 		this.map = new int[this.gridSize * this.gridSize];
 	}
 
@@ -91,19 +92,108 @@ public class Algorithm{
 	public String getDeterministDirection(){
 
 		int playerPosition = this.simulationWindow.getPanelByType(2).getID();
-		String path = this.getTheLessExploredPath(playerPosition);
 
-		return path;
-	}
-
-	public String getTheLessExploredPath(int playerPosition){
+		int northCase = -2;
+		int southCase = -2;
+		int eastCase = -2;
+		int westCase = -2;
+		String direction = "Undefined";
 
 		this.lookAround(playerPosition);
 
-		return "";
+		if(playerPosition > this.gridSize){
+
+			northCase = this.map[playerPosition - this.gridSize];
+		}
+
+		if(((playerPosition + 1) % this.gridSize) != 0){
+
+			eastCase = this.map[playerPosition + 1];
+		}
+
+		if(playerPosition < ((this.gridSize * this.gridSize) - this.gridSize)){
+
+			southCase = this.map[playerPosition + this.gridSize];
+		}
+
+		if((playerPosition % this.gridSize) != 0){
+
+			westCase = this.map[playerPosition - 1];
+		}
+
+		for(int i = 0; i < 1; i++){
+
+			if(northCase >= -1 && (eastCase == -2 || northCase <= eastCase) && (southCase == -2 || northCase <= southCase) && (westCase == -2 || northCase <= westCase)){
+
+				if(this.isManual == true){
+
+					this.manualSimulation.setNextPanelID(playerPosition - this.gridSize);
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				}else{
+
+					this.automaticSimulation.setNextPanelID(playerPosition - this.gridSize);
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				}
+
+				direction = "North";
+				break;
+			}
+
+			if(eastCase >= -1 && (northCase == -2 || eastCase <= northCase) && (southCase == -2 || eastCase <= southCase) && (westCase == -2 || eastCase <= westCase)){
+
+				if(this.isManual == true){
+
+					this.manualSimulation.setNextPanelID(playerPosition + 1);
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				}else{
+
+					this.automaticSimulation.setNextPanelID(playerPosition + 1);
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				}
+
+				direction = "East";
+				break;
+			}
+
+			if(southCase >= -1 && (northCase == -2 || southCase <= northCase) && (eastCase == -2 || southCase <= eastCase) && (westCase == -2 || southCase <= westCase)){
+
+				if(this.isManual == true){
+
+					this.manualSimulation.setNextPanelID(playerPosition + this.gridSize);
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				}else{
+
+					this.automaticSimulation.setNextPanelID(playerPosition + this.gridSize);
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				}
+
+				direction = "South";
+				break;
+			}
+
+			if(westCase >= -1 && (northCase == -2 || westCase <= northCase) && (eastCase == -2 || westCase <= eastCase) && (southCase == -2 || westCase <= southCase)){
+
+				if(this.isManual == true){
+
+					this.manualSimulation.setNextPanelID(playerPosition - 1);
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				}else{
+
+					this.automaticSimulation.setNextPanelID(playerPosition - 1);
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				}
+
+				direction = "West";
+				break;
+			}
+		}
+
+		return direction;
 	}
 
 	public void lookAround(int playerPosition){
+
+		this.map[playerPosition]++;
 
 	    if(playerPosition > this.gridSize){
 

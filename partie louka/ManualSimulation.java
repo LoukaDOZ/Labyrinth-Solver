@@ -98,7 +98,7 @@ public class ManualSimulation{
 		this.simulationWindow.addKeyListener(keyPressedManagement);
 		this.optionsWindow.addKeyListener(keyPressedManagement);
 
-		this.algorithm = new Algorithm(isRandom,this);
+		this.algorithm = new Algorithm(isRandom,this,simulationWindow,this.gridSize);
 
 		this.simulationWindow.setVisible(true);
 		this.optionsWindow.setVisible(true);
@@ -126,7 +126,6 @@ public class ManualSimulation{
 	public void move(){
 
 		this.simulationWindow.getPanelByType(2).setType(0,this.gridSize);
-
 		this.simulationWindow.getPanelByID(this.nextPanelID).setType(2,this.gridSize);
 
 		if(this.simulationWindow.getPanelByType(2).getID() == this.exitID || this.round == this.maxRounds){
@@ -183,23 +182,13 @@ public class ManualSimulation{
 	    return gridPanel;
 	}
 
-	public Window getSimulationWindow(){
+	public void setNextPanelID(int id){
 
-		return this.simulationWindow;
-	}
-
-	public int getGridSize(){
-
-		return this.gridSize;
+		this.nextPanelID = id;
 	}
 
 	public int getNextPanelID(){
 
 		return this.nextPanelID;
-	}
-
-	public void setNextPanelID(int id){
-
-		this.nextPanelID = id;
 	}
 }

@@ -90,7 +90,7 @@ public class AutomaticSimulation{
 
 	    this.newSimulation();
 
-	    this.algorithm = new Algorithm(isRandom,this);
+	    this.algorithm = new Algorithm(isRandom,this,simulationWindow,this.gridSize);
 
 	    this.simulationWindow.setVisible(true);
 		this.optionsWindow.setVisible(true);
@@ -243,23 +243,13 @@ public class AutomaticSimulation{
 	    return gridPanel;
 	}
 
-	public Window getSimulationWindow(){
+	public void setNextPanelID(int id){
 
-		return this.simulationWindow;
-	}
-
-	public int getGridSize(){
-
-		return this.gridSize;
+		this.nextPanelID = id;
 	}
 
 	public int getNextPanelID(){
 
 		return this.nextPanelID;
-	}
-
-	public void setNextPanelID(int id){
-
-		this.nextPanelID = id;
 	}
 }
