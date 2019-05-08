@@ -18,7 +18,7 @@ public class MenuActionManagement implements MouseListener{
 
 		this.currentSelection = "none";
 		this.currentSelection2 = "none";
-		this.size = 20;
+		this.size = 50;
 
 		this.welcomeWindow = welcomeWindow;
 		this.createWindow = createWindow;
@@ -99,7 +99,7 @@ public class MenuActionManagement implements MouseListener{
 
 	if(this.currentLabel == this.createWindow.getJLabelByText("Bigger")){
 
-	  	if(this.size < 40){
+	  	if(this.size < 100){
 
 			this.size++;
 			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.size - 1)+"x"+(this.size - 1)+"] :").setText("Choose the size of the grid ["+this.size+"x"+this.size+"] :");

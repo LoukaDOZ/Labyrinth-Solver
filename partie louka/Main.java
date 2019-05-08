@@ -36,7 +36,7 @@ public class Main {
 		welcomeWindow.add(welcomeWindow.getNewJLabel("Create a grid","MenuActionManagement",2),BorderLayout.CENTER);
 
 		createWindow.setGridLayout(7,1);
-		createWindow.add(createWindow.getNewJLabel("Choose the size of the grid [20x20] :",2),BorderLayout.CENTER);
+		createWindow.add(createWindow.getNewJLabel("Choose the size of the grid [50x50] :",2),BorderLayout.CENTER);
 		createWindow.add(createWindow.getNewJLabel("Bigger","MenuActionManagement",2),BorderLayout.CENTER);
 		createWindow.add(createWindow.getNewJLabel("Smaller","MenuActionManagement",2),BorderLayout.CENTER);
 		createWindow.add(createWindow.getNewJLabel("Choose how to fill the grid :",2),BorderLayout.CENTER);
