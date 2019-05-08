@@ -57,32 +57,60 @@ public class Algorithm{
 
 			if(direction == 0 && playerPosition > this.gridSize && this.simulationWindow.getPanelByID(playerPosition - this.gridSize).getType() != 1){
 			
-				this.manualSimulation.setNextPanelID(playerPosition - this.gridSize);
-				this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				if(this.isManual == true){
+
+					this.manualSimulation.setNextPanelID(playerPosition - this.gridSize);
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				}else{
+
+					this.automaticSimulation.setNextPanelID(playerPosition - this.gridSize);
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				}
 
 				return "North";
 			}
 
 			if(direction == 1 && ((playerPosition + 1) % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition + 1).getType() != 1){
 
-				this.manualSimulation.setNextPanelID(playerPosition + 1);
-				this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				if(this.isManual == true){
+
+					this.manualSimulation.setNextPanelID(playerPosition + 1);
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				}else{
+
+					this.automaticSimulation.setNextPanelID(playerPosition + 1);
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+				}
 
 				return "East";
 			}
 
 			if(direction == 2 && playerPosition < ((this.gridSize * this.gridSize) - this.gridSize) && this.simulationWindow.getPanelByID(playerPosition + this.gridSize).getType() != 1){
 			
-				this.manualSimulation.setNextPanelID(playerPosition + this.gridSize);
-				this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				if(this.isManual == true){
+
+					this.manualSimulation.setNextPanelID(playerPosition + this.gridSize);
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				}else{
+
+					this.automaticSimulation.setNextPanelID(playerPosition + this.gridSize);
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				}
 
 				return "South";
 			}
 
 			if(direction == 3 && (playerPosition % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition - 1).getType() != 1){
 			
-				this.manualSimulation.setNextPanelID(playerPosition - 1);
-				this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				if(this.isManual == true){
+
+					this.manualSimulation.setNextPanelID(playerPosition - 1);
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				}else{
+
+					this.automaticSimulation.setNextPanelID(playerPosition - 1);
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+				}
 
 				return "West";
 			}
@@ -195,7 +223,7 @@ public class Algorithm{
 
 		this.map[playerPosition]++;
 
-	    if(playerPosition > this.gridSize){
+	    if(playerPosition >= this.gridSize){
 
 	    	if(this.simulationWindow.getPanelByID(playerPosition - this.gridSize).getType() == 1){
 			
@@ -205,9 +233,6 @@ public class Algorithm{
 				if(this.simulationWindow.getPanelByID(playerPosition - this.gridSize).getType() == 3){
 			
 					this.map[playerPosition - this.gridSize] = -1;
-				}else{
-
-					this.map[playerPosition - this.gridSize]++;
 				}
 			}
 		}
@@ -222,9 +247,6 @@ public class Algorithm{
 				if(this.simulationWindow.getPanelByID(playerPosition + 1).getType() == 3){
 			
 					this.map[playerPosition + 1] = -1;
-				}else{
-
-					this.map[playerPosition + 1]++;
 				}
 			}
 		}
@@ -239,9 +261,6 @@ public class Algorithm{
 				if(this.simulationWindow.getPanelByID(playerPosition + this.gridSize).getType() == 3){
 			
 					this.map[playerPosition + this.gridSize] = -1;
-				}else{
-
-					this.map[playerPosition + this.gridSize]++;
 				}
 			}
 		}
@@ -256,9 +275,6 @@ public class Algorithm{
 				if(this.simulationWindow.getPanelByID(playerPosition - 1).getType() == 3){
 			
 					this.map[playerPosition - 1] = -1;
-				}else{
-
-					this.map[playerPosition - 1]++;
 				}
 			}
 		}

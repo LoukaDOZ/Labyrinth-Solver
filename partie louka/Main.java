@@ -16,7 +16,7 @@ public class Main {
 
 		Window mapCreatingWindow = new Window("Create your map",windowSizeX,windowSizeY,0,0,true);
 
-		Window algorithmWindow = new Window("Choose algorithm",windowSizeX / 3,windowSizeY / 2,windowSizeX / 3,windowSizeY / 4,true);
+		Window algorithmWindow = new Window("Choose an algorithm",windowSizeX / 3,windowSizeY / 2,windowSizeX / 3,windowSizeY / 4,true);
 
 		MenuActionManagement menuActionManagement = new MenuActionManagement(welcomeWindow,createWindow,mapCreatingWindow,algorithmWindow);
 		GridActionManagement gridActionManagement = new GridActionManagement(mapCreatingWindow);
@@ -59,7 +59,7 @@ public class Main {
 
 		algorithmWindow.setGridLayout(9,1);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Choose a maximum of rounds :",2),BorderLayout.CENTER);
-		algorithmWindow.add(algorithmWindow.getNewJTextArea("inf"),BorderLayout.CENTER);
+		algorithmWindow.add(algorithmWindow.getNewJTextArea("infinite"),BorderLayout.CENTER);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Choose an algorithm :",2),BorderLayout.CENTER);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Random","MenuActionManagement",2),BorderLayout.CENTER);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Determinist","MenuActionManagement",2),BorderLayout.CENTER);

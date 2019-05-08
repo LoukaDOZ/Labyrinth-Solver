@@ -25,14 +25,19 @@ public class JTextAreaManagement implements MouseListener{
 
 		this.currentTextArea = (JTextArea)e.getSource();
 
-		if(this.currentTextArea == this.window.getJTextAreaByOrderOfArrival(1)){
+		if(this.currentTextArea == this.window.getJTextAreaByOrderOfArrival(1) && this.window.getTitle().equals("Choose an algorithm")){
 
 			try{
 
 				int test = Integer.parseInt(this.currentTextArea.getText());
+
+				if(test < 1){
+
+					this.currentTextArea.setText("infinite");
+				}
 			}catch(NumberFormatException ex){
 
-				this.currentTextArea.setText("inf");
+				this.currentTextArea.setText("infinite");
 			}
 		}
 		

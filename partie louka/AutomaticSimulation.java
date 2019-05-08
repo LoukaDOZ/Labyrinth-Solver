@@ -14,6 +14,7 @@ public class AutomaticSimulation{
 	private int maxRounds;
 	private int round;
 	private int gridSize;
+	private int maxSimulationNumber;
 	private int simulationNumber;
 	private int nextPanelID;
 	private int exitID;
@@ -28,7 +29,7 @@ public class AutomaticSimulation{
 
 	public AutomaticSimulation(int gridSize, int[] typeArray, boolean isRandom, String maxRounds){
 
-		if(maxRounds.equals("inf")){
+		if(maxRounds.equals("infinite")){
 
 			this.maxRounds = -1;
 		}else{
@@ -78,13 +79,15 @@ public class AutomaticSimulation{
 	    if(isRandom == true){
 
 	    	this.optionsWindow.add(this.optionsWindow.getNewJLabel("Random",1),BorderLayout.CENTER);
+	    	this.maxSimulationNumber = 100;
 	    }else{
 
 	    	this.optionsWindow.add(this.optionsWindow.getNewJLabel("Determinist",1),BorderLayout.CENTER);
+	    	this.maxSimulationNumber = 1;
 	    }
 
 		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Automatic",1),BorderLayout.CENTER);
-	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.simulationNumber+"/100",1),BorderLayout.CENTER);
+	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.simulationNumber+"/"+this.maxSimulationNumber,1),BorderLayout.CENTER);
 
 	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
 
@@ -151,11 +154,11 @@ public class AutomaticSimulation{
 			this.roundsSum += this.round;
 		}
 
-		if(this.simulationNumber < 100){
+		if(this.simulationNumber < this.maxSimulationNumber){
 
-			JLabel simulationNumberLabel = this.optionsWindow.getJLabelByText(this.simulationNumber+"/100");
+			JLabel simulationNumberLabel = this.optionsWindow.getJLabelByText(this.simulationNumber+"/"+this.maxSimulationNumber);
 			this.simulationNumber++;
-			this.optionsWindow.getJLabelByText((this.simulationNumber - 1)+"/100").setText(this.simulationNumber+"/100");
+			this.optionsWindow.getJLabelByText((this.simulationNumber - 1)+"/"+this.maxSimulationNumber).setText(this.simulationNumber+"/"+this.maxSimulationNumber);
 
 			this.newSimulation();
 			Pause pause = new Pause(this);
@@ -169,9 +172,9 @@ public class AutomaticSimulation{
 			finalInformationsPanel.setLayout(new GridLayout(2,2));
 
 			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exits found :",2),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.numberOfExitFound+"/100",2),BorderLayout.CENTER);
+			finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.numberOfExitFound+"/"+this.maxSimulationNumber,2),BorderLayout.CENTER);
 			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of rounds to find the exit :",1),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel(((int)(this.roundsSum / 100))+"/"+this.maxRoundsString,2),BorderLayout.CENTER);
+			finalInformationsPanel.add(this.finalWindow.getNewJLabel(((int)(this.roundsSum / this.maxSimulationNumber))+"/"+this.maxRoundsString,2),BorderLayout.CENTER);
 
 			this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
 			this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));

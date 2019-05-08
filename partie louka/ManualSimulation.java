@@ -24,7 +24,7 @@ public class ManualSimulation{
 
 	public ManualSimulation(int gridSize, int[] typeArray, boolean isRandom, String maxRounds){
 
-		if(maxRounds.equals("inf")){
+		if(maxRounds.equals("infinite")){
 
 			this.maxRounds = -1;
 		}else{
