@@ -18,7 +18,7 @@ public class MenuActionManagement implements MouseListener{
 
 		this.currentSelection = "none";
 		this.currentSelection2 = "none";
-		this.size = 50;
+		this.size = 20;
 
 		this.welcomeWindow = welcomeWindow;
 		this.createWindow = createWindow;
@@ -133,9 +133,9 @@ public class MenuActionManagement implements MouseListener{
 
 		if(this.currentSelection.equals("none") == false){
 
-			Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement(),this.mapCreatingWindow.getHeight());
+			Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement());
 
-			panel.setCreatingGrid(this.mapCreatingWindow,this.mapCreatingWindow.getHeight(),this.size,this.currentSelection.equals("Random fill"));
+			panel.setNewGrid(this.mapCreatingWindow,this.size,this.currentSelection.equals("Random fill"));
 
 			this.mapCreatingWindow.add(panel,BorderLayout.CENTER);
 
@@ -150,7 +150,7 @@ public class MenuActionManagement implements MouseListener{
 			chooseFillWindow.add(chooseFillWindow.getNewJLabel("",2),BorderLayout.CENTER);
 			chooseFillWindow.setVisible(true);
 
-			TimerPopupWindow timer = new TimerPopupWindow(chooseFillWindow);
+			chooseFillWindow.doPopupAnimation();
 		}
 	}
 
@@ -158,7 +158,7 @@ public class MenuActionManagement implements MouseListener{
 
 		for(int i = 0; i < this.mapCreatingWindow.getTotalPanel(); i++){
 
-			this.mapCreatingWindow.getPanelByID(i).setType(0,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
+			this.mapCreatingWindow.getPanelByID(i).setType(0);
 		}
 	}
 
@@ -166,7 +166,7 @@ public class MenuActionManagement implements MouseListener{
 
 		for(int i = 0; i < this.mapCreatingWindow.getTotalPanel(); i++){
 
-			this.mapCreatingWindow.getPanelByID(i).setType(1,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
+			this.mapCreatingWindow.getPanelByID(i).setType(1);
 		}
 	}
 
@@ -235,14 +235,11 @@ public class MenuActionManagement implements MouseListener{
 			}
 
 			setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
-			setStartExitWindow.setVisible(true);
 
-			TimerPopupWindow timer = new TimerPopupWindow(setStartExitWindow);
+			setStartExitWindow.doPopupAnimation();
 			}else{
 
 			Window saveWindow = new Window("Enter a file name",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
-			SaveActionManagement saveActionManagement = new SaveActionManagement(saveWindow);
-			saveWindow.setManagement(saveActionManagement);
 
 			saveWindow.setGridLayout(4,1);
 			saveWindow.add(saveWindow.getNewJLabel("Please enter the file name :",2),BorderLayout.CENTER);
@@ -278,9 +275,8 @@ public class MenuActionManagement implements MouseListener{
 			}
 
 			setStartExitWindow.add(setStartExitWindow.getNewJLabel("",2),BorderLayout.CENTER);
-			setStartExitWindow.setVisible(true);
-
-			TimerPopupWindow timer = new TimerPopupWindow(setStartExitWindow);
+			
+			setStartExitWindow.doPopupAnimation();
 		}else{
 
 			this.mapCreatingWindow.setVisible(false);
@@ -353,9 +349,8 @@ public class MenuActionManagement implements MouseListener{
 			}
 
 			chooseWindow.add(chooseWindow.getNewJLabel("",2),BorderLayout.CENTER);
-			chooseWindow.setVisible(true);
-
-			TimerPopupWindow timer = new TimerPopupWindow(chooseWindow);
+			
+			chooseWindow.doPopupAnimation();
 		}
 	}
 }

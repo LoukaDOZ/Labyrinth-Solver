@@ -27,32 +27,32 @@ public class GridActionManagement implements MouseListener{
   	
   	if(this.action.equals("Rubber")){
 
-  		this.currentPanel.setType(0,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
+  		this.currentPanel.setType(0);
   	}
 
   	if(this.action.equals("Put a wall")){
 
-  		this.currentPanel.setType(1,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
+  		this.currentPanel.setType(1);
   	}
 
   	if(this.action.equals("Put the start")){
 
   		if(this.mapCreatingWindow.getPanelByType(2) != null){
 
-  			this.mapCreatingWindow.getPanelByType(2).setType(0,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
+  			this.mapCreatingWindow.getPanelByType(2).setType(0);
   		}
 
-  		this.currentPanel.setType(2,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
+  		this.currentPanel.setType(2);
   	}
 
   	if(this.action.equals("Put the exit")){
 
   		if(this.mapCreatingWindow.getPanelByType(3) != null){
 
-  			this.mapCreatingWindow.getPanelByType(3).setType(0,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
+  			this.mapCreatingWindow.getPanelByType(3).setType(0);
   		}
 
-  		this.currentPanel.setType(3,this.mapCreatingWindow.getMenuActionManagement().getGridSize());
+  		this.currentPanel.setType(3);
   	}
 }
 

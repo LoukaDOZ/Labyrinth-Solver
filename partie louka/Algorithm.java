@@ -60,11 +60,11 @@ public class Algorithm{
 				if(this.isManual == true){
 
 					this.manualSimulation.setNextPanelID(playerPosition - this.gridSize);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}else{
 
 					this.automaticSimulation.setNextPanelID(playerPosition - this.gridSize);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}
 
 				return "North";
@@ -75,11 +75,11 @@ public class Algorithm{
 				if(this.isManual == true){
 
 					this.manualSimulation.setNextPanelID(playerPosition + 1);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}else{
 
 					this.automaticSimulation.setNextPanelID(playerPosition + 1);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}
 
 				return "East";
@@ -90,11 +90,11 @@ public class Algorithm{
 				if(this.isManual == true){
 
 					this.manualSimulation.setNextPanelID(playerPosition + this.gridSize);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}else{
 
 					this.automaticSimulation.setNextPanelID(playerPosition + this.gridSize);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}
 
 				return "South";
@@ -105,11 +105,11 @@ public class Algorithm{
 				if(this.isManual == true){
 
 					this.manualSimulation.setNextPanelID(playerPosition - 1);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}else{
 
 					this.automaticSimulation.setNextPanelID(playerPosition - 1);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}
 
 				return "West";
@@ -156,11 +156,10 @@ public class Algorithm{
 				if(this.isManual == true){
 
 					this.manualSimulation.setNextPanelID(playerPosition - this.gridSize);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}else{
 
 					this.automaticSimulation.setNextPanelID(playerPosition - this.gridSize);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
 				}
 
 				direction = "North";
@@ -172,11 +171,10 @@ public class Algorithm{
 				if(this.isManual == true){
 
 					this.manualSimulation.setNextPanelID(playerPosition + 1);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}else{
 
 					this.automaticSimulation.setNextPanelID(playerPosition + 1);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,180,200));
 				}
 
 				direction = "East";
@@ -188,11 +186,10 @@ public class Algorithm{
 				if(this.isManual == true){
 
 					this.manualSimulation.setNextPanelID(playerPosition + this.gridSize);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}else{
 
 					this.automaticSimulation.setNextPanelID(playerPosition + this.gridSize);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
 				}
 
 				direction = "South";
@@ -204,11 +201,10 @@ public class Algorithm{
 				if(this.isManual == true){
 
 					this.manualSimulation.setNextPanelID(playerPosition - 1);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
+					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
 				}else{
 
 					this.automaticSimulation.setNextPanelID(playerPosition - 1);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setBackground(new Color(255,200,200));
 				}
 
 				direction = "West";

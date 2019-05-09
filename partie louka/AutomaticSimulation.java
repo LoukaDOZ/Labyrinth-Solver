@@ -29,15 +29,16 @@ public class AutomaticSimulation{
 
 	public AutomaticSimulation(int gridSize, int[] typeArray, boolean isRandom, String maxRounds){
 
-		if(maxRounds.equals("infinite")){
-
-			this.maxRounds = -1;
-		}else{
+		if(maxRounds.equals("infinite") == false){
 
 			this.maxRounds = Integer.parseInt(maxRounds);
+		}else{
+
+			this.maxRounds = -1;
 		}
 
 		this.maxRoundsString = maxRounds;
+		this.round = 0;
 		this.typeArray = typeArray;
 		this.gridSize = gridSize;
 		this.isRandom = isRandom;
@@ -61,20 +62,16 @@ public class AutomaticSimulation{
 		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Starting grid :",1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel("Algorithm :",1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel("Mode :",1),BorderLayout.CENTER);
+	    this.optionsWindow.add(this.optionsWindow.getNewJLabel("Round max :",1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel("Simulation :",1),BorderLayout.CENTER);
 
 	    this.optionsWindow.getJLabelByText("Starting grid :").setBackground(new Color(50,50,50));
 	    this.optionsWindow.getJLabelByText("Algorithm :").setBackground(new Color(50,50,50));
 	    this.optionsWindow.getJLabelByText("Mode :").setBackground(new Color(50,50,50));
+	    this.optionsWindow.getJLabelByText("Round max :").setBackground(new Color(50,50,50));
 	    this.optionsWindow.getJLabelByText("Simulation :").setBackground(new Color(50,50,50));
 
-		Panel gridPanel = this.getStartingGridPanel(this.optionsWindow,this.gridSize);
-	    this.optionsWindow.add(gridPanel,BorderLayout.CENTER);
-
-	    this.optionsWindow.getPanelByType(2).getJLabel().setIcon(null);
-	    this.optionsWindow.getPanelByType(2).setBackground(new Color(0,0,255));
-	    this.optionsWindow.getPanelByType(3).getJLabel().setIcon(null);
-	    this.optionsWindow.getPanelByType(3).setBackground(new Color(0,150,0));
+		this.optionsWindow.add(this.getStartingGridPanel(this.optionsWindow,this.gridSize),BorderLayout.CENTER);
 
 	    if(isRandom == true){
 
@@ -87,6 +84,7 @@ public class AutomaticSimulation{
 	    }
 
 		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Automatic",1),BorderLayout.CENTER);
+		this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.maxRoundsString,1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.simulationNumber+"/"+this.maxSimulationNumber,1),BorderLayout.CENTER);
 
 	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
@@ -98,7 +96,13 @@ public class AutomaticSimulation{
 	    this.simulationWindow.setVisible(true);
 		this.optionsWindow.setVisible(true);
 
-		Pause pause = new Pause(this);
+		this.pause("start simulation A");
+	}
+
+	public void pause(String pauseType){
+
+		Timer timer = new Timer(10,null);
+    	timer.addActionListener(new TimerManagement(this,timer,pauseType));
 	}
 
 	public void newSimulation(){
@@ -108,7 +112,7 @@ public class AutomaticSimulation{
 		this.nextPanelID = -1;
 
 		this.simulationWindow.removePanelArray();
-		Panel gridPanel = this.getStartingGridPanel(this.simulationWindow,this.gridSize);
+		Panel trash = this.getStartingGridPanel(this.simulationWindow,this.gridSize);
 	}
 	
 	public void startSimulation(){
@@ -128,8 +132,8 @@ public class AutomaticSimulation{
 
 	public void move(){
 
-		this.simulationWindow.getPanelByType(2).setType(0,this.gridSize);
-		this.simulationWindow.getPanelByID(this.nextPanelID).setType(2,this.gridSize);
+		this.simulationWindow.getPanelByType(2).setType(0);
+		this.simulationWindow.getPanelByID(this.nextPanelID).setType(2);
 
 		if(this.simulationWindow.getPanelByType(2).getID() == this.exitID || this.round == this.maxRounds){
 
@@ -142,7 +146,7 @@ public class AutomaticSimulation{
 			}
 		}else{
 
-			this.nextRound();
+			this.pause("next round");
 		}
 	}
 
@@ -151,8 +155,9 @@ public class AutomaticSimulation{
 		if(exitIsFound == true){
 
 			this.numberOfExitFound++;
-			this.roundsSum += this.round;
 		}
+
+		this.roundsSum += this.round;
 
 		if(this.simulationNumber < this.maxSimulationNumber){
 
@@ -161,7 +166,7 @@ public class AutomaticSimulation{
 			this.optionsWindow.getJLabelByText((this.simulationNumber - 1)+"/"+this.maxSimulationNumber).setText(this.simulationNumber+"/"+this.maxSimulationNumber);
 
 			this.newSimulation();
-			Pause pause = new Pause(this);
+			this.pause("start simulation A");
 
 		}else{
 
@@ -173,13 +178,13 @@ public class AutomaticSimulation{
 
 			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exits found :",2),BorderLayout.CENTER);
 			finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.numberOfExitFound+"/"+this.maxSimulationNumber,2),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of rounds to find the exit :",1),BorderLayout.CENTER);
+			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of rounds (all) :",2),BorderLayout.CENTER);
 			finalInformationsPanel.add(this.finalWindow.getNewJLabel(((int)(this.roundsSum / this.maxSimulationNumber))+"/"+this.maxRoundsString,2),BorderLayout.CENTER);
 
 			this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
 			this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));
 			this.finalWindow.getJLabelByText("Exits found :").setBackground(new Color(50,50,50));
-		    this.finalWindow.getJLabelByText("Average of rounds to find the exit :").setBackground(new Color(50,50,50));
+		    this.finalWindow.getJLabelByText("Average of rounds (all) :").setBackground(new Color(50,50,50));
 
 		    this.finalWindow.add(finalInformationsPanel,BorderLayout.CENTER);
 
@@ -232,14 +237,14 @@ public class AutomaticSimulation{
 
 	public Panel getStartingGridPanel(Window window,int gridSize){
 
-		Panel gridPanel = new Panel(window.getHeight());
-		gridPanel.setCreatingGrid(window,window.getHeight(),this.gridSize,false);
+		Panel gridPanel = new Panel();
+		gridPanel.setNewGrid(window,this.gridSize,false);
 
 		for(int i = 0; i < this.gridSize; i++){
 
 	      for(int j = 0; j < this.gridSize; j++){
 
-	        window.getPanelByID(j + (i * this.gridSize)).setType(this.typeArray[i + (j * this.gridSize)],this.gridSize);
+	        window.getPanelByID(j + (i * this.gridSize)).setType(this.typeArray[i + (j * this.gridSize)]);
 	      }
 	    }
 

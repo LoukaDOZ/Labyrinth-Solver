@@ -7,7 +7,6 @@ public class Window extends JFrame{
 	private Panel[] panelArray;
 	private JTextArea[] textAreaArray;
 	private MenuActionManagement menuActionManagement;
-  private SaveActionManagement saveActionManagement;
   private GridActionManagement gridActionManagement;
 	private GridLayout gridLayout;
 
@@ -28,11 +27,6 @@ public class Window extends JFrame{
   public void setManagement(MenuActionManagement menuActionManagement){
 
     this.menuActionManagement = menuActionManagement;
-  }
-
-  public void setManagement(SaveActionManagement saveActionManagement){
-
-    this.saveActionManagement = saveActionManagement;
   }
 
   public void setManagement(GridActionManagement gridActionManagement){
@@ -68,11 +62,6 @@ public class Window extends JFrame{
   	if(whitchManagement.equals("MenuActionManagement")){
 
       label.addMouseListener(this.menuActionManagement);
-    }
-
-    if(whitchManagement.equals("SaveActionManagement")){
-
-      label.addMouseListener(this.saveActionManagement);
     }
 
   	this.updateJLabelArray(label);
@@ -249,14 +238,17 @@ public class Window extends JFrame{
     return this.textAreaArray[order - 1];
   }
 
+  public void doPopupAnimation(){
+
+    this.setVisible(true);
+
+    Timer timer = new Timer(3000,null);
+    timer.addActionListener(new TimerManagement(this,timer));
+  }
+
   public MenuActionManagement getMenuActionManagement(){
 
     return this.menuActionManagement;
-  }
-
-  public SaveActionManagement getSaveActionManagement(){
-
-    return this.saveActionManagement;
   }
 
   public GridActionManagement getGridActionManagement(){

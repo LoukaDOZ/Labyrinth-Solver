@@ -5,92 +5,87 @@ public class Panel extends JPanel{
 
 	private int id;
 	private int type;
+	private Color currentColor;
 	private Color basicColor;
+	private ImageIcon currentImage;
 	private GridActionManagement gridActionManagement;
-
-	private JLabel label;
-	private int containerHeight;
 
 	public Panel(){
 
 		super();
 	}
 
-	public Panel(int containerHeight){
-
-		super();
-
-		this.containerHeight = containerHeight;
-	}
-
-	public Panel(GridActionManagement gridActionManagement, int containerHeight){
+	public Panel(GridActionManagement gridActionManagement){
 
 		super();
 
 		this.gridActionManagement = gridActionManagement;
-		this.containerHeight = containerHeight;
 	}
 
-	public Panel(int id, Color color, int containerHeight){
+	public Panel(int id,Color color){
 
 		super();
-
-		this.containerHeight = containerHeight;
 
 		this.id = id;
 		this.type = 0;
 		this.basicColor = color;
+		this.currentColor = this.basicColor;
+		this.currentImage = null;
 		this.setOpaque(true);
-		this.setBackground(this.basicColor);
-
-		this.label = new JLabel();
-		JLabel voidLabel = new JLabel();
-		this.add(this.label,BorderLayout.CENTER);
 	}
 
-	public void setType(int type, int gridSize){
+	public void paintComponent(Graphics paintbrush) {
 
-		this.removeImage();
+	    Graphics secondPaintbrush = paintbrush.create();
+
+	    secondPaintbrush.setColor(this.currentColor);
+	    secondPaintbrush.fillRect(0,0,this.getWidth(),this.getHeight());
+
+	    if(this.currentImage != null){
+
+	    	this.currentImage = new ImageIcon(this.currentImage.getImage().getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_DEFAULT));
+	    	this.currentImage.paintIcon(this,secondPaintbrush,0,0);
+	    }
+	  }
+
+	  public void setType(int type){
+
 		this.type = type;
 
-		if(type == 0){
+		if(this.type == 0){
 
-			this.setBackground(this.basicColor);
-		}
+	    	this.currentColor = this.basicColor;
+	    	this.currentImage = null;
+	    }
 
-		if(type == 1){
+		if(this.type == 1){
 
-			this.setBackground(new Color(this.basicColor.getRed() - 240,this.basicColor.getRed() - 240,this.basicColor.getRed() - 240));
-		}
+	    	this.currentColor = new Color(this.basicColor.getRed() - 240,this.basicColor.getRed() - 240,this.basicColor.getRed() - 240);
+	    	this.currentImage = null;
+	    }
 
-		if(type == 2){
+	    if(this.type == 2){
 
-			this.setBackground(this.basicColor);
-			this.setImage("Image/player.png",gridSize);
-			this.setBackground(new Color(220,220,255));
-		}
+	    	this.currentColor = new Color(0,255,0);
+	    	this.currentImage = new ImageIcon("Images/player.png");
+	    }
 
-		if(type == 3){
+	    if(this.type == 3){
 
-			this.setBackground(this.basicColor);
-			this.setImage("Image/exit.png",gridSize);
-			this.setBackground(new Color(220,255,220));
-		}
+	    	this.currentColor = new Color(255,0,0);
+	    	this.currentImage = new ImageIcon("Images/exit.png");
+	    }
+
+		this.repaint();
 	}
 
-	public void setImage(String source, int gridSize){
+	public void setColor(Color color){
 
-		int size = (int)((this.containerHeight / gridSize) * 0.8);
-
-		this.label.setIcon(new ImageIcon(new ImageIcon(source).getImage().getScaledInstance(size,size,Image.SCALE_DEFAULT)));
+		this.currentColor = color;
+		repaint();
 	}
 
-	public void removeImage(){
-
-		this.label.setIcon(null);
-	}
-
-	public void setCreatingGrid(Window window, int containerHeight, int gridSize, boolean isRandomFill){
+	public void setNewGrid(Window window,int gridSize,boolean isRandomFill){
 
 	    this.setLayout(new GridLayout(gridSize,gridSize));
 
@@ -118,7 +113,7 @@ public class Panel extends JPanel{
 	        }
 	      }
 
-	      Panel panel = new Panel(i,color,containerHeight);
+	      Panel panel = new Panel(i,color);
 
 	      if(isRandomFill == true){
 
@@ -126,7 +121,7 @@ public class Panel extends JPanel{
 
 	        if(random == 1){
 
-	          panel.setType(1,window.getMenuActionManagement().getGridSize());
+	          panel.setType(1);
 	        }
 	      }
 
@@ -144,10 +139,5 @@ public class Panel extends JPanel{
 	public int getID(){
 
 		return this.id;
-	}
-
-	public JLabel getJLabel(){
-
-		return this.label;
 	}
 }
