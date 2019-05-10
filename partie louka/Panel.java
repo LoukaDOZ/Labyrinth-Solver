@@ -43,8 +43,13 @@ public class Panel extends JPanel{
 
 	    if(this.currentImage != null){
 
-	    	this.currentImage = new ImageIcon(this.currentImage.getImage().getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_DEFAULT));
-	    	this.currentImage.paintIcon(this,secondPaintbrush,0,0);
+	    	int sizeX = (int)(this.getWidth() * 0.9);
+	    	int sizeY = (int)(this.getHeight() * 0.9);
+	    	int positionX = (int)(this.getHeight() * 0.05);
+	    	int positionY =(int)(this.getHeight() * 0.05);
+
+	    	this.currentImage = new ImageIcon(this.currentImage.getImage().getScaledInstance(sizeX,sizeY,Image.SCALE_DEFAULT));
+	    	this.currentImage.paintIcon(this,secondPaintbrush,positionX,positionY);
 	    }
 	  }
 
@@ -90,8 +95,10 @@ public class Panel extends JPanel{
 	    this.setLayout(new GridLayout(gridSize,gridSize));
 
 	    Color color = new Color(240,240,240);
+	    int random;
+	    int i;
 
-	    for(int i = 0; i < gridSize * gridSize; i++){
+	    for(i = 0; i < gridSize * gridSize; i++){
 
 	      if((gridSize % 2) == 0){
 
@@ -117,7 +124,7 @@ public class Panel extends JPanel{
 
 	      if(isRandomFill == true){
 
-	        int random = (int)(Math.random() * 2);
+	        random = (int)(Math.random() * 2);
 
 	        if(random == 1){
 
@@ -128,6 +135,16 @@ public class Panel extends JPanel{
 	      panel.addMouseListener(this.gridActionManagement);
 	      window.updatePanelArray(panel);
 	      this.add(panel,BorderLayout.CENTER);
+	    }
+
+	    if(isRandomFill == true){
+
+	    	for(i = 2; i < 4; i++){
+
+	    		random = (int)(Math.random() * (gridSize * gridSize));
+
+	    		window.getPanelByID(random).setType(i);
+	    	}
 	    }
   	}
 

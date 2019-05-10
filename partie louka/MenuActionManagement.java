@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.*;
 import java.awt.event.*;
 
 public class MenuActionManagement implements MouseListener{
@@ -7,18 +8,21 @@ public class MenuActionManagement implements MouseListener{
 	private JLabel currentLabel;
 	private String currentSelection;
 	private String currentSelection2;
-	private int size;
+	private int gridSize;
 
 	private Window welcomeWindow;
 	private Window createWindow;
 	private Window mapCreatingWindow;
 	private Window algorithmWindow;
 
+	private Tab loadedMap = new Tab();
+	private File file;
+
 	public MenuActionManagement(Window welcomeWindow, Window createWindow, Window mapCreatingWindow, Window algorithmWindow){
 
 		this.currentSelection = "none";
 		this.currentSelection2 = "none";
-		this.size = 20;
+		this.gridSize = 20;
 
 		this.welcomeWindow = welcomeWindow;
 		this.createWindow = createWindow;
@@ -28,7 +32,7 @@ public class MenuActionManagement implements MouseListener{
 
 	public int getGridSize(){
 
-		return this.size;
+		return this.gridSize;
 	}
 
   //mouse is hoveing
@@ -81,6 +85,20 @@ public class MenuActionManagement implements MouseListener{
 	}
 }
 
+	public void addMapToMapCreator(){
+
+	    int size = this.loadedMap.getSize();
+
+	    for(int i = 0; i < size; i++){
+
+	      for(int j = 0; j < size; j++){
+
+	      	System.out.println((j + (i * size))+": t-"+this.loadedMap.getMap(i + (j * size))+" i-"+i+" j-"+j);
+	        this.mapCreatingWindow.getPanelByID(j + (i * size)).setType(this.loadedMap.getMap(i + (j * size)));
+	      }
+	    }
+	}
+
   //mouse clicked
   public void mouseClicked(MouseEvent e){
 
@@ -89,6 +107,23 @@ public class MenuActionManagement implements MouseListener{
 	if(this.currentLabel == this.welcomeWindow.getJLabelByText("Open a grid")){
 
 	  	this.welcomeWindow.setVisible(false);
+
+	  	JFileChooser fileChooser = new JFileChooser(new File("./save"));
+	  	fileChooser.setApproveButtonText("Choix du fichier...");
+	  	fileChooser.showOpenDialog(null);
+
+	  	this.file = fileChooser.getSelectedFile();
+	  	this.loadedMap.loadMap(this.file);
+
+	  	Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement());
+
+		panel.setNewGrid(this.mapCreatingWindow,this.loadedMap.getSize(),false);
+
+		this.mapCreatingWindow.add(panel,BorderLayout.CENTER);
+
+	  	this.addMapToMapCreator();
+
+	  	this.mapCreatingWindow.setVisible(true);
 	}
 
 	if(this.currentLabel == this.welcomeWindow.getJLabelByText("Create a grid")){
@@ -99,19 +134,19 @@ public class MenuActionManagement implements MouseListener{
 
 	if(this.currentLabel == this.createWindow.getJLabelByText("Bigger")){
 
-	  	if(this.size < 100){
+	  	if(this.gridSize < 100){
 
-			this.size++;
-			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.size - 1)+"x"+(this.size - 1)+"] :").setText("Choose the size of the grid ["+this.size+"x"+this.size+"] :");
+			this.gridSize++;
+			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.gridSize - 1)+"x"+(this.gridSize - 1)+"] :").setText("Choose the size of the grid ["+this.gridSize+"x"+this.gridSize+"] :");
 		}
 	}
 
 	if(this.currentLabel == this.createWindow.getJLabelByText("Smaller")){
 
-		if(this.size > 5){
+		if(this.gridSize > 5){
 
-			this.size--;
-			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.size + 1)+"x"+(this.size + 1)+"] :").setText("Choose the size of the grid ["+this.size+"x"+this.size+"] :");
+			this.gridSize--;
+			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.gridSize + 1)+"x"+(this.gridSize + 1)+"] :").setText("Choose the size of the grid ["+this.gridSize+"x"+this.gridSize+"] :");
 		}
 	}
 
@@ -135,7 +170,7 @@ public class MenuActionManagement implements MouseListener{
 
 			Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement());
 
-			panel.setNewGrid(this.mapCreatingWindow,this.size,this.currentSelection.equals("Random fill"));
+			panel.setNewGrid(this.mapCreatingWindow,this.gridSize,this.currentSelection.equals("Random fill"));
 
 			this.mapCreatingWindow.add(panel,BorderLayout.CENTER);
 
@@ -239,14 +274,20 @@ public class MenuActionManagement implements MouseListener{
 			setStartExitWindow.doPopupAnimation();
 			}else{
 
-			Window saveWindow = new Window("Enter a file name",this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 2,this.mapCreatingWindow.getWidth() / 3,this.mapCreatingWindow.getHeight() / 4,true);
+			int[] map;
 
-			saveWindow.setGridLayout(4,1);
-			saveWindow.add(saveWindow.getNewJLabel("Please enter the file name :",2),BorderLayout.CENTER);
-			saveWindow.add(saveWindow.getNewJTextArea("Enter file name"),BorderLayout.CENTER);
-			saveWindow.add(saveWindow.getNewJLabel("Cancel","SaveActionManagement",2),BorderLayout.CENTER);
-			saveWindow.add(saveWindow.getNewJLabel("Done","SaveActionManagement",2),BorderLayout.CENTER);
-			saveWindow.setVisible(true);
+			this.mapCreatingWindow.setVisible(false);
+			JFileChooser fileSaver = new JFileChooser(new File("./save"));
+  			int returnVal = fileSaver.showOpenDialog(null);
+ 	  		fileSaver.setApproveButtonText("Sauvegarde du fichier ..");
+
+   			if(returnVal == JFileChooser.APPROVE_OPTION) {
+		  		this.file = fileSaver.getSelectedFile(); 
+		  		map = mapCreatingWindow.getGridAsAnArray(this.gridSize);
+		  		this.loadedMap.saveMap(file,map,this.gridSize);
+	  		}
+
+			this.mapCreatingWindow.setVisible(true);
 		}		
 	}
 
@@ -321,10 +362,10 @@ public class MenuActionManagement implements MouseListener{
 			
 			if(this.currentSelection2.equals("Automatic") == true){
 
-				AutomaticSimulation simulation = new AutomaticSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"),this.algorithmWindow.getJTextAreaByOrderOfArrival(1).getText());
+				AutomaticSimulation simulation = new AutomaticSimulation(this.gridSize,this.mapCreatingWindow.getGridAsAnArray(this.gridSize),this.currentSelection.equals("Random"),this.algorithmWindow.getJTextAreaByOrderOfArrival(1).getText());
 			}else{
 
-				ManualSimulation simulation = new ManualSimulation(this.size,this.mapCreatingWindow.getGridAsAnArray(this.size),this.currentSelection.equals("Random"),this.algorithmWindow.getJTextAreaByOrderOfArrival(1).getText());
+				ManualSimulation simulation = new ManualSimulation(this.gridSize,this.mapCreatingWindow.getGridAsAnArray(this.gridSize),this.currentSelection.equals("Random"),this.algorithmWindow.getJTextAreaByOrderOfArrival(1).getText());
 			}
 		}else{
 
