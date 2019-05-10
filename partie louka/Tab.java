@@ -24,22 +24,17 @@ public class Tab{
 			DataInputStream entree = new DataInputStream(fichier);
 
 			this.size = entree.read();
-			//System.out.println(this.size);
 			this.xbegin = entree.read();
-			//System.out.println(this.xbegin);
 			this.ybegin = entree.read();
-			//System.out.println(this.ybegin);
 			this.xend = entree.read();
-			//System.out.println(this.xend);
 			this.yend = entree.read();
-			//System.out.println(this.yend);
 
 			this.map = new short[size*size];
 			short[] tmp = new short[8];
 
-			for(int step1 = 0; step1 < size/2; step1++){			/* Permet de lires les positions des cases noires et blanches */
+			for(int step1 = 0; fichier.available() > 0; step1++){			
 				test = entree.read();
-				for(int step2 = 0;step2<8;step2++){
+				for(int step2 = 0;step2<8 && compteur < size*size;step2++){
 					if((test & 0x80) == 0){
 						tmp[step2] = 0;
 					}else{
@@ -49,12 +44,13 @@ public class Tab{
 					this.map[compteur] = tmp[step2];
 					compteur++;
 				}
-			}
+			} 
+
+
+
 
 			endBegin();
-
-			for(int i = 0; i < this.size*this.size; i++)//System.out.print(this.map[i]);
-		entree.close();		
+			entree.close();		
 
 		} catch (FileNotFoundException ev){
 		            ev.printStackTrace();
@@ -109,14 +105,16 @@ public class Tab{
 			}
 
 
-			for(int step3 = 0; step3 < sizeTab*sizeTab; step3++){	/* Ecriture du tableau */
-				tmp = tmp + Integer.toString(array[step3]);
-				if(step3%8==0){
-					sortie.writeByte(Integer.parseInt(tmp));
+			for(int step3 = 1; step3 <= sizeTab*sizeTab; step3++){	/* Ecriture du tableau */
+				tmp = tmp + Integer.toString(array[step3-1]);
+				if(step3%8==0 && step3!=0){
+					sortie.writeByte(Integer.parseInt(tmp,2));
 					tmp = "";
 				}
 			}
-			if(size*size%2!=0)sortie.writeByte(Integer.parseInt(tmp));
+			if(tmp.length()!=0){
+				sortie.writeByte(Integer.parseInt(tmp,2));
+			}
 
 
 			sortie.close();

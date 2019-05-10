@@ -33,11 +33,16 @@ public class JTextAreaManagement implements MouseListener{
 
 				if(test < 1){
 
-					this.currentTextArea.setText("infinite");
+					this.currentTextArea.setText("2");
+				}
+
+				if(test > 10000){
+
+					this.currentTextArea.setText("10000");
 				}
 			}catch(NumberFormatException ex){
 
-				this.currentTextArea.setText("infinite");
+				this.currentTextArea.setText("5000");
 			}
 		}
 		

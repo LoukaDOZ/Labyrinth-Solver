@@ -30,6 +30,19 @@ public class MenuActionManagement implements MouseListener{
 		this.algorithmWindow = algorithmWindow;
 	}
 
+	public void addMapToMapCreator(){
+
+	    this.gridSize = this.loadedMap.getSize();
+
+	    for(int i = 0; i < this.gridSize; i++){
+
+	      for(int j = 0; j < this.gridSize; j++){
+
+	        this.mapCreatingWindow.getPanelByID(j + (i * this.gridSize)).setType(this.loadedMap.getMap(i + (j * this.gridSize)));
+	      }
+	    }
+	}
+
 	public int getGridSize(){
 
 		return this.gridSize;
@@ -85,20 +98,6 @@ public class MenuActionManagement implements MouseListener{
 	}
 }
 
-	public void addMapToMapCreator(){
-
-	    int size = this.loadedMap.getSize();
-
-	    for(int i = 0; i < size; i++){
-
-	      for(int j = 0; j < size; j++){
-
-	      	System.out.println((j + (i * size))+": t-"+this.loadedMap.getMap(i + (j * size))+" i-"+i+" j-"+j);
-	        this.mapCreatingWindow.getPanelByID(j + (i * size)).setType(this.loadedMap.getMap(i + (j * size)));
-	      }
-	    }
-	}
-
   //mouse clicked
   public void mouseClicked(MouseEvent e){
 
@@ -113,15 +112,19 @@ public class MenuActionManagement implements MouseListener{
 	  	fileChooser.showOpenDialog(null);
 
 	  	this.file = fileChooser.getSelectedFile();
-	  	this.loadedMap.loadMap(this.file);
 
-	  	Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement());
+	  	if(this.file != null){
 
-		panel.setNewGrid(this.mapCreatingWindow,this.loadedMap.getSize(),false);
+		  	this.loadedMap.loadMap(this.file);
 
-		this.mapCreatingWindow.add(panel,BorderLayout.CENTER);
+		  	Panel panel = new Panel(this.mapCreatingWindow.getGridActionManagement());
 
-	  	this.addMapToMapCreator();
+			panel.setNewGrid(this.mapCreatingWindow,this.loadedMap.getSize(),false);
+
+			this.mapCreatingWindow.add(panel,BorderLayout.CENTER);
+
+		  	this.addMapToMapCreator();
+		}
 
 	  	this.mapCreatingWindow.setVisible(true);
 	}
@@ -143,7 +146,7 @@ public class MenuActionManagement implements MouseListener{
 
 	if(this.currentLabel == this.createWindow.getJLabelByText("Smaller")){
 
-		if(this.gridSize > 5){
+		if(this.gridSize > 4){
 
 			this.gridSize--;
 			this.createWindow.getJLabelByText("Choose the size of the grid ["+(this.gridSize + 1)+"x"+(this.gridSize + 1)+"] :").setText("Choose the size of the grid ["+this.gridSize+"x"+this.gridSize+"] :");
@@ -203,6 +206,22 @@ public class MenuActionManagement implements MouseListener{
 
 			this.mapCreatingWindow.getPanelByID(i).setType(1);
 		}
+	}
+
+	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Random fill")){
+
+		int i;
+		for(i = 0; i < this.mapCreatingWindow.getTotalPanel(); i++){
+
+			this.mapCreatingWindow.getPanelByID(i).setRandomType();
+		}
+
+		for(i = 2; i < 4; i++){
+
+	    	int random = (int)(Math.random() * (this.gridSize * this.gridSize));
+
+	    	this.mapCreatingWindow.getPanelByID(random).setType(i);
+	    }
 	}
 
 	if(this.currentLabel == this.mapCreatingWindow.getJLabelByText("Rubber")){

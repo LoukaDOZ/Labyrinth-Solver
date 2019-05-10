@@ -22,22 +22,13 @@ public class AutomaticSimulation{
 	private int numberOfExitFound;
 
 	private String nextDirection;
-	private String maxRoundsString;
 
 	private boolean isRandom;
 
 
 	public AutomaticSimulation(int gridSize, int[] typeArray, boolean isRandom, String maxRounds){
 
-		if(maxRounds.equals("infinite") == false){
-
-			this.maxRounds = Integer.parseInt(maxRounds);
-		}else{
-
-			this.maxRounds = -1;
-		}
-
-		this.maxRoundsString = maxRounds;
+		this.maxRounds = Integer.parseInt(maxRounds);
 		this.round = 0;
 		this.typeArray = typeArray;
 		this.gridSize = gridSize;
@@ -84,7 +75,7 @@ public class AutomaticSimulation{
 	    }
 
 		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Automatic",1),BorderLayout.CENTER);
-		this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.maxRoundsString,1),BorderLayout.CENTER);
+		this.optionsWindow.add(this.optionsWindow.getNewJLabel(""+this.maxRounds,1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.simulationNumber+"/"+this.maxSimulationNumber,1),BorderLayout.CENTER);
 
 	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
@@ -176,15 +167,28 @@ public class AutomaticSimulation{
 			Panel finalInformationsPanel = new Panel();
 			finalInformationsPanel.setLayout(new GridLayout(2,2));
 
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exits found :",2),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.numberOfExitFound+"/"+this.maxSimulationNumber,2),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of rounds (all) :",2),BorderLayout.CENTER);
-			finalInformationsPanel.add(this.finalWindow.getNewJLabel(((int)(this.roundsSum / this.maxSimulationNumber))+"/"+this.maxRoundsString,2),BorderLayout.CENTER);
+			if(this.isRandom == true){
+				
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exits found :",2),BorderLayout.CENTER);
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.numberOfExitFound+"/"+this.maxSimulationNumber,2),BorderLayout.CENTER);
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of all rounds :",1),BorderLayout.CENTER);
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel(((int)(this.roundsSum / this.maxSimulationNumber))+"/"+this.maxRounds,2),BorderLayout.CENTER);
+
+				this.finalWindow.getJLabelByText("Exits found :").setBackground(new Color(50,50,50));
+			    this.finalWindow.getJLabelByText("Average of all rounds :").setBackground(new Color(50,50,50));
+			}else{
+
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exit found :",2),BorderLayout.CENTER);
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel(""+exitIsFound,2),BorderLayout.CENTER);
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Number of rounds :",2),BorderLayout.CENTER);
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.round+"/"+this.maxRounds,2),BorderLayout.CENTER);
+
+				this.finalWindow.getJLabelByText("Exit found :").setBackground(new Color(50,50,50));
+			    this.finalWindow.getJLabelByText("Number of rounds :").setBackground(new Color(50,50,50));
+			}
 
 			this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
 			this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));
-			this.finalWindow.getJLabelByText("Exits found :").setBackground(new Color(50,50,50));
-		    this.finalWindow.getJLabelByText("Average of rounds (all) :").setBackground(new Color(50,50,50));
 
 		    this.finalWindow.add(finalInformationsPanel,BorderLayout.CENTER);
 

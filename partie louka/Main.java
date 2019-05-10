@@ -45,10 +45,11 @@ public class Main {
 		createWindow.add(createWindow.getNewJLabel("Done","MenuActionManagement",2),BorderLayout.CENTER);
 
 		Panel panel = new Panel();
-		panel.setLayout(new GridLayout(9,1));
+		panel.setLayout(new GridLayout(10,1));
 		panel.add(mapCreatingWindow.getNewJLabel("  Change the map :  ",1));
 		panel.add(mapCreatingWindow.getNewJLabel("Reset","MenuActionManagement",1));
 		panel.add(mapCreatingWindow.getNewJLabel("Filled with walls","MenuActionManagement",1));
+		panel.add(mapCreatingWindow.getNewJLabel("Random fill","MenuActionManagement",1));
 		panel.add(mapCreatingWindow.getNewJLabel("Rubber","MenuActionManagement",1));
 		panel.add(mapCreatingWindow.getNewJLabel("Put a wall","MenuActionManagement",1));
 		panel.add(mapCreatingWindow.getNewJLabel("Put the start","MenuActionManagement",1));
@@ -59,7 +60,7 @@ public class Main {
 
 		algorithmWindow.setGridLayout(9,1);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Choose a maximum of rounds :",2),BorderLayout.CENTER);
-		algorithmWindow.add(algorithmWindow.getNewJTextArea("infinite"),BorderLayout.CENTER);
+		algorithmWindow.add(algorithmWindow.getNewJTextArea("5000"),BorderLayout.CENTER);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Choose an algorithm :",2),BorderLayout.CENTER);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Random","MenuActionManagement",2),BorderLayout.CENTER);
 		algorithmWindow.add(algorithmWindow.getNewJLabel("Determinist","MenuActionManagement",2),BorderLayout.CENTER);

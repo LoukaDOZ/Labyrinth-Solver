@@ -18,21 +18,12 @@ public class ManualSimulation{
 	private int exitID;
 
 	private String nextDirection;
-	private String maxRoundsString;
 
 	private boolean isRandom;
 
 	public ManualSimulation(int gridSize, int[] typeArray, boolean isRandom, String maxRounds){
 
-		if(maxRounds.equals("infinite") == false){
-
-			this.maxRounds = Integer.parseInt(maxRounds);
-		}else{
-
-			this.maxRounds = -1;
-		}
-
-		this.maxRoundsString = maxRounds;
+		this.maxRounds = Integer.parseInt(maxRounds);
 		this.round = 0;
 		this.typeArray = typeArray;
 		this.gridSize = gridSize;
@@ -76,7 +67,7 @@ public class ManualSimulation{
 
 		this.optionsWindow.add(this.optionsWindow.getNewJLabel("Manual",1),BorderLayout.CENTER);
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.nextDirection,1),BorderLayout.CENTER);
-		this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.round+"/"+this.maxRoundsString,1),BorderLayout.CENTER);
+		this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.round+"/"+this.maxRounds,1),BorderLayout.CENTER);
 
 	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
 
@@ -107,7 +98,7 @@ public class ManualSimulation{
 	public void nextRound(){
 
 		this.round++;
-		this.optionsWindow.getJLabelByText((this.round - 1)+"/"+this.maxRoundsString).setText(this.round+"/"+this.maxRoundsString);
+		this.optionsWindow.getJLabelByText((this.round - 1)+"/"+this.maxRounds).setText(this.round+"/"+this.maxRounds);
 
 		JLabel currentDirection = this.optionsWindow.getJLabelByText(this.nextDirection);
 
@@ -146,7 +137,7 @@ public class ManualSimulation{
 		finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exit found :",2),BorderLayout.CENTER);
 		finalInformationsPanel.add(this.finalWindow.getNewJLabel(""+exitIsFound,2),BorderLayout.CENTER);
 		finalInformationsPanel.add(this.finalWindow.getNewJLabel("Number of rounds :",2),BorderLayout.CENTER);
-		finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.round+"/"+this.maxRoundsString,2),BorderLayout.CENTER);
+		finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.round+"/"+this.maxRounds,2),BorderLayout.CENTER);
 
 		this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
 		this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));

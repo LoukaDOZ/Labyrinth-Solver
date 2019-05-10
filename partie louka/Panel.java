@@ -43,13 +43,11 @@ public class Panel extends JPanel{
 
 	    if(this.currentImage != null){
 
-	    	int sizeX = (int)(this.getWidth() * 0.9);
-	    	int sizeY = (int)(this.getHeight() * 0.9);
-	    	int positionX = (int)(this.getHeight() * 0.05);
-	    	int positionY =(int)(this.getHeight() * 0.05);
+	    	int sizeX = this.getWidth();
+	    	int sizeY = this.getHeight();
 
 	    	this.currentImage = new ImageIcon(this.currentImage.getImage().getScaledInstance(sizeX,sizeY,Image.SCALE_DEFAULT));
-	    	this.currentImage.paintIcon(this,secondPaintbrush,positionX,positionY);
+	    	this.currentImage.paintIcon(this,secondPaintbrush,0,0);
 	    }
 	  }
 
@@ -84,6 +82,19 @@ public class Panel extends JPanel{
 		this.repaint();
 	}
 
+	public void setRandomType(){
+
+	    int random = (int)(Math.random() * 2);
+
+	    if(random == 1){
+
+	        this.setType(1);
+	    }else{
+
+	    	this.setType(0);
+	    }
+	}
+
 	public void setColor(Color color){
 
 		this.currentColor = color;
@@ -100,41 +111,41 @@ public class Panel extends JPanel{
 
 	    for(i = 0; i < gridSize * gridSize; i++){
 
-	      if((gridSize % 2) == 0){
+	    	if((gridSize % 2) == 0){
 
-	        if(((i + (i / gridSize)) % 2) == 0){
+		        if(((i + (i / gridSize)) % 2) == 0){
 
-	          color = new Color(240,240,240);
-	        }else{
+		          	color = new Color(240,240,240);
+		        }else{
 
-	          color = new Color(255,255,255);
-	        }
-	      }else{
+		          	color = new Color(255,255,255);
+		        }
+	    	}else{
 
-	        if((i % 2) == 0){
+		        if((i % 2) == 0){
 
-	          color = new Color(240,240,240);
-	        }else{
+		          	color = new Color(240,240,240);
+		        }else{
 
-	          color = new Color(255,255,255);
-	        }
-	      }
+		          	color = new Color(255,255,255);
+		        }
+	    	}
 
-	      Panel panel = new Panel(i,color);
+	   		Panel panel = new Panel(i,color);
 
-	      if(isRandomFill == true){
+		    if(isRandomFill == true){
 
-	        random = (int)(Math.random() * 2);
+		    random = (int)(Math.random() * 2);
 
-	        if(random == 1){
+		        if(random == 1){
 
-	          panel.setType(1);
-	        }
-	      }
+		          	panel.setType(1);
+		        }
+		    }
 
-	      panel.addMouseListener(this.gridActionManagement);
-	      window.updatePanelArray(panel);
-	      this.add(panel,BorderLayout.CENTER);
+	      	panel.addMouseListener(this.gridActionManagement);
+	      	window.updatePanelArray(panel);
+	      	this.add(panel,BorderLayout.CENTER);
 	    }
 
 	    if(isRandomFill == true){
