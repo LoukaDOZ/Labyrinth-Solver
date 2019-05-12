@@ -6,7 +6,8 @@ public class Panel extends JPanel{
 	private int id;
 	private int type;
 	private Color currentColor;
-	private Color basicColor;
+	private Color originalColor;
+	private boolean isNextDirection;
 	private ImageIcon currentImage;
 	private GridActionManagement gridActionManagement;
 
@@ -28,8 +29,9 @@ public class Panel extends JPanel{
 
 		this.id = id;
 		this.type = 0;
-		this.basicColor = color;
-		this.currentColor = this.basicColor;
+		this.isNextDirection = false;
+		this.originalColor = color;
+		this.currentColor = this.originalColor;
 		this.currentImage = null;
 		this.setOpaque(true);
 	}
@@ -38,15 +40,27 @@ public class Panel extends JPanel{
 
 	    Graphics secondPaintbrush = paintbrush.create();
 
-	    secondPaintbrush.setColor(this.currentColor);
-	    secondPaintbrush.fillRect(0,0,this.getWidth(),this.getHeight());
+	    if(this.isNextDirection == false){
+
+	    	secondPaintbrush.setColor(this.currentColor);
+	    	secondPaintbrush.fillRect(0,0,this.getWidth(),this.getHeight());
+	    }else{
+
+	    	secondPaintbrush.setColor(new Color(255,180,0));
+	    	secondPaintbrush.fillRect(0,0,this.getWidth(),this.getHeight());
+
+	    	int positionX = (int)(this.getWidth() * 0.2);
+	    	int positionY = (int)(this.getHeight() * 0.2);
+	    	int sizeX = this.getWidth() - (positionX * 2);
+	    	int sizeY = this.getHeight() - (positionY * 2);
+
+	    	secondPaintbrush.setColor(this.currentColor);
+	    	secondPaintbrush.fillRect(positionX,positionY,sizeX,sizeY);
+	    }
 
 	    if(this.currentImage != null){
 
-	    	int sizeX = this.getWidth();
-	    	int sizeY = this.getHeight();
-
-	    	this.currentImage = new ImageIcon(this.currentImage.getImage().getScaledInstance(sizeX,sizeY,Image.SCALE_DEFAULT));
+	    	this.currentImage = new ImageIcon(this.currentImage.getImage().getScaledInstance(this.getWidth(),this.getHeight(),Image.SCALE_DEFAULT));
 	    	this.currentImage.paintIcon(this,secondPaintbrush,0,0);
 	    }
 	  }
@@ -57,13 +71,13 @@ public class Panel extends JPanel{
 
 		if(this.type == 0){
 
-	    	this.currentColor = this.basicColor;
+	    	this.currentColor = this.originalColor;
 	    	this.currentImage = null;
 	    }
 
 		if(this.type == 1){
 
-	    	this.currentColor = new Color(this.basicColor.getRed() - 240,this.basicColor.getRed() - 240,this.basicColor.getRed() - 240);
+	    	this.currentColor = new Color(this.originalColor.getRed() - 240,this.originalColor.getRed() - 240,this.originalColor.getRed() - 240);
 	    	this.currentImage = null;
 	    }
 
@@ -95,9 +109,9 @@ public class Panel extends JPanel{
 	    }
 	}
 
-	public void setColor(Color color){
+	public void setIsNextDirection(boolean isNextDirection){
 
-		this.currentColor = color;
+		this.isNextDirection = isNextDirection;
 		repaint();
 	}
 
@@ -105,7 +119,7 @@ public class Panel extends JPanel{
 
 	    this.setLayout(new GridLayout(gridSize,gridSize));
 
-	    Color color = new Color(240,240,240);
+	    Color color;
 	    int random;
 	    int i;
 

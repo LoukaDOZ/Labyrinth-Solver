@@ -79,6 +79,8 @@ public class AutomaticSimulation{
 	    this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.simulationNumber+"/"+this.maxSimulationNumber,1),BorderLayout.CENTER);
 
 	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
+	    this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
+		this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));
 
 	    this.newSimulation();
 
@@ -123,8 +125,14 @@ public class AutomaticSimulation{
 
 	public void move(){
 
-		this.simulationWindow.getPanelByType(2).setType(0);
-		this.simulationWindow.getPanelByID(this.nextPanelID).setType(2);
+		if(this.simulationWindow.getPanelByID(this.nextPanelID).getType() != 1){
+
+			this.simulationWindow.getPanelByType(2).setType(0);
+			this.simulationWindow.getPanelByID(this.nextPanelID).setType(2);
+		}else{
+
+			this.algorithm.setThisCaseAsWall(this.nextPanelID);
+		}
 
 		if(this.simulationWindow.getPanelByType(2).getID() == this.exitID || this.round == this.maxRounds){
 
@@ -146,9 +154,8 @@ public class AutomaticSimulation{
 		if(exitIsFound == true){
 
 			this.numberOfExitFound++;
+			this.roundsSum += this.round;
 		}
-
-		this.roundsSum += this.round;
 
 		if(this.simulationNumber < this.maxSimulationNumber){
 
@@ -171,7 +178,7 @@ public class AutomaticSimulation{
 				
 				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exits found :",2),BorderLayout.CENTER);
 				finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.numberOfExitFound+"/"+this.maxSimulationNumber,2),BorderLayout.CENTER);
-				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of all rounds :",1),BorderLayout.CENTER);
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of rounds to find the exit :",1),BorderLayout.CENTER);
 				finalInformationsPanel.add(this.finalWindow.getNewJLabel(((int)(this.roundsSum / this.maxSimulationNumber))+"/"+this.maxRounds,2),BorderLayout.CENTER);
 
 				this.finalWindow.getJLabelByText("Exits found :").setBackground(new Color(50,50,50));
@@ -187,56 +194,26 @@ public class AutomaticSimulation{
 			    this.finalWindow.getJLabelByText("Number of rounds :").setBackground(new Color(50,50,50));
 			}
 
-			this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
-			this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));
-
 		    this.finalWindow.add(finalInformationsPanel,BorderLayout.CENTER);
 
 			this.finalWindow.setVisible(true);
 		}
 	}
 
-	public void getRandomDirection(){
+	public void thereIsNoExit(){
 
-		int direction;
-		int playerPosition = this.simulationWindow.getPanelByType(2).getID();
+		this.optionsWindow.setVisible(false);
+		this.simulationWindow.setVisible(false);
 
-		while(true){
+		Panel finalInformationsPanel = new Panel();
+		finalInformationsPanel.setLayout(new GridLayout(2,2));
 
-			direction = (int)(Math.random() * 4);
+		finalInformationsPanel.add(this.finalWindow.getNewJLabel("What have you done?",2),BorderLayout.CENTER);
+		finalInformationsPanel.add(this.finalWindow.getNewJLabel("There is no way to find the exit!",2),BorderLayout.CENTER);
 
-			if(direction == 0 && playerPosition > this.gridSize && this.simulationWindow.getPanelByID(playerPosition - this.gridSize).getType() != 1){
+		this.finalWindow.add(finalInformationsPanel,BorderLayout.CENTER);
 
-				this.nextPanelID = playerPosition - this.gridSize;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
-
-				break;
-			}
-
-			if(direction == 1 && ((playerPosition + 1) % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition + 1).getType() != 1){
-
-				this.nextPanelID = playerPosition + 1;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
-
-				break;
-			}
-
-			if(direction == 2 && playerPosition < ((this.gridSize * this.gridSize) - this.gridSize) && this.simulationWindow.getPanelByID(playerPosition + this.gridSize).getType() != 1){
-
-				this.nextPanelID = playerPosition + this.gridSize;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
-
-				break;
-			}
-
-			if(direction == 3 && (playerPosition % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition - 1).getType() != 1){
-
-				this.nextPanelID = playerPosition - 1;
-				this.simulationWindow.getPanelByID(this.nextPanelID).setBackground(new Color(255,200,200));
-
-				break;
-			}
-		}
+		this.finalWindow.setVisible(true);
 	}
 
 	public Panel getStartingGridPanel(Window window,int gridSize){

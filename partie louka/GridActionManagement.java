@@ -6,6 +6,7 @@ public class GridActionManagement implements MouseListener{
 
 	private Panel currentPanel;
 	private String action;
+  private boolean isPressing;
 
 	private Window mapCreatingWindow;
 
@@ -13,6 +14,7 @@ public class GridActionManagement implements MouseListener{
 
 		this.mapCreatingWindow = mapCreatingWindow;
 		this.action = "none";
+    this.isPressing = false;
 	}
 
 	public void setAction(String action){
@@ -24,16 +26,6 @@ public class GridActionManagement implements MouseListener{
   public void mouseClicked(MouseEvent e){
 
   	this.currentPanel = (Panel)e.getSource();
-  	
-  	if(this.action.equals("Rubber")){
-
-  		this.currentPanel.setType(0);
-  	}
-
-  	if(this.action.equals("Put a wall")){
-
-  		this.currentPanel.setType(1);
-  	}
 
   	if(this.action.equals("Put the start")){
 
@@ -57,14 +49,45 @@ public class GridActionManagement implements MouseListener{
 }
 
 	//mouse is hoveing
-  public void mouseEntered(MouseEvent e) {}
+  public void mouseEntered(MouseEvent e) {
+
+    this.currentPanel = (Panel)e.getSource();
+
+    if(this.action.equals("Rubber") && this.isPressing == true){
+
+      this.currentPanel.setType(0);
+    }
+
+    if(this.action.equals("Put a wall") && this.isPressing == true){
+
+      this.currentPanel.setType(1);
+    }
+  }
+
+  //mouse pressed
+  public void mousePressed(MouseEvent e){
+
+      this.currentPanel = (Panel)e.getSource();
+
+      if(this.action.equals("Rubber")){
+
+        this.currentPanel.setType(0);
+      }
+
+      if(this.action.equals("Put a wall")){
+
+        this.currentPanel.setType(1);
+      }
+
+      this.isPressing = true;
+  }
+
+  //mouse released
+  public void mouseReleased(MouseEvent e){
+
+    this.isPressing = false;
+  }
 
   //mouse stop hovering
   public void mouseExited(MouseEvent e) {}
-
-  //mouse pressed
-  public void mousePressed(MouseEvent e){}
-
-  //mouse released
-  public void mouseReleased(MouseEvent e){}
 }

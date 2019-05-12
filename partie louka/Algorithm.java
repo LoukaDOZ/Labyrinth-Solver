@@ -10,10 +10,18 @@ public class Algorithm{
 
 	private boolean isRandom;
 	private boolean isManual;
+	private boolean[] knownPaths;
 
-	private int[] map;
+	private int[] unknownPathsID;
 	private int gridSize;
 	private int nextPanelID;
+	private int playerPosition;
+	private int northCase;
+	private int eastCase;
+	private int southCase;
+	private int westCase;
+
+	private String direction;
 
 	public Algorithm(boolean isRandom,ManualSimulation manualSimulation,Window simulationWindow,int gridSize){
 
@@ -22,7 +30,7 @@ public class Algorithm{
 		this.manualSimulation = manualSimulation;
 		this.simulationWindow = simulationWindow;
 		this.gridSize = gridSize;
-		this.map = new int[this.gridSize * this.gridSize];
+		this.knownPaths = new boolean[this.gridSize * this.gridSize];
 	}
 
 	public Algorithm(boolean isRandom,AutomaticSimulation automaticSimulation,Window simulationWindow,int gridSize){
@@ -32,247 +40,312 @@ public class Algorithm{
 		this.automaticSimulation = automaticSimulation;
 		this.simulationWindow = simulationWindow;
 		this.gridSize = gridSize;
-		this.map = new int[this.gridSize * this.gridSize];
+		this.knownPaths = new boolean[this.gridSize * this.gridSize];
 	}
 
 	public String getDirection(){
 
+		this.playerPosition = this.simulationWindow.getPanelByType(2).getID();
+
 		if(this.isRandom == true){
 
-			return this.getRandomDirection();
+			this.direction = this.getRandomDirection();
+	
 		}else{
 
-			return this.getDeterministDirection();
+			this.getDeterministDirection();
 		}
+
+		if(this.direction.equals("North")){
+
+			if(this.isManual == true){
+
+				this.manualSimulation.setNextPanelID(this.playerPosition - this.gridSize);
+				this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setIsNextDirection(true);
+			}else{
+
+				this.automaticSimulation.setNextPanelID(this.playerPosition - this.gridSize);
+			}
+		}
+
+		if(this.direction.equals("East")){
+
+			if(this.isManual == true){
+
+				this.manualSimulation.setNextPanelID(this.playerPosition + 1);
+				this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setIsNextDirection(true);
+			}else{
+
+				this.automaticSimulation.setNextPanelID(this.playerPosition + 1);
+			}
+		}
+
+		if(this.direction.equals("South")){
+
+			if(this.isManual == true){
+
+				this.manualSimulation.setNextPanelID(this.playerPosition + this.gridSize);
+				this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setIsNextDirection(true);
+			}else{
+
+				this.automaticSimulation.setNextPanelID(this.playerPosition + this.gridSize);
+			}
+		}
+
+		if(this.direction.equals("West")){
+
+			if(this.isManual == true){
+
+				this.manualSimulation.setNextPanelID(this.playerPosition - 1);
+				this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setIsNextDirection(true);
+			}else{
+
+				this.automaticSimulation.setNextPanelID(this.playerPosition - 1);
+			}
+		}
+
+		return this.direction;
 	}
 
 	public String getRandomDirection(){
 
 		int direction;
-		int playerPosition = this.simulationWindow.getPanelByType(2).getID();
 
 		while(true){
 
 			direction = (int)(Math.random() * 4);
 
-			if(direction == 0 && playerPosition > this.gridSize && this.simulationWindow.getPanelByID(playerPosition - this.gridSize).getType() != 1){
-			
-				if(this.isManual == true){
-
-					this.manualSimulation.setNextPanelID(playerPosition - this.gridSize);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}else{
-
-					this.automaticSimulation.setNextPanelID(playerPosition - this.gridSize);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}
+			if(direction == 0 && this.playerPosition > this.gridSize){
 
 				return "North";
 			}
 
-			if(direction == 1 && ((playerPosition + 1) % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition + 1).getType() != 1){
-
-				if(this.isManual == true){
-
-					this.manualSimulation.setNextPanelID(playerPosition + 1);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}else{
-
-					this.automaticSimulation.setNextPanelID(playerPosition + 1);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}
+			if(direction == 1 && ((this.playerPosition + 1) % this.gridSize) != 0){
 
 				return "East";
 			}
 
-			if(direction == 2 && playerPosition < ((this.gridSize * this.gridSize) - this.gridSize) && this.simulationWindow.getPanelByID(playerPosition + this.gridSize).getType() != 1){
-			
-				if(this.isManual == true){
-
-					this.manualSimulation.setNextPanelID(playerPosition + this.gridSize);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}else{
-
-					this.automaticSimulation.setNextPanelID(playerPosition + this.gridSize);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}
+			if(direction == 2 && this.playerPosition < ((this.gridSize * this.gridSize) - this.gridSize)){
 
 				return "South";
 			}
 
-			if(direction == 3 && (playerPosition % this.gridSize) != 0 && this.simulationWindow.getPanelByID(playerPosition - 1).getType() != 1){
-			
-				if(this.isManual == true){
-
-					this.manualSimulation.setNextPanelID(playerPosition - 1);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}else{
-
-					this.automaticSimulation.setNextPanelID(playerPosition - 1);
-					this.simulationWindow.getPanelByID(this.automaticSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}
+			if(direction == 3 && (this.playerPosition % this.gridSize) != 0){
 
 				return "West";
 			}
 		}
 	}
 
-	public String getDeterministDirection(){
+	public void getDeterministDirection(){
 
-		int playerPosition = this.simulationWindow.getPanelByType(2).getID();
+		this.direction = "Undefined";
 
-		int northCase = -2;
-		int southCase = -2;
-		int eastCase = -2;
-		int westCase = -2;
-		String direction = "Undefined";
+		if(this.knownPaths[this.playerPosition] == false){
 
-		this.lookAround(playerPosition);
-
-		if(playerPosition > this.gridSize){
-
-			northCase = this.map[playerPosition - this.gridSize];
+			this.lookAround();
 		}
 
-		if(((playerPosition + 1) % this.gridSize) != 0){
+		if(this.direction.equals("Undefined") == true){
 
-			eastCase = this.map[playerPosition + 1];
-		}
+			int lastIdNoted = this.getLastIDNoted();
 
-		if(playerPosition < ((this.gridSize * this.gridSize) - this.gridSize)){
+			if(lastIdNoted == this.playerPosition){
 
-			southCase = this.map[playerPosition + this.gridSize];
-		}
-
-		if((playerPosition % this.gridSize) != 0){
-
-			westCase = this.map[playerPosition - 1];
-		}
-
-		for(int i = 0; i < 1; i++){
-
-			if(northCase >= -1 && (eastCase == -2 || northCase <= eastCase) && (southCase == -2 || northCase <= southCase) && (westCase == -2 || northCase <= westCase)){
-
-				if(this.isManual == true){
-
-					this.manualSimulation.setNextPanelID(playerPosition - this.gridSize);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}else{
-
-					this.automaticSimulation.setNextPanelID(playerPosition - this.gridSize);
-				}
-
-				direction = "North";
-				break;
+				lastIdNoted = this.getLastIDNoted();
 			}
 
-			if(eastCase >= -1 && (northCase == -2 || eastCase <= northCase) && (southCase == -2 || eastCase <= southCase) && (westCase == -2 || eastCase <= westCase)){
+			if(lastIdNoted > 0){
 
-				if(this.isManual == true){
-
-					this.manualSimulation.setNextPanelID(playerPosition + 1);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}else{
-
-					this.automaticSimulation.setNextPanelID(playerPosition + 1);
-				}
-
-				direction = "East";
-				break;
-			}
-
-			if(southCase >= -1 && (northCase == -2 || southCase <= northCase) && (eastCase == -2 || southCase <= eastCase) && (westCase == -2 || southCase <= westCase)){
-
-				if(this.isManual == true){
-
-					this.manualSimulation.setNextPanelID(playerPosition + this.gridSize);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}else{
-
-					this.automaticSimulation.setNextPanelID(playerPosition + this.gridSize);
-				}
-
-				direction = "South";
-				break;
-			}
-
-			if(westCase >= -1 && (northCase == -2 || westCase <= northCase) && (eastCase == -2 || westCase <= eastCase) && (southCase == -2 || westCase <= southCase)){
-
-				if(this.isManual == true){
-
-					this.manualSimulation.setNextPanelID(playerPosition - 1);
-					this.simulationWindow.getPanelByID(this.manualSimulation.getNextPanelID()).setColor(new Color(255,180,200));
-				}else{
-
-					this.automaticSimulation.setNextPanelID(playerPosition - 1);
-				}
-
-				direction = "West";
-				break;
+				this.getDirectionFromID(lastIdNoted);
 			}
 		}
-
-		return direction;
 	}
 
-	public void lookAround(int playerPosition){
+	public void lookAround(){
 
-		this.map[playerPosition]++;
+		this.direction = "Undefined";
 
-	    if(playerPosition >= this.gridSize){
+		this.knownPaths[this.playerPosition] = true;
 
-	    	if(this.simulationWindow.getPanelByID(playerPosition - this.gridSize).getType() == 1){
+		if(this.playerPosition >= this.gridSize){
+
+			this.northCase = this.playerPosition - this.gridSize;
+
+			if(this.simulationWindow.getPanelByID(this.northCase).getType() == 3){
 			
-				this.map[playerPosition - this.gridSize] = -2;
-			}else{
+				this.direction = "North";
+			}
 
-				if(this.simulationWindow.getPanelByID(playerPosition - this.gridSize).getType() == 3){
-			
-					this.map[playerPosition - this.gridSize] = -1;
-				}
+			if(this.knownPaths[this.northCase] == false){
+
+				this.newPath(this.northCase);
 			}
 		}
 
-		if(((playerPosition + 1) % this.gridSize) != 0){
+		if(((this.playerPosition + 1) % this.gridSize) != 0){
 
-			if(this.simulationWindow.getPanelByID(playerPosition + 1).getType() == 1){
-			
-				this.map[playerPosition + 1] = -2;
-			}else{
+			this.eastCase = this.playerPosition + 1;
 
-				if(this.simulationWindow.getPanelByID(playerPosition + 1).getType() == 3){
+			if(this.simulationWindow.getPanelByID(this.eastCase).getType() == 3){
 			
-					this.map[playerPosition + 1] = -1;
-				}
+				this.direction = "East";
+			}
+
+			if(this.knownPaths[this.eastCase] == false){
+
+				this.newPath(this.eastCase);
 			}
 		}
 
-		if(playerPosition < ((this.gridSize * this.gridSize) - this.gridSize)){
-			
-			if(this.simulationWindow.getPanelByID(playerPosition + this.gridSize).getType() == 1){
-			
-				this.map[playerPosition + this.gridSize] = -2;
-			}else{
+		if(this.playerPosition < ((this.gridSize * this.gridSize) - this.gridSize)){
 
-				if(this.simulationWindow.getPanelByID(playerPosition + this.gridSize).getType() == 3){
+			this.southCase = this.playerPosition + this.gridSize;
+
+			if(this.simulationWindow.getPanelByID(this.southCase).getType() == 3){
 			
-					this.map[playerPosition + this.gridSize] = -1;
-				}
+				this.direction = "South";
+			}
+
+			if(this.knownPaths[this.southCase] == false){
+
+				this.newPath(this.southCase);
 			}
 		}
 
-		if((playerPosition % this.gridSize) != 0){
-			
-			if(this.simulationWindow.getPanelByID(playerPosition - 1).getType() == 1){
-			
-				this.map[playerPosition - 1] = -2;
-			}else{
+		if((this.playerPosition % this.gridSize) != 0){
 
-				if(this.simulationWindow.getPanelByID(playerPosition - 1).getType() == 3){
+			this.westCase = this.playerPosition - 1;
+
+			if(this.simulationWindow.getPanelByID(this.westCase).getType() == 3){
 			
-					this.map[playerPosition - 1] = -1;
-				}
+				this.direction = "West";
+			}
+
+			if(this.knownPaths[this.westCase] == false){
+
+				this.newPath(this.westCase);
 			}
 		}
   	}
+
+	public void setThisCaseAsWall(int id){
+
+		this.knownPaths[id] = true;
+	}
+
+	public int getLastIDNoted(){
+
+		int id = -1;
+
+		if(this.unknownPathsID != null){
+
+			try{
+
+				id = this.unknownPathsID[this.unknownPathsID.length - 1];
+				this.removePath();
+			}catch(ArrayIndexOutOfBoundsException ex){
+
+		    	if(this.isManual == true){
+
+		    		this.manualSimulation.thereIsNoExit();
+		    	}else{
+
+		    		this.automaticSimulation.thereIsNoExit();
+		    	}
+		    }catch(NegativeArraySizeException ex){
+
+		    	if(this.isManual == true){
+
+		    		this.manualSimulation.thereIsNoExit();
+		    	}else{
+
+		    		this.automaticSimulation.thereIsNoExit();
+		    	}
+		    }
+		}
+
+		return id;
+	}
+
+	public void newPath(int nextPath){
+
+	    if(this.unknownPathsID == null){
+
+	     	this.unknownPathsID = new int[2];
+	      	this.unknownPathsID[0] = this.playerPosition;
+	      	this.unknownPathsID[1] = nextPath;
+	    }else{
+
+	      	int[] newArray = new int[this.unknownPathsID.length + 2];
+
+	      	for(int i = 0; i < this.unknownPathsID.length; i++){
+
+	        	newArray[i] = this.unknownPathsID[i];
+	      	}
+
+	      	newArray[newArray.length - 2] = this.playerPosition;
+	     	newArray[newArray.length - 1] = nextPath;
+	      	this.unknownPathsID = new int[newArray.length];
+	      	this.unknownPathsID = newArray;
+	    }
+  	}
+
+  	public void removePath(){
+
+	    int[] newArray = new int[this.unknownPathsID.length - 1];
+
+	    for(int i = 0; i < newArray.length; i++){
+
+	        newArray[i] = this.unknownPathsID[i];
+	    }
+
+	    this.unknownPathsID = new int[newArray.length - 1];
+	    this.unknownPathsID = newArray;
+	}
+
+	public void getDirectionFromID(int id){
+
+		this.direction = "Undefined";
+
+		if(this.playerPosition >= this.gridSize){
+
+			this.northCase = this.playerPosition - this.gridSize;
+
+			if(this.simulationWindow.getPanelByID(this.northCase).getID() == id){
+			
+				this.direction = "North";
+			}
+		}
+
+		if(((this.playerPosition + 1) % this.gridSize) != 0){
+
+			this.eastCase = this.playerPosition + 1;
+
+			if(this.simulationWindow.getPanelByID(this.eastCase).getID() == id){
+			
+				this.direction = "East";
+			}
+		}
+
+		if(this.playerPosition < ((this.gridSize * this.gridSize) - this.gridSize)){
+
+			this.southCase = this.playerPosition + this.gridSize;
+
+			if(this.simulationWindow.getPanelByID(this.southCase).getID() == id){
+			
+				this.direction = "South";
+			}
+		}
+
+		if((this.playerPosition % this.gridSize) != 0){
+
+			this.westCase = this.playerPosition - 1;
+
+			if(this.simulationWindow.getPanelByID(this.westCase).getID() == id){
+			
+				this.direction = "West";
+			}
+		}
+	}
 }

@@ -70,6 +70,8 @@ public class ManualSimulation{
 		this.optionsWindow.add(this.optionsWindow.getNewJLabel(this.round+"/"+this.maxRounds,1),BorderLayout.CENTER);
 
 	    this.finalWindow.add(this.finalWindow.getNewJLabel("Simulation ended",2),BorderLayout.NORTH);
+	    this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
+		this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));
 
 	    ManualManagement keyPressedManagement = new ManualManagement(this);
 		this.simulationWindow.addKeyListener(keyPressedManagement);
@@ -108,8 +110,16 @@ public class ManualSimulation{
 
 	public void move(){
 
-		this.simulationWindow.getPanelByType(2).setType(0);
-		this.simulationWindow.getPanelByID(this.nextPanelID).setType(2);
+		if(this.simulationWindow.getPanelByID(this.nextPanelID).getType() != 1){
+
+			this.simulationWindow.getPanelByType(2).setType(0);
+			this.simulationWindow.getPanelByID(this.nextPanelID).setIsNextDirection(false);
+			this.simulationWindow.getPanelByID(this.nextPanelID).setType(2);
+		}else{
+
+			this.algorithm.setThisCaseAsWall(this.nextPanelID);
+			this.simulationWindow.getPanelByID(this.nextPanelID).setIsNextDirection(false);
+		}
 
 		if(this.simulationWindow.getPanelByType(2).getID() == this.exitID || this.round == this.maxRounds){
 
@@ -139,12 +149,26 @@ public class ManualSimulation{
 		finalInformationsPanel.add(this.finalWindow.getNewJLabel("Number of rounds :",2),BorderLayout.CENTER);
 		finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.round+"/"+this.maxRounds,2),BorderLayout.CENTER);
 
-		this.finalWindow.getJLabelByText("Simulation ended").setBackground(new Color(180,180,180));
-		this.finalWindow.getJLabelByText("Simulation ended").setForeground(new Color(0,0,0));
 		this.finalWindow.getJLabelByText("Exit found :").setBackground(new Color(50,50,50));
 	    this.finalWindow.getJLabelByText("Number of rounds :").setBackground(new Color(50,50,50));
 
 	    this.finalWindow.add(finalInformationsPanel,BorderLayout.CENTER);
+
+		this.finalWindow.setVisible(true);
+	}
+
+	public void thereIsNoExit(){
+
+		this.optionsWindow.setVisible(false);
+		this.simulationWindow.setVisible(false);
+
+		Panel finalInformationsPanel = new Panel();
+		finalInformationsPanel.setLayout(new GridLayout(2,2));
+
+		finalInformationsPanel.add(this.finalWindow.getNewJLabel("What have you done?",2),BorderLayout.CENTER);
+		finalInformationsPanel.add(this.finalWindow.getNewJLabel("There is no way to find the exit!",2),BorderLayout.CENTER);
+
+		this.finalWindow.add(finalInformationsPanel,BorderLayout.CENTER);
 
 		this.finalWindow.setVisible(true);
 	}
