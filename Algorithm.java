@@ -14,7 +14,7 @@ public class Algorithm{
 	private boolean[] knownPaths;								/*Tableau qui enregistre les chemins déja empruntés par la simulation ou si c'est un mur(true). 
 																Il est automatiquement innitialisé avec des "false" c'est-à-dire : aucun chemin n'a été emprunté*/
 
-	private int[] unknownPathsID;								/*Tableau resemblant au principe d'une pile. Il contient les ID des Panels par lesquels la simulation est passée,
+	private int[] unknownPathsID;								/*Tableau resemblant au principe d'une pile. Il contient les ID des Panels que la simulation à pu voir,
 																ce qui permet à la simulation de revenir sur ces pas si nécessaire*/
 	private int gridSize;										//Variable indiquant la taille de la grille. Nombre total de cases : gridSize * gridSize.
 	private int nextPanelID;									//Variable indiquant l'ID du prochain Panel vers lequel la simulation va se déplacer
