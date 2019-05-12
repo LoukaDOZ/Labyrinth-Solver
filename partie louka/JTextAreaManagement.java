@@ -2,61 +2,60 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+//Cette classe gère les JTextArea
 public class JTextAreaManagement implements MouseListener{
 
-	private JTextArea currentTextArea;
-	private Window window;
+	private JTextArea currentTextArea;							//Variable qui contient le JTextArea concerné par des modifications
+	private Window window;										//Fenêtre contenant le JTextArea concerné
 
+	//Constructeur
 	public JTextAreaManagement(Window window){
 
-		this.window = window;
+		this.window = window;									//Innitialisation de la fenêtre
 	}
 
-	//mouse clicked
+	//Souris cliquée
 	public void mouseClicked(MouseEvent e){
 
-		this.currentTextArea = (JTextArea)e.getSource();
+		this.currentTextArea = (JTextArea)e.getSource();       //Récupération du JTextArea concerné
 
-		this.currentTextArea.setText("");
+		this.currentTextArea.setText("");						//Le texte affiché est retiré
 	}
 
 	//mouse stop hovering
 	public void mouseExited(MouseEvent e) {
 
-		this.currentTextArea = (JTextArea)e.getSource();
+		this.currentTextArea = (JTextArea)e.getSource();       //Récupération du JTextArea concerné
 
-		if(this.currentTextArea == this.window.getJTextAreaByOrderOfArrival(1) && this.window.getTitle().equals("Choose an algorithm")){
+		if(this.currentTextArea == this.window.getJTextAreaByOrderOfArrival(1) && this.window.getTitle().equals("Choose an algorithm")){ //Si c'est le premier JTextArea (dans l'ordre d'arrivée) de la fenêtre et que cette fenêtre est algorithmWindow
 
-			try{
+			try{												//Test de convertion du texte du JTextArea en entier
 
-				int test = Integer.parseInt(this.currentTextArea.getText());
+				int test = Integer.parseInt(this.currentTextArea.getText()); //Convertion du texte en entier
 
-				if(test < 1){
+				if(test < 2){									//Si cet entier est inférieur à 2
 
-					this.currentTextArea.setText("2");
+					this.currentTextArea.setText("2");			//Le texte affiche 2 (car en dessous de 2 tours, il n'y à pas d'interêt)
 				}
 
-				if(test > 10000){
+				if(test > 10000){								//Si cet entier est supérieur à 10000
 
-					this.currentTextArea.setText("10000");
+					this.currentTextArea.setText("10000");		//Le texte affiche 10000 (car au dessus de 10000 tours, la simulation est trop longue)
 				}
-			}catch(NumberFormatException ex){
+			}catch(NumberFormatException ex){					//Si le texte n'est pas un entier
 
-				this.currentTextArea.setText("5000");
+				this.currentTextArea.setText("5000");			//Le texte affiche 5000
 			}
 		}
 		
 	}
 
-	//mouse just moved
-	public void mouseMoved(MouseEvent e){}
-
-	//mouse is hoveing
+	//La souris entre
 	public void mouseEntered(MouseEvent e) {}
 
-	//mouse pressed
+	//Souris pressée
 	public void mousePressed(MouseEvent e){}
 
-	//mouse released
+	//Souris lachée
 	public void mouseReleased(MouseEvent e){}
 }
