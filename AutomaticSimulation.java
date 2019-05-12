@@ -197,11 +197,11 @@ public class AutomaticSimulation{
 				
 				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exits found :",2),BorderLayout.CENTER);
 				finalInformationsPanel.add(this.finalWindow.getNewJLabel(this.numberOfExitFound+"/"+this.maxSimulationNumber,2),BorderLayout.CENTER);
-				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of rounds to find the exit :",1),BorderLayout.CENTER);
+				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Average of rounds to find the exit :",2),BorderLayout.CENTER);
 				finalInformationsPanel.add(this.finalWindow.getNewJLabel(((int)(this.roundsSum / this.maxSimulationNumber))+"/"+this.maxRound,2),BorderLayout.CENTER);
-
+				
 				this.finalWindow.getJLabelByText("Exits found :").setBackground(new Color(50,50,50));
-			    this.finalWindow.getJLabelByText("Average of all rounds :").setBackground(new Color(50,50,50));
+			    this.finalWindow.getJLabelByText("Average of rounds to find the exit :").setBackground(new Color(50,50,50));
 			}else{												//Si la simulation est déterministe
 
 				finalInformationsPanel.add(this.finalWindow.getNewJLabel("Exit found :",2),BorderLayout.CENTER);
