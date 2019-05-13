@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-//Cette classe hérite de JPanel et gère les différents types de Panel
+/**Cette classe hérite de JPanel et gère les différents types de Panel*/
 public class Panel extends JPanel{
 
 	private int id;												//ID du Panel, il permet de le différencier des autres
@@ -12,13 +12,14 @@ public class Panel extends JPanel{
 	private ImageIcon currentImage;								//Image actuelle du Panel
 	private GridActionManagement gridActionManagement;			//Gérant de la création du labyrinthe
 
-	//Constructeur pour un Panel sans particularité
+	/**Constructeur pour un Panel sans particularité*/
 	public Panel(){
 
 		super();
 	}
 
-	//Constructeur pour un Panel avec une innitialisation de this.gridActionManagement
+	/**Constructeur pour un Panel avec une innitialisation de this.gridActionManagement
+	@param gridActionManagement Gérant de la création de labyrinthe*/
 	public Panel(GridActionManagement gridActionManagement){
 
 		super();
@@ -26,7 +27,9 @@ public class Panel extends JPanel{
 		this.gridActionManagement = gridActionManagement;
 	}
 
-	//Constructeur pour un Panel considéré comme une case du labyrinthe
+	/**Constructeur pour un Panel considéré comme une case du labyrinthe
+	@param id ID du Panel (équivaut à un numéro de case)
+	@param color Couleur de base du Panel*/
 	public Panel(int id,Color color){
 
 		super();
@@ -40,7 +43,7 @@ public class Panel extends JPanel{
 		this.setOpaque(true);
 	}
 
-	//Remplissage du Panel par sa couleur et son image
+	/**Remplissage du Panel par sa couleur et son image*/
 	public void paintComponent(Graphics paintbrush) {
 
 	    Graphics secondPaintbrush = paintbrush.create();
@@ -75,7 +78,8 @@ public class Panel extends JPanel{
 	    }
 	  }
 
-	  //Méthode permettant de donner un type au Panel
+	  /**Méthode permettant de donner un type au Panel
+	  @param type Nouveau type*/
 	  public void setType(int type){
 
 		this.type = type;
@@ -107,7 +111,7 @@ public class Panel extends JPanel{
 		this.repaint();											//Affichage des changements
 	}
 
-	//Méthode qui donne au Panel un type aléatoire entre "vide" et "mur"
+	/**Méthode qui donne au Panel un type aléatoire entre "vide" et "mur"*/
 	public void setRandomType(){
 
 	    int random = (int)(Math.random() * 2);					//Récupération d'une valeur entre 0 et 1
@@ -115,14 +119,18 @@ public class Panel extends JPanel{
 	    this.setType(random);									//Le type vaut random
 	}
 
-	//Méthode qui indique au Panel qu'il est la prochaine direction
+	/**Méthode qui indique au Panel qu'il est la prochaine direction
+	@param isNextDirection Variable indiquant si le Panel est la prochaine direction(true) ou non(false)*/
 	public void setIsNextDirection(boolean isNextDirection){
 
 		this.isNextDirection = isNextDirection;
 		this.repaint();											//Affichage des changements
 	}
 
-	//Méthode qui donne au Panel une grille de labyrinthe
+	/**Méthode qui donne au Panel une grille de labyrinthe
+	@param window Fenêtre dans laquelle les Panels correspondants aux cases de la grille, seront enregistrés
+	@param gridSize Variable indiquant la taille de la grille. Nombre total de cases : gridSize * gridSize
+	@param isRandomFill Variable indiquant si le remplissage de la grille est aléatoire(true) ou non(false)*/
 	public void setNewGrid(Window window,int gridSize,boolean isRandomFill){
 
 	    this.setLayout(new GridLayout(gridSize,gridSize));		//Division du Panel en cases de la taille de la grille
@@ -182,13 +190,13 @@ public class Panel extends JPanel{
 	    }
   	}
 
-  	//Méthode pour récupéré le type du Panel
+  	/**Méthode pour récupéré le type du Panel*/
 	public int getType(){
 
 		return this.type;
 	}
 
-	//Méthode pour récupéré l'ID du Panel
+	/**Méthode pour récupérer l'ID du Panel*/
 	public int getID(){
 
 		return this.id;

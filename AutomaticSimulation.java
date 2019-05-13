@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-//Cette classe à pour but de gérer la simulation automatique
+/**Cette classe à pour but de gérer la simulation automatique*/
 public class AutomaticSimulation{
 
 	private Window simulationWindow;							//Fenêtre de simulation
@@ -25,7 +25,11 @@ public class AutomaticSimulation{
 
 	private boolean isRandom;									//Variable indiquant si la simulation est aléatoire(true) ou non(false)
 
-	//Constructeur
+	/**Constructeur
+	@param gridSize Variable indiquant la taille de la grille. Nombre total de cases : gridSize * gridSize
+	@param typeArray Tableau contenant tous les types de la grille rangés en colonne
+	@param isRandom Variable indiquant si la simulation est aléatoire
+	@param maxRound Nombre de tours maximal*/
 	public AutomaticSimulation(int gridSize, int[] typeArray, boolean isRandom, String maxRound){
 
 		//Innitialisation des valeurs
@@ -102,15 +106,16 @@ public class AutomaticSimulation{
 		this.pause("start simulation A");						//Démarage de la simulation après une pause
 	}
 
-	/*Méthode qui met une pose de 0,10 secondes avant de démarer une nouvelle simulation.
-	Elle à surtout pour but d'empêcher l'affichage de message d'erreur lorsque l'enchaînement des méthodes créera une boucle*/
+	/**Méthode qui met une pose de 0,10 secondes avant de démarer une nouvelle simulation.
+	Elle à surtout pour but d'empêcher l'affichage de message d'erreur lorsque l'enchaînement des méthodes créera une boucle
+	@param pauseType Chaîne caractères indiquant l'action à réaliser après la pause*/
 	public void pause(String pauseType){
 
 		Timer timer = new Timer(10,null);						//Création d'un nouveau Timer
     	timer.addActionListener(new TimerManagement(this,timer,pauseType)); //Ajout d'un TimerManagement
 	}
 
-	//Méthode qui prépare le programme à une nouvelle simulation
+	/**Méthode qui prépare le programme à une nouvelle simulation*/
 	public void newSimulation(){
 
 		this.round = 0;											//Innitialisation des tours à 0
@@ -121,14 +126,14 @@ public class AutomaticSimulation{
 		Panel trash = this.getStartingGridPanel(this.simulationWindow,this.gridSize); //Ajout du labyrinthe de départ à la simulation. La valeur de retour n'est pas utilisée
 	}
 	
-	//Méthode qui démare la simulation
+	/**Méthode qui démare la simulation*/
 	public void startSimulation(){
 
 		this.exitID = this.simulationWindow.getPanelByType(3).getID(); //this.exitID vaut l'ID de la sortie
 		this.nextRound();										//Lancêment du prochain tour
 	}
 
-	//Méthode qui exécute un tour
+	/**Méthode qui exécute un tour*/
 	public void nextRound(){
 
 		this.round++;											//Augmentation du nombre de tours
@@ -138,7 +143,7 @@ public class AutomaticSimulation{
 		this.move();											//Déplacement vers la prochaine case
 	}
 
-	//Méthode qui déplace la simulation vers la prochaine case
+	/**Méthode qui déplace la simulation vers la prochaine case*/
 	public void move(){
 
 		if(this.simulationWindow.getPanelByID(this.nextPanelID).getType() != 1){ //Si la prochaine case n'est pas un mur
@@ -165,7 +170,8 @@ public class AutomaticSimulation{
 		}
 	}
 
-	//Méthode qui à pour but de terminer la simulation
+	/**Méthode qui à pour but de terminer la simulation
+	@param exitIsFound Variable indiquant si la sortie est trouvée(true) ou non(false)*/
 	public void endSimulation(boolean exitIsFound){
 
 		if(exitIsFound == true){								//Si la sortie est trouvée
@@ -220,7 +226,7 @@ public class AutomaticSimulation{
 		}
 	}
 
-	//Méthode affichant un message d'erreur si la simulation ne pourra jamais atteindre la sortie
+	/**Méthode affichant un message d'erreur si la simulation ne pourra jamais atteindre la sortie*/
 	public void thereIsNoExit(){
 
 		//Fermeture des fenêtres de simulation
@@ -241,7 +247,9 @@ public class AutomaticSimulation{
 		this.finalWindow.setVisible(true);				//Affichage de la fenêtre de fin
 	}
 
-	//Méthode retournant un Panel contenant le labyrinthe créé par l'utilisateur
+	/**Méthode retournant un Panel contenant le labyrinthe créé par l'utilisateur
+	@param window Variable indiquant dans quelle fenêtre enregistrer les Panels du labyrinthe
+	@param gridSize Variable indiquant la taille de la grille. Nombre total de cases : gridSize * gridSize*/
 	public Panel getStartingGridPanel(Window window,int gridSize){
 
 		//Création d'un Panel contenant une grille
@@ -260,13 +268,14 @@ public class AutomaticSimulation{
 	    return gridPanel;							//Le labyrinthe est retourné
 	}
 
-	//Méthode qui permet de donner l'ID de la prochaine case
+	/**Méthode qui permet de donner l'ID de la prochaine case
+	@param id Variable indiquant l'ID de la prochaine case*/
 	public void setNextPanelID(int id){
 
 		this.nextPanelID = id;
 	}
 
-	//Méthode qui renvoie l'ID de la prochaine case
+	/**Méthode qui renvoie l'ID de la prochaine case*/
 	public int getNextPanelID(){
 
 		return this.nextPanelID;

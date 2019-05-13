@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-//Cette classe gère les actions à réaliser après une pause
+/**Cette classe gère les actions à réaliser après une pause*/
 public class TimerManagement implements ActionListener{
 
 	private String type;										//Type de l'action
@@ -12,7 +12,9 @@ public class TimerManagement implements ActionListener{
 	private ManualSimulation manualSimulation;					//Simulation manuelle
 	private AutomaticSimulation automaticSimulation;			//Simulation automatique
 
-	//Constructeur pour la fermeture d'une fenêtre
+	/**Constructeur pour la fermeture d'une fenêtre
+	@param window Fenêtre concernée
+	@param timer Chronomètre concerné*/
 	public TimerManagement(Window window,Timer timer){
 
 		this.window = window;
@@ -22,7 +24,10 @@ public class TimerManagement implements ActionListener{
 		this.timer.start();										//Démarage du chronomètre avant le lancement de l'action
 	}
 
-	//Constructeur pour le fait que l'utilisateur reste appuyé sur la souris dans un menu de sélection
+	/**Constructeur pour le fait que l'utilisateur reste appuyé sur la souris dans un menu de sélection
+	@param menuActionManagement Gérant des menus
+	@param timer Chronomètre concerné
+	@param type Type d'action à réaliser*/
 	public TimerManagement(MenuActionManagement menuActionManagement,Timer timer,String type){
 
 		this.menuActionManagement = menuActionManagement;
@@ -32,7 +37,10 @@ public class TimerManagement implements ActionListener{
 		this.timer.start();										//Démarage du chronomètre avant le lancement de l'action
 	}
 
-	//Constructeur pour le lancement d'une nouvelle simulation automatique ou lancement d'un nouveau tour
+	/**Constructeur pour le lancement d'une nouvelle simulation automatique ou lancement d'un nouveau tour
+	@param automaticSimulation Gérant de la simulation automatique
+	@param timer Chronomètre concerné
+	@param type Type d'action à réaliser*/
 	public TimerManagement(AutomaticSimulation automaticSimulation,Timer timer,String type){
 
 		this.automaticSimulation = automaticSimulation;
@@ -42,7 +50,10 @@ public class TimerManagement implements ActionListener{
 		this.timer.start();										//Démarage du chronomètre avant le lancement de l'action
 	}
 
-	//Constructeur pour le lancement d'une nouvelle simulation manuelle
+	/**Constructeur pour le lancement d'une nouvelle simulation manuelle
+	@param manualSimulation Gérant de la simulation manuelle
+	@param timer Chronomètre concerné
+	@param type Type d'action à réaliser*/
 	public TimerManagement(ManualSimulation manualSimulation,Timer timer,String type){
 
 		this.manualSimulation = manualSimulation;
@@ -52,7 +63,7 @@ public class TimerManagement implements ActionListener{
 		this.timer.start();										//Démarage du chronomètre avant le lancement de l'action
 	}
 
-	//Lorsqu'un Timer à été complété, une action est réalisée
+	/**Lorsqu'un Timer à été complété, une action est réalisée*/
 	public void actionPerformed(ActionEvent e){
 
 		if(this.type.equals("close window")){					//Si le type est de fermer une fenêtre

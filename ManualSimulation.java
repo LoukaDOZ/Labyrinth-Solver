@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-//Cette classe à pour but de gérer la simulation manuelle
+/**Cette classe à pour but de gérer la simulation manuelle*/
 public class ManualSimulation{
 
 	private Window simulationWindow;							//Fenêtre de simulation
@@ -21,7 +21,11 @@ public class ManualSimulation{
 
 	private boolean isRandom;									//Variable indiquant si la simulation est aléatoire(true) ou non(false)
 
-	//Constructeurx
+	/**Constructeur
+	@param gridSize Variable indiquant la taille de la grille. Nombre total de cases : gridSize * gridSize
+	@param typeArray Tableau contenant tous les types de la grille rangés en colonne
+	@param isRandom Variable indiquant si la simulation est aléatoire
+	@param maxRound Nombre de tours maximal*/
 	public ManualSimulation(int gridSize, int[] typeArray, boolean isRandom, String maxRound){
 
 		//Innitialisation des valeurs
@@ -98,22 +102,23 @@ public class ManualSimulation{
 		this.pause("start simulation M");						//Démarage de la simulation après une pause
 	}
 
-	/*Méthode qui met une pose de 0,10 secondes avant de démarer une nouvelle simulation.
-	Elle à surtout pour but d'empêcher l'affichage de message d'erreur lorsque l'enchaînement des méthodes créera une boucle*/
+	/**Méthode qui met une pose de 0,10 secondes avant de démarer une nouvelle simulation.
+	Elle à surtout pour but d'empêcher l'affichage de message d'erreur lorsque l'enchaînement des méthodes créera une boucle
+	@param pauseType Chaîne caractères indiquant l'action à réaliser après la pause*/
 	public void pause(String pauseType){
 
 		Timer timer = new Timer(10,null);						//Création d'un nouveau Timer
     	timer.addActionListener(new TimerManagement(this,timer,pauseType)); //Ajout d'un TimerManagement
 	}
 	
-	//Méthode qui démare la simulation
+	/**Méthode qui démare la simulation*/
 	public void startSimulation(){
 
 		this.exitID = this.simulationWindow.getPanelByType(3).getID(); //this.exitID vaut l'ID de la sortie
 		this.nextRound();										//Lancêment du prochain tour
 	}
 
-	//Méthode qui exécute un tour
+	/**Méthode qui exécute un tour*/
 	public void nextRound(){
 
 		this.round++;											//Augmentation du nombre de tours
@@ -125,7 +130,7 @@ public class ManualSimulation{
 		currentDirection.setText(this.nextDirection);			//On met à jour le JLabel qui contient la prochaine direction
 	}
 
-	//Méthode qui déplace la simulation vers la prochaine case
+	/**Méthode qui déplace la simulation vers la prochaine case*/
 	public void move(){
 
 		if(this.simulationWindow.getPanelByID(this.nextPanelID).getType() != 1){ //Si la prochaine case n'est pas un mur
@@ -154,7 +159,8 @@ public class ManualSimulation{
 		}
 	}
 
-	//Méthode qui à pour but de terminer la simulation
+	/**Méthode qui à pour but de terminer la simulation
+	@param exitIsFound Variable indiquant si la sortie est trouvée(true) ou non(false)*/
 	public void endSimulation(boolean exitIsFound){
 
 		//Fermeture des fenêtres de simulation
@@ -180,7 +186,7 @@ public class ManualSimulation{
 		this.finalWindow.setVisible(true);				//Affichage de la fenêtre de fin
 	}
 
-	//Méthode affichant un message d'erreur si la simulation ne pourra jamais atteindre la sortie
+	/**Méthode affichant un message d'erreur si la simulation ne pourra jamais atteindre la sortie*/
 	public void thereIsNoExit(){
 
 		//Fermeture des fenêtres de simulation
@@ -201,7 +207,7 @@ public class ManualSimulation{
 		this.finalWindow.setVisible(true);				//Affichage de la fenêtre de fin
 	}
 
-	//Méthode retournant un Panel contenant le labyrinthe créé par l'utilisateur
+	/**Méthode retournant un Panel contenant le labyrinthe créé par l'utilisateur*/
 	public Panel getStartingGridPanel(Window window,int gridSize){
 
 		//Création d'un Panel contenant une grille
@@ -220,13 +226,13 @@ public class ManualSimulation{
 	    return gridPanel;							//Le labyrinthe est retourné
 	}
 
-	//Méthode qui permet de donner l'ID de la prochaine case
+	/**Méthode qui permet de donner l'ID de la prochaine case*/
 	public void setNextPanelID(int id){
 
 		this.nextPanelID = id;
 	}
 
-	//Méthode qui renvoie l'ID de la prochaine case
+	/**Méthode qui renvoie l'ID de la prochaine case*/
 	public int getNextPanelID(){
 
 		return this.nextPanelID;

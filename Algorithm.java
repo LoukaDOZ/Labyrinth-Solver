@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-//Cette classe à pour objectif de donner, à la simulation, une direction pour un futur déplacement
+/**Cette classe à pour objectif de donner, à la simulation, une direction pour un futur déplacement*/
 public class Algorithm{
 
 	private ManualSimulation manualSimulation;					//Gérant de la simulation manuelle
@@ -26,7 +26,11 @@ public class Algorithm{
 
 	private String direction;									//Variable indiquant la direction vers laquelle la simulation va se déplacer sous forme de mot(North,South,East,West)
 
-	//Constructeur de la classe dans le cas d'un simulation manuelle
+	/**Constructeur de la classe dans le cas d'un simulation manuelle
+	@param isRandom Variable indiquant si la simulation est aléatoire(true) ou non(false)
+	@param manualSimulation Gérant de la simulation manuelle
+	@param simulationWindow Fenêtre de simulation
+	@param gridSize Variable indiquant la taille de la grille. Nombre total de cases : gridSize * gridSize*/
 	public Algorithm(boolean isRandom,ManualSimulation manualSimulation,Window simulationWindow,int gridSize){
 
 		this.isRandom = isRandom;
@@ -37,7 +41,11 @@ public class Algorithm{
 		this.knownPaths = new boolean[this.gridSize * this.gridSize]; //Initialisation avec la taille du nombre total de cases
 	}
 
-	//Constructeur de la classe dans le cas d'un simulation automatique
+	/**Constructeur de la classe dans le cas d'un simulation automatique
+	@param isRandom Variable indiquant si la simulation est aléatoire(true) ou non(false)
+	@param automaticSimulation Gérant de la simulation automatique
+	@param simulationWindow Fenêtre de simulation
+	@param gridSize Variable indiquant la taille de la grille. Nombre total de cases : gridSize * gridSize*/
 	public Algorithm(boolean isRandom,AutomaticSimulation automaticSimulation,Window simulationWindow,int gridSize){
 
 		this.isRandom = isRandom;
@@ -48,7 +56,7 @@ public class Algorithm{
 		this.knownPaths = new boolean[this.gridSize * this.gridSize]; //Initialisation avec la taille du nombre total de cases
 	}
 
-	//Méthode chargée de trouver une nouvelle direction pour la simulation
+	/**Méthode chargée de trouver une nouvelle direction pour la simulation*/
 	public String getDirection(){
 
 		this.playerPosition = this.simulationWindow.getPanelByType(2).getID(); //Récupération de la position actuelle de la simulation
@@ -113,7 +121,7 @@ public class Algorithm{
 		return this.direction;										//Renvoie de la direction sous forme de mot
 	}
 
-	//Méthode renvoyant sous forme de mot une direction sélectionnée aléatoirement
+	/**Méthode renvoyant sous forme de mot une direction sélectionnée aléatoirement*/
 	public String getRandomDirection(){
 
 		int direction;												//Variable contenant un entier de 0 à 3 équivalent à chaque directions
@@ -144,7 +152,7 @@ public class Algorithm{
 		}
 	}
 
-	//Méthode qui à pour but de mettre dans this.direction, la valeur en mot de la prochaine direction sélectionnée par un algorithme déterministe
+	/**Méthode qui à pour but de mettre dans this.direction, la valeur en mot de la prochaine direction sélectionnée par un algorithme déterministe*/
 	public void getDeterministDirection(){
 
 		this.direction = "Undefined";								//Initialisation de la direction sur "indéfinie"
@@ -170,7 +178,7 @@ public class Algorithm{
 		}
 	}
 
-	//Méthode qui à pour objetif de vérifié si la sortie est à coté de la position actuelle et d'ajouter dans la pile les chemin qui n'ont pas encore été umpruntés par la simulation
+	/**Méthode qui à pour objetif de vérifié si la sortie est à coté de la position actuelle et d'ajouter dans la pile les chemin qui n'ont pas encore été umpruntés par la simulation*/
 	public void lookAround(){
 
 		this.knownPaths[this.playerPosition] = true;				//La position actuelle est considérée comme empruntée
@@ -236,13 +244,14 @@ public class Algorithm{
 		}
   	}
 
-  	//Méthode qui s'occupe de répertorier les murs
+  	/**Méthode qui s'occupe de répertorier les murs
+  	@param id ID du Panel à considérer comme un mur*/
 	public void setThisCaseAsWall(int id){
 
 		this.knownPaths[id] = true;									//La case avec correspondant à "id" vaut true. Elle ne sera plus empruntée
 	}
 
-	//Méthode qui retourne le dernier ID de la pile
+	/**Méthode qui retourne le dernier ID de la pile*/
 	public int getLastIDNoted(){
 
 		int id = -1;												//Innitialisation de id à -1. Aucune case n'à pour ID -1
@@ -277,7 +286,8 @@ public class Algorithm{
 		return id;													//On retourne id
 	}
 
-	//Méthode ajoutant un nouveau chemin à la pile
+	/**Méthode ajoutant la position actuelle et un nouveau chemin à la pile
+	@param nextPath ID du Panel à ajouter en plus de la position actuelle*/
 	public void newPath(int nextPath){
 
 	    if(this.unknownPathsID == null){							//Si le tableau est vide
@@ -301,7 +311,7 @@ public class Algorithm{
 	    }
   	}
 
-  	//Méthode qui supprime la dernière valeur de la pile
+  	/**Méthode qui supprime la dernière valeur de la pile*/
   	public void removePath(){
 
 	    int[] newArray = new int[this.unknownPathsID.length - 1];	//Innitialisation d'un nouveau tableau d'une cases de moins que la pile
@@ -315,7 +325,8 @@ public class Algorithm{
 	    this.unknownPathsID = newArray;								//La pile prend les valeurs du nouveau tableau
 	}
 
-	//Méthode qui donne une direction en mot par rapport à un id
+	/**Méthode qui donne une direction en mot par rapport à un id en cherchant le Panel correspondant autour de la position actuelle
+	@param id ID du Panel a chercher*/
 	public void getDirectionFromID(int id){
 
 		this.direction = "Undefined";								//Innitialisation de this.direction sur "indéfini"

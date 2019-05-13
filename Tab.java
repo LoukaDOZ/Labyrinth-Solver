@@ -21,7 +21,8 @@ public class Tab{
 
 
 
-/* Va chercher les informations dans le fichier fileName */
+/** Va chercher les informations dans le fichier fileName
+@param fileName Fichier choisi par l'utilisateur */
 
 	public void loadMap(File fileName){
 
@@ -66,7 +67,10 @@ public class Tab{
 
   /**
    * Méthode permettant de sauvegarder dans un fichier les données renvoyées par l'éditeur de grille
-   */
+   
+   @param fileName Fichier choisi par l'utilisateur
+   @param array Tableau regroupant les types des panels
+   @param sizeTab Taille de la grille */
 
 	public void saveMap(File fileName, int[] array, int sizeTab){
 
@@ -136,6 +140,7 @@ public class Tab{
   /**
    * Permet de placer la sortie et l'entrée du labyrinthe dans le tableau map 
    */
+
 	public void endBegin(){
 
 		this.posb = (this.getSize()*this.getYbegin())+this.getXbegin();
@@ -147,31 +152,41 @@ public class Tab{
 
 /* -------------------- Récupération des informations ----------------------- */
 
-
+  /**
+   * Methode qui renvoie l'attribut size de l'objet */
+   
 	public int getSize(){
 		return size;
 	}
 
+  /**
+   * Methode qui renvoie l'attribut xbegin indiquant la position horizontale de l'entrée */
 
 	public int getXbegin(){
 		return xbegin;
 	}
 
-
+  /**
+   * Methode qui renvoie l'attribut ybegin indiquant la position verticale de l'entrée */
 	public int getYbegin(){
 		return ybegin;
 	}
 
-
+  /**
+   * Methode qui renvoie l'attribut xend indiquant la position horizontale de la sortie*/
 	public int getXend(){
 		return xend;
 	}
 
-
+  /**
+   * Methode qui renvoie l'attribut yend indiquant la position verticale de la sortie */
 	public int getYend(){
 		return yend;
 	}
-
+  /**
+   * Methode qui renvoie la valeur contenu dans le tableau Map à la valeur step
+  @param step Position dans le tableau recherché par l'utilisateur */
+  
 	public short getMap(int step){
 		return this.map[step];
 	}

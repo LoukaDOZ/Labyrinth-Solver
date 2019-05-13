@@ -1,9 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 
-//Classe principale
+/**Classe principale
+@param args Tableau des arguments passées en ligne de commande*/
 public class Main {
 
+	/**@param args Tableau des arguments passées en ligne de commande*/
     public static void main(String[] args) {
 
     	//Récupération de la taille utilisable de l'écran

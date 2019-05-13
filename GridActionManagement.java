@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-//Cette classe gère met les types sur chaque case du labyrinthe dans le menu de création de labyrinthe
+/**Cette classe gère met les types sur chaque case du labyrinthe dans le menu de création de labyrinthe*/
 public class GridActionManagement implements MouseListener{
 
 	private Panel currentPanel;                                    //Variable qui contient le Panel concerné par des modifications
@@ -11,7 +11,8 @@ public class GridActionManagement implements MouseListener{
 
 	private Window mapCreatingWindow;                              //Fenêtre de création de labyrinthe
 
-  //Constructeur
+  /**Constructeur
+  @param mapCreatingWindow Variable contenant la fenêtre de création de labyrinthe*/
 	public GridActionManagement(Window mapCreatingWindow){
 
 		this.mapCreatingWindow = mapCreatingWindow;                  //Innitialisation de la fenêtre de création de labyrinthe
@@ -19,13 +20,15 @@ public class GridActionManagement implements MouseListener{
     this.isPressing = false;                                     //Innitialisation de si l'utilisateur reste appuyé sur "non"
 	}
 
-  //Méthode qui permet d'indiquer le type d'action
+  /**Méthode qui permet d'indiquer le type d'action
+  @param action Variable indiquant le type d'action à réaliser*/
 	public void setAction(String action){
 
 		this.action = action;
 	}
 
-  //Souris cliquée
+  /**Souris cliquée
+  Méthode utilisée pour changer le type du Panel sur lequel l'utilisateur effectue un simple clic souris*/
   public void mouseClicked(MouseEvent e){
 
   	this.currentPanel = (Panel)e.getSource();                    //Récupération du Panel concerné
@@ -51,7 +54,8 @@ public class GridActionManagement implements MouseListener{
   	}
 }
 
-	//La souris entre
+	/**La souris entre
+  Méthode utilisée pour changer les types des cases du labyrinthe quand l'utilisateur reste appuyé sur la souris*/
   public void mouseEntered(MouseEvent e) {
 
     this.currentPanel = (Panel)e.getSource();                    //Récupération du Panel concerné
@@ -67,7 +71,8 @@ public class GridActionManagement implements MouseListener{
     }
   }
 
-  //Souris pressée
+  /**Souris pressée
+  Méthode utilisée pour indiquer quand l'utilisateur reste appuyé sur la souris*/
   public void mousePressed(MouseEvent e){
 
       this.currentPanel = (Panel)e.getSource();                    //Récupération du Panel concerné
@@ -85,12 +90,13 @@ public class GridActionManagement implements MouseListener{
       this.isPressing = true;                                      //Indiquation que l'utilisateur appuie
   }
 
-  //Souris lachée
+  /**Souris lachée
+  Méthode utilisée pour indiquer quand l'utilisateur lache la souris*/
   public void mouseReleased(MouseEvent e){
 
     this.isPressing = false;                                       //Indiquation que l'utilisateur n'appuie plus
   }
 
-  //La souris sort
+  /**La souris sort (non utilisée)*/
   public void mouseExited(MouseEvent e) {}
 }

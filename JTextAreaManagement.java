@@ -2,19 +2,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-//Cette classe gère les JTextArea
+/**Cette classe gère les JTextArea*/
 public class JTextAreaManagement implements MouseListener{
 
 	private JTextArea currentTextArea;							//Variable qui contient le JTextArea concerné par des modifications
 	private Window window;										//Fenêtre contenant le JTextArea concerné
 
-	//Constructeur
+	/**Constructeur
+	@param window Variable indiquant la fenêtre concernée*/
 	public JTextAreaManagement(Window window){
 
 		this.window = window;									//Innitialisation de la fenêtre
 	}
 
-	//Souris cliquée
+	/**Souris cliquée
+  	Méthode utilisée pour supprimer tout le texte du JTextArea quand une souris clique dessus*/
 	public void mouseClicked(MouseEvent e){
 
 		this.currentTextArea = (JTextArea)e.getSource();       //Récupération du JTextArea concerné
@@ -22,7 +24,8 @@ public class JTextAreaManagement implements MouseListener{
 		this.currentTextArea.setText("");						//Le texte affiché est retiré
 	}
 
-	//mouse stop hovering
+	/**La souris sort
+  	Méthode utilisée pour vérifier que la valeur entrée par l'utilisateur est conforme*/
 	public void mouseExited(MouseEvent e) {
 
 		this.currentTextArea = (JTextArea)e.getSource();       //Récupération du JTextArea concerné
@@ -50,12 +53,12 @@ public class JTextAreaManagement implements MouseListener{
 		
 	}
 
-	//La souris entre
+	/**La souris entre (non utilisée)*/
 	public void mouseEntered(MouseEvent e) {}
 
-	//Souris pressée
+	/**Souris pressée (non utilisée)*/
 	public void mousePressed(MouseEvent e){}
 
-	//Souris lachée
+	/**Souris lachée (non utilisée)*/
 	public void mouseReleased(MouseEvent e){}
 }

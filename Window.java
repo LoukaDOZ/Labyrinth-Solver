@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-//Cette classe gère héritée de JFrame les fenêtre ainsi que les éléments qui la composent
+/**Cette classe gère héritée de JFrame les fenêtre ainsi que les éléments qui la composent*/
 public class Window extends JFrame{
 
 	private JLabel[] labelArray;                                  //Tableau contenant tous les JLabel de la fenêtre
@@ -11,7 +11,13 @@ public class Window extends JFrame{
   private GridActionManagement gridActionManagement;            //Gérant de la grille de création de labyrinthe
 	private GridLayout gridLayout;                                //Disposition de la fenêtre
 
-  //Constructeur
+  /**Constructeur
+  @param title Titre de la fenêtre
+  @param sizeX Taille horizontale de la fenêtre
+  @param sizeY Taille verticale de la fenêtre
+  @param locationX Position horizontale sur l'écran
+  @param locationY Position verticale sur l'écran
+  @param foreground Détermine si la fenêtre est toujours au premier plan(true) ou non(false)*/
   public Window(String title, int sizeX, int sizeY, int locationX, int locationY, boolean foreground){
 
       super(title);
@@ -26,26 +32,33 @@ public class Window extends JFrame{
       this.pack();                                              //Adaptation de la fenêtre en fonction de quelle contient
   }
 
-  //Méthode pour donner à la fenêtre le gérant de menu de sélection
+  /**Méthode pour donner à la fenêtre le gérant de menu de sélection
+  @param menuActionManagement Gérant des menus de sélection*/
   public void setManagement(MenuActionManagement menuActionManagement){
 
       this.menuActionManagement = menuActionManagement;
   }
 
-  //Méthode pour donner à la fenêtre le gérant de grille de création de labyrinthe
+  /**Méthode pour donner à la fenêtre le gérant de grille de création de labyrinthe
+  @param gridActionManagement Gérant de la grille de labyrinthe*/
   public void setManagement(GridActionManagement gridActionManagement){
 
       this.gridActionManagement = gridActionManagement;
   }
 
-  //Méthode pour donner à la fenêtre une nouvelle disposition
+  /**Méthode pour donner à la fenêtre une nouvelle disposition
+  @param rows Nouveau nombre de ligne
+  @param columns Nouveau nombre de colonnes*/
   public void setGridLayout(int rows, int columns){
 
    	  this.gridLayout = new GridLayout(rows,columns);           //Nouvelle disposition
       this.setLayout(this.gridLayout);                          //Ajout de la nouvelle disposition
   }
 
-  //Méthode pour innitialiser, ajouter à la liste et obtenir un nouveau JLabel
+  /**Méthode pour innitialiser, ajouter à la liste et obtenir un nouveau JLabel
+  @param text Texte du JLabel
+  @param whitchManagement Quel gestionnaire est demandé
+  @param fontSize Taille de police du texte*/
   public JLabel getNewJLabel(String text, String whitchManagement, int fontSize){
 
    	JLabel label = new JLabel(text);                            //Innitialisation avec pour texte : text
@@ -75,7 +88,9 @@ public class Window extends JFrame{
    	return label;                                                 //On retourne le JLabel
   }
 
-  //Méthode pour innitialiser, ajouter à la liste et obtenir un nouveau JLabel, le tout sans mouse listener
+  /**Méthode pour innitialiser, ajouter à la liste et obtenir un nouveau JLabel, le tout sans mouse listener
+  @param text Texte du JLabel
+  @param fontSize Taille de la police du texte*/
   public JLabel getNewJLabel(String text, int fontSize){
 
       JLabel label = new JLabel(text);                            //Innitialisation avec pour texte : text
@@ -100,7 +115,8 @@ public class Window extends JFrame{
       return label;                                                 //On retourne le JLabel
   }
 
-  //Méthode qui ajoute un JLabel à la liste de JLabel de la fenêtre
+  /**Méthode qui ajoute un JLabel à la liste de JLabel de la fenêtre
+  @param label JLabel à ajouter*/
   public void updateJLabelArray(JLabel label){
 
       if(this.labelArray == null){                                  //Si le tableau est vide
@@ -122,7 +138,8 @@ public class Window extends JFrame{
       }
   }
 
-  //Méthode pour innitialiser, ajouter à la liste et obtenir un nouveau JTextArea
+  /**Méthode pour innitialiser, ajouter à la liste et obtenir un nouveau JTextArea
+  @param text Texte du JTextArea*/
   public JTextArea getNewJTextArea(String text){
 
       JTextArea textArea = new JTextArea(text);                     //Innitialisation avec pour texte : text
@@ -135,7 +152,8 @@ public class Window extends JFrame{
       return textArea;                                              //On retourne le JTextArea
   }
 
-  //Méthode qui ajoute un JTextArea à la liste de JTextArea de la fenêtre
+  /**Méthode qui ajoute un JTextArea à la liste de JTextArea de la fenêtre
+  @param textArea JTextArea à ajouter à la fenêtre*/
   public void updateJTextAreaArray(JTextArea textArea){
 
       if(this.textAreaArray == null){                               //Si le tableau est vide
@@ -157,7 +175,8 @@ public class Window extends JFrame{
       }
   }
 
-  //Méthode qui ajoute un Panel à la liste de JTextArea de la fenêtre
+  /**Méthode qui ajoute un Panel à la liste de JTextArea de la fenêtre
+  @param panel Panel à ajouter à la fenêtre*/
   public void updatePanelArray(Panel panel){
 
       if(this.panelArray == null){                                  //Si le tableau est vide
@@ -179,13 +198,14 @@ public class Window extends JFrame{
       }
   }
 
-  //Méthode qui supprime tous les Panel de la liste de Panel
+  /**Méthode qui supprime tous les Panel de la liste de Panel*/
   public void removePanelArray(){
 
       this.panelArray = null;                                       //Le tableau de Panel est effacé
   }
 
-  //Méthode qui permet de récupérer un JLabel en fonction de son texte
+  /**Méthode qui permet de récupérer un JLabel en fonction de son texte
+  @param text Texte du JLabel à récupérer*/
   public JLabel getJLabelByText(String text){
 
       int i;
@@ -195,7 +215,8 @@ public class Window extends JFrame{
       return this.labelArray[i];                                    //On retourne le JLabel en position i
   }
 
-  //Méthode qui permet de récupérer un Panel en fonction de son ID
+  /**Méthode qui permet de récupérer un Panel en fonction de son ID
+  @param id ID du Panel à récupérer*/
   public Panel getPanelByID(int id){
 
          int i;
@@ -205,7 +226,8 @@ public class Window extends JFrame{
          return this.panelArray[i];                                  //On retourne le Panel en position i
   }
 
-  //Méthode qui permet de récupérer un Panel en fonction de son type
+  /**Méthode qui permet de récupérer un Panel en fonction de son type
+  @param type Type du Panel à récupérer*/
   public Panel getPanelByType(int type){
 
          int i;
@@ -220,13 +242,14 @@ public class Window extends JFrame{
       }
   }
 
-  //Méthode pour récupérer le nombre total de Panels de la fenêtre
+  /**Méthode pour récupérer le nombre total de Panels de la fenêtre*/
   public int getTotalPanel(){
 
       return this.panelArray.length;
   }
 
-  //Méthode qui retourne un tableau à une dimension de toutes les type des Panels du labyrinthe. Il est en colonne par colonne alors que la grille est en ligne par ligne
+  /**Méthode qui retourne un tableau à une dimension de toutes les type des Panels du labyrinthe. Il est en colonne par colonne alors que la grille est en ligne par ligne
+  @param gridSize Variable indiquant la taille de la grille. Nombre total de cases : gridSize * gridSize*/
   public int[] getGridAsAnArray(int gridSize){
 
       int[] typeArray = new int[gridSize * gridSize];              //Innitialisation d'un tableau à 1 dimension
@@ -257,7 +280,7 @@ public class Window extends JFrame{
       return this.textAreaArray[order - 1];
   }
 
-  //Méthode qui réalise une l'affichage de cette fenêtre comme une popup
+  /**Méthode qui réalise une l'affichage de cette fenêtre comme une popup*/
   public void doPopupAnimation(){
 
       this.setVisible(true);                                     //On rend la fenêtre visible
@@ -266,13 +289,13 @@ public class Window extends JFrame{
       timer.addActionListener(new TimerManagement(this,timer));  //On lui donne un TimerManagement pour fermer la fenêtre dans 3 secondes
   }
 
-  //Méthode pour obtenir le gérant des menus de sélection
+  /**Méthode pour obtenir le gérant des menus de sélection*/
   public MenuActionManagement getMenuActionManagement(){
 
       return this.menuActionManagement;
   }
 
-  //Méthode pour obtenir le gérant de la grille de création du labyrinthe
+  /**Méthode pour obtenir le gérant de la grille de création du labyrinthe*/
   public GridActionManagement getGridActionManagement(){
 
       return this.gridActionManagement;

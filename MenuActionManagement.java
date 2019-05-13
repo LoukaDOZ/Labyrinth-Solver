@@ -3,7 +3,7 @@ import java.awt.*;
 import java.io.*;
 import java.awt.event.*;
 
-//Cette va gérer tous les boutons des menus de sélection
+/**Cette va gérer tous les boutons des menus de sélection*/
 public class MenuActionManagement implements MouseListener{
 
 	private JLabel currentLabel;								//Variable qui contient le JLabel concerné par des modifications
@@ -23,7 +23,11 @@ public class MenuActionManagement implements MouseListener{
 	private Tab loadedMap;										//Lecture et écriture de fichier
 	private File file;											//Variable qui va contenir le fichier ouvert
 
-	//Constructeur
+	/**Constructeur
+	@param welcomeWindow Fenêtre de début
+	@param createWindow Fenêtre du choix de création de labyrinthe
+	@param mapCreatingWindow Fenêtre de création de labyrinthe
+	@param algorithmWindow Fenêtre de sélection de la simulation et de l'algorithme*/
 	public MenuActionManagement(Window welcomeWindow, Window createWindow, Window mapCreatingWindow, Window algorithmWindow){
 
 		this.currentSelection = "none";							//Innitialisation avec une valeur nulle
@@ -38,7 +42,7 @@ public class MenuActionManagement implements MouseListener{
 		this.loadedMap = new Tab();
 	}
 
-	//Méthode qui permet de donner aux Panels du créateur de labyrinthe les types lus dans le fichier
+	/**Méthode qui permet de donner aux Panels du créateur de labyrinthe les types lus dans le fichier*/
 	public void addMapToMapCreator(){
 
 	    this.gridSize = this.loadedMap.getSize();				//Récupération de la taille de la grille
@@ -53,7 +57,8 @@ public class MenuActionManagement implements MouseListener{
 	    }
 	}
 
-	//Méthode qui permet de mettre à jour la taille à la grille
+	/**Méthode qui permet de mettre à jour la taille à la grille
+	@param size Nouvelle taille de grille*/
 	public void setGridSize(int size){
 
 		if(size > 4 && size <= 100){							//Si la nouvelle taille est bien comprise entre 4 et 100
@@ -63,20 +68,22 @@ public class MenuActionManagement implements MouseListener{
 		}
 	}
 
-	//Méthode qui renvoie la taille de la grille
+	/**Méthode qui renvoie la taille de la grille*/
 	public int getGridSize(){
 
 		return this.gridSize;
 	}
 
-	//La souris entre
+	/**La souris entre
+	Méthode utilisée pour changer la couleur de fond des JPanel quand l'utilisateur passe dessus*/
 	public void mouseEntered(MouseEvent e) {
 
 	  this.currentLabel = (JLabel)e.getSource();				//Récupération du JLabel concerné
 	  this.currentLabel.setBackground(new Color(100,100,100));	//Sa couleur de fond devient grise
 	}
 
-	//La souris sort
+	/**La souris sort
+	Méthode utilisée pour remettre la bonne couleur de fond des JPanel quand l'utilisateur en sort*/
 	public void mouseExited(MouseEvent e) {
 
 		this.currentLabel = (JLabel)e.getSource();				//Récupération du JLabel concerné
@@ -125,7 +132,8 @@ public class MenuActionManagement implements MouseListener{
 		}
 	}
 
-	//Souris cliquée
+	/**Souris cliquée
+	Méthode utilisée pour lancer des actions quand l'utilisateur fait un simple clic souris*/
 	public void mouseClicked(MouseEvent e){
 
 		this.currentLabel = (JLabel)e.getSource();				//Récupération du JLabel concerné
@@ -444,7 +452,8 @@ public class MenuActionManagement implements MouseListener{
 		}
 	}
 
-	//Souris pressée
+	/**Souris pressée
+	Méthode utilisée pour lancer les timers quand l'utilisateur reste appuyé sur la souris*/
 	public void mousePressed(MouseEvent e){
 
 	  	this.currentLabel = (JLabel)e.getSource();				//Récupération du JLabel concerné
@@ -464,7 +473,8 @@ public class MenuActionManagement implements MouseListener{
 		}
 	}
 
-	//Souris lachée
+	/**Souris lachée
+	Méthode utilisée pour stopper les timers quand l'utilisateur lache la souris*/
 	public void mouseReleased(MouseEvent e){
 
 		this.currentLabel = (JLabel)e.getSource();				//Récupération du JLabel concerné
