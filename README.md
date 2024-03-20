@@ -2,6 +2,15 @@
 
 Java app to create and solve labyrinths with depth-first search and heaps.
 
+## Usage
+Require Java and Javac (like OpenJDK 11).
+
+| Command      | Description          |
+| ------------ | -------------------- |
+| `make build` | Compile project      |
+| `make run`   | Run project          |
+| `make clean` | Clean compiled files |
+
 ## Screenshots
 
 ### First window
