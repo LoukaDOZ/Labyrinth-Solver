@@ -28,9 +28,7 @@ CLASSES = \
 #----------------------------------------------
 MAIN = Main 					# Main file
 
-default: classes
-
-classes: $(CLASSES:.java=.class)
+build: $(CLASSES:.java=.class)
 
 run:
 		$(JVM) $(MAIN)
